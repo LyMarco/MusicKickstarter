@@ -23,7 +23,7 @@ Potential Extended Features:
 * Chord suggestion (harmonization)
 
 Mock-Up
-![alt text](project-team-11/Mock-Up.png)
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Mock-Up.png?token=AZRHLMvW9E3ldJX3crhk_RNzdp5TXxQYks5ah3jiwA%3D%3D)
 
 Example mock-up:
 
