@@ -23,6 +23,7 @@ Potential Extended Features:
 * Chord suggestion (harmonization)
 
 Mock-Up
+
 ![alt text](https://github.com/csc301-winter-2018/project-team-11/blob/master/images/Mock-Up.png)
 
 #### Q2: Who are your target users?
@@ -32,7 +33,7 @@ Our focus will be more on users who have at least some exposure to making music 
 
 A common use is like this scenario: An fairly-experienced singer-songwriter named Billy Bob is walking through the park when suddenly he gets a great composition idea for a song. However, the issue is that he has too many separate apps for recording audio/takes, writing notes/lyrics, and none of those apps help facilitate or enhance the creative process 
 
-Personas:
+Target Personas:
 
 ![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Annoyed_Prodigy.png?token=AZRHLPmKdrqUrCqIwI1UEqproOeBiiXmks5ah3vNwA%3D%3D)
 ![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Fledgling_Musician.png?token=AZRHLLMG1gAByLFsjvJerAGmEVU6rzFVks5ah3vjwA%3D%3D)
