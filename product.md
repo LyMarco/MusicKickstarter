@@ -25,8 +25,6 @@ Potential Extended Features:
 Mock-Up
 ![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Mock-Up.png?token=AZRHLMvW9E3ldJX3crhk_RNzdp5TXxQYks5ah3jiwA%3D%3D)
 
-Example mock-up:
-
 #### Q2: Who are your target users?
 
 
@@ -35,8 +33,9 @@ Our focus will be more on users who have at least some exposure to making music 
 A common use is like this scenario: An fairly-experienced singer-songwriter named Billy Bob is walking through the park when suddenly he gets a great composition idea for a song. However, the issue is that he has too many separate apps for recording audio/takes, writing notes/lyrics, and none of those apps help facilitate or enhance the creative process 
 
 Personas:
-* Annoyed Prodigy: https://app.xtensio.com/folio/s21bb8b2
-* Fledgling Musician: https://app.xtensio.com/folio/dg89ua2a
+
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Annoyed_Prodigy.png?token=AZRHLLVg2JRCpiGaLING3jmkRmw1u-r5ks5ah3nZwA%3D%3D)
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Fledgling_Musician.png?token=AZRHLHvB-YCf0DzWNw0jsMLu8vjlsIEfks5ah3nswA%3D%3D)
 
  
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
