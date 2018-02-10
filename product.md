@@ -23,7 +23,7 @@ Potential Extended Features:
 * Chord suggestion (harmonization)
 
 Mock-Up
-![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Mock-Up.png?token=AZRHLMvW9E3ldJX3crhk_RNzdp5TXxQYks5ah3jiwA%3D%3D)
+![alt text](https://github.com/csc301-winter-2018/project-team-11/blob/master/images/Mock-Up.png)
 
 #### Q2: Who are your target users?
 
