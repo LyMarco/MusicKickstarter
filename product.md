@@ -34,8 +34,8 @@ A common use is like this scenario: An fairly-experienced singer-songwriter name
 
 Personas:
 
-![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Annoyed_Prodigy.png?token=AZRHLLVg2JRCpiGaLING3jmkRmw1u-r5ks5ah3nZwA%3D%3D)
-![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Fledgling_Musician.png?token=AZRHLHvB-YCf0DzWNw0jsMLu8vjlsIEfks5ah3nswA%3D%3D)
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Annoyed_Prodigy.png?token=AZRHLPmKdrqUrCqIwI1UEqproOeBiiXmks5ah3vNwA%3D%3D)
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Fledgling_Musician.png?token=AZRHLLMG1gAByLFsjvJerAGmEVU6rzFVks5ah3vjwA%3D%3D)
 
  
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
