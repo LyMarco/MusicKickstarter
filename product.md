@@ -22,6 +22,9 @@ Potential Extended Features:
 * Changeable font for lyrics/notes section
 * Chord suggestion (harmonization)
 
+Mock-Up
+![alt text](project-team-11/Mock-Up.png)
+
 Example mock-up:
 
 #### Q2: Who are your target users?
