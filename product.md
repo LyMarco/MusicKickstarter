@@ -1,46 +1,7 @@
-MANDATORY
-PRODUCT.MD
-#### Q1: What are you planning to build?
-#### Q2: Who are your target users?
-#### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
-#### Specify 3 - 5 key decisions and/or insights that came up during your meetings
-
-REVIEW.MD
-#### Goals and tasks: Describe your goals for this iteration and the tasks that you will have to complete in order to achieve these goals.
-#### Artifacts: List/describe the artifacts (tools) you will produce in order to present your project idea.
-
-OPTIONAL
-#### Roles & responsibilities
-#### Events
-#### Artifacts
-
-AFTER-REVIEW.MD
-#### Goals and/or tasks that were met/completed:
-#### Goals and/or tasks that were planned but not met/completed:
-#### Meeting Highlights
-
-OPTIONAL
-## Process - Reflection
-#### Decisions that turned out well
-#### Decisions that did not turn out as well as we hoped
-#### Planned changes
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Team 11
 
- > _Note:_ This document is meant to evolve throughout the planning phase of your project.    
- > That is, it makes sense for you commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section).
+ > _Note:_ This document is meant to evolve throughout the planning phase of the project.    
+ > That is, it makes sense to commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section).
 
 #### Q1: What are you planning to build?
 
