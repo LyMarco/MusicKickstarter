@@ -7,7 +7,7 @@
 
 ## Process - Reflection
 
-Scrum as a preliminary process was a unanimous decision. Open to change if we hit too many difficulties using it.
+Scrum as a preliminary process was an unanimous decision. The decision is open to change if we encounter too many difficulties while using it.
 
 #### Decisions that turned out well
 
@@ -61,11 +61,7 @@ Going into the next iteration, our main insights are:
 * Discord and Google Docs are working well for planning and meetings, need to just get everyone a little more accustomed to using discord.
 	* Also need to ensure regular attendance to meetings on Discord (1 in-person meeting, 1 online meeting per week ideally. Occasionally supplement online meetings to in-person when necessary and feasible)
 * Definitely want to start using Github Projects (Board) to organize tasks and track progress, creating Scrum Boards
+	* Add more descriptive labels to Github (“Bug, In Progress, etc”)
 * Started breaking down high level features into smaller features, and then tasks immediately. This is the likely the top priority task for the next iteration
 
 
- * 2 - 4 items
- * Short (no more than one short paragraph per item)
- * High-level concepts that should guide your work for the next iteration.
- * These concepts should help you decide on where to focus your efforts.
- * Can be related to product and/or process.
