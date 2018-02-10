@@ -23,14 +23,14 @@ Potential Extended Features:
 * Chord suggestion (harmonization)
 
 Mock-Up
-![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/Mock-Up.png?token=AZRHLMvW9E3ldJX3crhk_RNzdp5TXxQYks5ah3jiwA%3D%3D)
+![alt text](https://raw.githubusercontent.com/csc301-winter-2018/project-team-11/master/images/Mock-Up.png?token=AZRHLMvW9E3ldJX3crhk_RNzdp5TXxQYks5ah3jiwA%3D%3D)
 
 Example mock-up:
 
 #### Q2: Who are your target users?
 
 
-Our focus will be more on users who have at least some exposure to making music and the creative process. We aim to help these users who have had a breakthrough musical idea with nowhere to record and develop it. These are users who want to make music, but need a convenient tool to preserve and continually develop a new idea or breakthrough for a song. Moreover, these are also users that are experiencing writer’s block. These users are stuck, and need creative suggestions in order to progress. Based on lyrics already written, the application will optionally suggest how to continue the song, and differentiate the themes of the idea by genre and mood.
+Our focus will be more on users who have at least some exposure to making music and the creative process. We aim to help these users who have had a breakthrough musical idea with nowhere to record and develop it. These are users who want to make music, but need a convenient tool to preserve and continually develop a new idea or breakthrough for a song. Moreover, these are also users that are experiencing writerï¿½s block. These users are stuck, and need creative suggestions in order to progress. Based on lyrics already written, the application will optionally suggest how to continue the song, and differentiate the themes of the idea by genre and mood.
 
 A common use is like this scenario: An fairly-experienced singer-songwriter named Billy Bob is walking through the park when suddenly he gets a great composition idea for a song. However, the issue is that he has too many separate apps for recording audio/takes, writing notes/lyrics, and none of those apps help facilitate or enhance the creative process 
 
@@ -45,7 +45,7 @@ https://itunes.apple.com/us/app/songwriter-pad-songwriting/id390359220?mt=8
 http://blog.sonicbids.com/top-6-must-have-apps-for-songwriters 
 
 
-Current applications that are used by songwriters in the early stages of a song’s conception include notepads or voice recorders like their default applications or something like Evernote. The problem with these applications is that they’re not tailored for musicians, so voice recordings are not differentiated by different versions/takes of the same verse, and they don’t specifically aid the creative process whatsoever, merely providing a platform to record.
+Current applications that are used by songwriters in the early stages of a songï¿½s conception include notepads or voice recorders like their default applications or something like Evernote. The problem with these applications is that theyï¿½re not tailored for musicians, so voice recordings are not differentiated by different versions/takes of the same verse, and they donï¿½t specifically aid the creative process whatsoever, merely providing a platform to record.
 
 Other applications that might be competitive include Songwriter Pad on IOS, but their application has very poor reviews for their intrusive ads and unintuitive/messy interface design. We plan to structure our app to make it much smoother and cleaner to go from the conception of an idea to the recording and development of the idea. For instance, the very first thing you should be able to see and do in our application is immediately record a sample of the melody in your head, then possible lyrics from that sample. In contrast, Songwriter Pad is concerned about things like the number of verses and the title of the song, which naturally occur much later during the creative process. This product aims to help provide a more natural setting in which music creation occurs, and will be specific to music creators, which is why our audience will prefer and find our application useful.
 
@@ -56,16 +56,16 @@ Other applications that might be competitive include Songwriter Pad on IOS, but 
  * Essentially, we want to understand how (and why) you ended up with your current product plan.
 * Why a mobile application?
 	* Alternatives: Website, Browser App, Desktop App
-	* General experience with app development specifically is low, so the interest was in an in-depth, large-scale project to sink one’s teeth into and gain experience with Android SDKs
+	* General experience with app development specifically is low, so the interest was in an in-depth, large-scale project to sink oneï¿½s teeth into and gain experience with Android SDKs
 	* Comfortability with Java, leading to Android development in particular
 * Why music?
 	* Alternatives: Hobbies ranging from drawing, photography, games
 	* Many of us have an interest in working with or love music and were interested in trying to program something involving music
 * Why we thought this app was a good idea?
 	* We thought that an application that centralizes audio recording, lyric note taking, and musical suggestions into a single app would be a decent challenge and would be useful for musicians.
-	* Great ideas can come and go in an instant and usually paper and pen aren’t available while phones are even more commonplace.
+	* Great ideas can come and go in an instant and usually paper and pen arenï¿½t available while phones are even more commonplace.
 * Alternative Ideas: Activity suggestion app
-	* Gather’s a user’s interests and gives a suggestion for an activity to do around the city.
+	* Gatherï¿½s a userï¿½s interests and gives a suggestion for an activity to do around the city.
 	* Another goal is to get users to go outside their comfort zone and go outside in order to try to gain points for trying out new activities.
 	* The target audience was not narrow enough and it lacked clarity compared to our current idea
 
