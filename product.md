@@ -12,10 +12,10 @@ Core Features:
 * Section to write lyrics and chords
 * Optional lyric suggestions such as rhyming and common words. 
 * Metronome
-* Virtual instruments playing chords/notes (loopable)
 * Notes/reminders section
 
 Potential Extended Features:
+* Virtual instruments playing chords/notes (loopable)
 * Cloud sharing option for sharing notes (this method would have to be a publish/immutable result)
 * Dictionary/Thesaurus look-up section
 * Auto-scroll timed feature for lyrics while recording
