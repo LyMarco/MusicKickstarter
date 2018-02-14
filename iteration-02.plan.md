@@ -6,16 +6,22 @@
 
 ## Iteration 02
 
- * Start date: FILL IN THE DATE WHEN YOU HAD YOUR FIRST TEAM PLANNING MEETING
- * End date: FILL IN THE DATE WHEN YOU ARE PLANNING TO HAVE YOUR REVIEW MEETING
+ * Start date: February 12th 2018
+ * End date: TBD
 
 ## Process
 
-(Optional:) Quick introduction
+Quick introduction
+ 
+ * No Scrum Master?
 
 #### Roles & responsibilities
 
 Describe the different roles on the team and the responsibilities associated with each role.
+ *  
+ * 
+ *
+ *
 
 #### Events
 
@@ -24,6 +30,15 @@ Describe meetings (and other events) you are planning to have:
  * When and where? In-person or online?
  * What's the purpose of each meeting?
  * Other events could be coding sessions, code reviews, quick weekly sync' meeting online, etc.
+
+ * Feb 12th 
+	* In-person
+ 	* Break down features into tasks
+	* Assign tasks to be researched by each person interested in working on a task
+ * Feb 15th 
+	* Online
+	* Review the difficulty and implementation of tasks, ensure each person has a plan to start working on their task, or adjust if there are difficulties (The tasks need to be broken down further, more people or time is required to complete the task by Deliverable 2 Sprint)
+
 
 #### Artifacts
 
@@ -34,6 +49,8 @@ List/describe the artifacts you will produce in order to organize your team.
    * How do you keep track of what needs to get done?
    * How do you prioritize tasks?
    * How do tasks get assigned to team members?
+ 
+* To-do list on Github Projects 
 
 #### Git / GitHub workflow
 
@@ -63,3 +80,5 @@ List/describe the artifacts you will produce in order to present your project id
  * Make sure to explain the purpose of each artifact (i.e. Why is it on your to-do list? Why is it useful for your team?)
  * Be concise, yet precise.         
    For example: "Build the website" is not precise at all, but "Build a static home page and upload it somewhere, so that it is publicly accessible" is much clearer.
+
+
