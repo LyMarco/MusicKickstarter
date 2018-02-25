@@ -4,7 +4,15 @@ const app = express()
 var PythonShell = require('python-shell');
 
 app.get('/', (req, res) => {
-    var pyshell = new PythonShell('suggestions.py');
+    res.send('Hello World!')
+})
+
+app.get('/rhyme/:word', (req, res) => {
+    console.log(req.params);
+    var options = {
+        args: [req.params.word]
+    };
+    var pyshell = new PythonShell('suggestions.py', options);
 
     // sends a message to the Python script via stdin
     pyshell.send('hello');
@@ -12,6 +20,7 @@ app.get('/', (req, res) => {
     pyshell.on('message', function (message) {
         // received a message sent from the Python script (a simple "print" statement)
         console.log(message);
+        res.send(message)
     });
 
     // end the input stream and allow the process to exit
@@ -23,7 +32,7 @@ app.get('/', (req, res) => {
         console.log('finished');
     });
 
-    res.send('Hello World!')
+
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
