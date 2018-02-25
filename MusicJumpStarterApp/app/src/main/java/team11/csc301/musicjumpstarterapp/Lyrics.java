@@ -66,12 +66,24 @@ public class Lyrics extends AppCompatActivity {
         verseTitle.setLayoutParams(margins);
         verseTitle.setInputType(VERSE_TITLE_INPUT_TYPE);
         verseTitle.setText(title);
+        verseTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                updateVerseTitles();
+            }
+        });
 
         // Create the verse view.
         EditText newVerse = new EditText(this);
         newVerse.setLayoutParams(margins);
         newVerse.setText(text);
         newVerse.setInputType(VERSE_INPUT_TYPE);
+        newVerse.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                updateVerseTitles();
+            }
+        });
 
         // Add and store views.
         linearLayout.addView(verseTitle);
@@ -88,6 +100,7 @@ public class Lyrics extends AppCompatActivity {
     public void createNewVerse(View view) {
         createVerse("Type verse here.", verseCount.toString() + ".", verseCount);
         verseCount++;
+        updateVerseTitles();
     }
 
     /**
@@ -98,6 +111,25 @@ public class Lyrics extends AppCompatActivity {
      */
     public void deleteVerse(View view, int id) {
         // Not implemented.
+    }
+
+    /**
+     * Update the verse titles so that they are in a valid order.
+     */
+    public void updateVerseTitles() {
+        EditText title;
+        int nextVerseNum = 1;
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lyricLayout);
+        for (int i = 0; i < linearLayout.getChildCount(); i += 2) {
+            title = (EditText) linearLayout.getChildAt(i);
+            try {
+                Integer.parseInt(title.getText().toString().substring(0,1));
+                title.setText(nextVerseNum + ".");
+                nextVerseNum++;
+            } catch (NumberFormatException e) {
+                continue;
+            }
+        }
     }
 
     /**
