@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.get('/rhyme/:word', (req, res) => {
+app.get('/suggestions/:word', (req, res) => {
     console.log(req.params);
     var options = {
         args: [req.params.word]
@@ -19,8 +19,9 @@ app.get('/rhyme/:word', (req, res) => {
 
     pyshell.on('message', function (message) {
         // received a message sent from the Python script (a simple "print" statement)
-        console.log(message);
-        res.send(message)
+        jsonMsg = JSON.parse(message);
+        console.log(jsonMsg);
+        res.send(jsonMsg)
     });
 
     // end the input stream and allow the process to exit
