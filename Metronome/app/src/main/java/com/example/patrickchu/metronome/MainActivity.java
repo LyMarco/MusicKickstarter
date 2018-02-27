@@ -2,6 +2,7 @@ package com.example.patrickchu.metronome;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,12 +13,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    protected void createMetronome() {
+    public void createMetronome(View view) {
         metronome = new Metronome();
         metronome.play();
     }
 
-    protected void destroyMetronome() {
+    public void destroyMetronome(View view) {
         metronome.stop();
         metronome = null;
     }
