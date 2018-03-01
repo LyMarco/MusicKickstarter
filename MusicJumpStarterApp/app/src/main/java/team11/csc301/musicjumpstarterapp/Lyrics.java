@@ -45,6 +45,9 @@ public class Lyrics extends AppCompatActivity {
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
         }
+
+        //Test Lyrics Suggestions
+        String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
     }
 
     /**
