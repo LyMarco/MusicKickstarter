@@ -40,7 +40,7 @@ if __name__ == "__main__":
     synonyms = []
     antonyms = []
  
-    for syn in wordnet.synsets("good"):
+    for syn in wordnet.synsets(word):
         for l in syn.lemmas():
             synonyms.append(l.name())
             if l.antonyms():
