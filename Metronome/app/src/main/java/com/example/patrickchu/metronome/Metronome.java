@@ -46,13 +46,12 @@ public class Metronome {
     //Sound is a sign wave.
     //Return the sine waves of all the beats and silence that will be played.
     public double[] calculateMetronomeSineWaves() {
-        double[] waves = new double[32000 * 60];
+        double[] waves = new double[48000 * 60];
         int upbeat = 1;
-        // 8000 is the length of a second * 60
-        for (int time = 0; time < (32000 * 60); time++) {
-            if (time % (32000 * 60 / this.bpm) == 0) {
+        for (int time = 0; time < (48000 * 60); time++) {
+            if (time % (48000 * 60 / this.bpm) == 0) {
                 for (int sound = 0; sound < 32000; sound++) {
-                    if (sound < 2000) {
+                    if (sound < 6000) {
                         //The tick lasts for 1/8 of a second
                         if (upbeat % 4 == 0) {
                             waves[time] = this.other[sound];
