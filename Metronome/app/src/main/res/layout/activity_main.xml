@@ -7,20 +7,13 @@
     tools:context="com.example.patrickchu.metronome.MainActivity">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="createMetronome"
-        android:text="Play"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="365dp" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="destroyMetronome"
-        android:text="Stop"
-        tools:layout_editor_absoluteX="233dp"
-        tools:layout_editor_absoluteY="365dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="sendMetronome"
+        android:text="@string/metronome_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

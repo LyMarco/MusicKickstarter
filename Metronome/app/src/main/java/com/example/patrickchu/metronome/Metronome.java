@@ -1,37 +1,76 @@
 package com.example.patrickchu.metronome;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
-
-import java.util.HashMap;
+import android.widget.TextView;
+import android.view.View;
 
 /**
  * Created by Patrick Chu on 2018-02-26.
  */
 
 public class Metronome {
-    private SoundPool soundPool;
-    // Default bpm
-    private int bpm = 1000;
-    private boolean flag;
-    private int sound;
 
-    public Metronome () {
-        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        sound = soundPool.load("tick.wav", 1);
+    private SixteenBitSynthesizer player;
+    private boolean flag;
+    public int bpm;
+    public double[] beat;
+    public double[] other;
+
+    public Metronome(int bpm) {
+        this.bpm = bpm;
+        player = new SixteenBitSynthesizer();
+        this.flag = true;
     }
 
+    public void stopMetronome() {
+        flag = false;
+        player.stopSynthesizer();
+    }
+
+    // Keep calculating the fullSound and looping until player is stopped.
     public void play() {
-        flag = true;
-        while (flag) {
-            if (System.currentTimeMillis() % bpm == 0) {
-                soundPool.play(sound,0.99f, 0.99f, 0, 0, 1);
+        byte[] fullSound;
+        double[] waves;
+        this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
+        this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
+
+        waves = calculateMetronomeSineWaves();
+        fullSound = this.player.convert16Bit(waves);
+        this.player.playSound(fullSound);
+        //do {
+            //waves = calculateMetronomeSineWaves(A);
+            //fullSound = this.player.convertEightBit(waves);
+            //this.player.playSound(fullSound);
+        //} while (flag);
+    }
+
+    //Sound is a sign wave.
+    //Return the sine waves of all the beats and silence that will be played.
+    public double[] calculateMetronomeSineWaves() {
+        double[] waves = new double[32000 * 60];
+        int upbeat = 1;
+        // 8000 is the length of a second * 60
+        for (int time = 0; time < (32000 * 60); time++) {
+            if (time % (32000 * 60 / this.bpm) == 0) {
+                for (int sound = 0; sound < 32000; sound++) {
+                    if (sound < 2000) {
+                        //The tick lasts for 1/8 of a second
+                        if (upbeat % 4 == 0) {
+                            waves[time] = this.other[sound];
+                        } else {
+                            waves[time] = this.beat[sound];
+                        }
+                    } else {
+                        //Fill the rest of the tick with silence
+                        waves[time] = 0;
+                    }
+                    time++;
+                }
+                upbeat++;
+            } else {
+                //Fill a second with silence if bpm is quite small
+                waves[time] = 0;
             }
         }
-    }
-
-    public void stop() {
-        flag = false;
-        soundPool.release();
+        return waves;
     }
 }
