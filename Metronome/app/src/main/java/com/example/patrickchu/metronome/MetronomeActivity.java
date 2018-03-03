@@ -9,11 +9,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MetronomeActivity extends AppCompatActivity {
-
+	/* All variables between 1 and 2 */
     private TextView text;
     private SeekBar seekBar;
     private int bpm = 60;
 
+	/* Trial 1 Variables */
     private AudioManager audioManager;
     private SoundPool soundPool;
     private int low;
@@ -21,18 +22,22 @@ public class MetronomeActivity extends AppCompatActivity {
     private Thread d;
     private boolean thread;
 
+	/* Trial 2 Variables */
     private Metronome metronome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
-
+		
+		/* Trial 1 Variables */
         //audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         //this.soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         //this.low = this.soundPool.load(this, R.raw.low,1);
         //this.high = soundPool.load(this, R.raw.high,1);
         //this.thread = false;
+		
+		/* UI functionality */
         text = (TextView) findViewById(R.id.textViewMetronome);
         seekBar = (SeekBar) findViewById(R.id.seekBarMetronome);
 
@@ -61,12 +66,14 @@ public class MetronomeActivity extends AppCompatActivity {
     }
 
     public void startMetronome(View view) {
+		/* TODO: Convert thread into singleton? */
         if (this.thread == false) {
             this.thread = true;
             this.d = new Thread(new Runnable() {
                 public void run() {
                     //Trial * 1
                     //play();
+					
                     //Trial * 2 Accurate but sounds robotic
                     metronome = new Metronome(bpm);
                     metronome.play();
@@ -80,9 +87,7 @@ public class MetronomeActivity extends AppCompatActivity {
     }
 
 
-    /*
-        Trial * 1 Not accurate but sounds good
-     */
+    /* Trial * 1 Not accurate but sounds good */
     public void play() {
         int upbeat = 1;
         while (!Thread.currentThread().isInterrupted()) {

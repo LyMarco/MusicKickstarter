@@ -71,13 +71,13 @@ public class SixteenBitSynthesizer {
     // synthesizer I have access too.
     public byte[] convert16Bit(double[] waves) {
         int i = 0;
-        byte[] sound = new byte[4 * waves.length];
+        byte[] sound = new byte[2 * waves.length];
 
         for (double value : waves) {
-            short maxSample = (short) ((value * Short.MAX_VALUE));
+            int bits = (int) ((value * (2^16 - 1)));
             // in 16 bit wav PCM, first byte is the low order byte
-            sound[i++] = (byte) (maxSample & 0x00ff);
-            sound[i++] = (byte) ((maxSample & 0xff00) >>> 8);
+            sound[i++] = (byte) (bits & 0xff);
+            sound[i++] = (byte) ((bits >> 8) & 0xff);
         }
 
         return sound;
