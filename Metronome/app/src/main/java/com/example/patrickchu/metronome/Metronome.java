@@ -22,8 +22,10 @@ public class Metronome {
     }
 
     public void stopMetronome() {
-        flag = false;
-        player.stopSynthesizer();
+        if (flag == true) {
+            flag = false;
+            player.stopSynthesizer();
+        }
     }
 
     // Keep calculating the fullSound and looping until player is stopped.
@@ -32,26 +34,22 @@ public class Metronome {
         double[] waves;
         this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
         this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
-
-        waves = calculateMetronomeSineWaves();
-        fullSound = this.player.convert16Bit(waves);
-        this.player.playSound(fullSound);
-        //do {
-            //waves = calculateMetronomeSineWaves(A);
-            //fullSound = this.player.convertEightBit(waves);
-            //this.player.playSound(fullSound);
-        //} while (flag);
+        do {
+            waves = calculateMetronomeSineWaves();
+            fullSound = this.player.convert16Bit(waves);
+            this.player.playSound(fullSound);
+        } while (flag);
     }
 
     //Sound is a sign wave.
     //Return the sine waves of all the beats and silence that will be played.
     public double[] calculateMetronomeSineWaves() {
-        double[] waves = new double[48000 * 60];
+        double[] waves = new double[16000 * 60];
         int upbeat = 1;
-        for (int time = 0; time < (48000 * 60); time++) {
-            if (time % (48000 * 60 / this.bpm) == 0) {
-                for (int sound = 0; sound < 32000; sound++) {
-                    if (sound < 6000) {
+        for (int time = 0; time < (16000 * 60); time++) {
+            if (time % (int) (16000 * 60 / this.bpm) == 0) {
+                for (int sound = 0; sound < 2000; sound++) {
+                    if (sound < 2000) {
                         //The tick lasts for 1/8 of a second
                         if (upbeat % 4 == 0) {
                             waves[time] = this.other[sound];

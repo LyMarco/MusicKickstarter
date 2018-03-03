@@ -18,5 +18,6 @@ public class MainActivity extends AppCompatActivity {
     public void sendMetronome(View view) {
         Intent intent = new Intent(this, MetronomeActivity.class);
         startActivity(intent);
+        /* TODO: Get back into instance */
     }
 }

@@ -31,9 +31,9 @@ public class SixteenBitSynthesizer {
     private AudioTrack audio;
 
     public SixteenBitSynthesizer() {
-        audio = new AudioTrack(AudioManager.STREAM_MUSIC,  48000,
+        audio = new AudioTrack(AudioManager.STREAM_MUSIC,  16000,
                 AudioFormat.CHANNEL_CONFIGURATION_STEREO,
-                AudioFormat.ENCODING_PCM_16BIT,48000, AudioTrack.MODE_STREAM);
+                AudioFormat.ENCODING_PCM_16BIT,16000, AudioTrack.MODE_STREAM);
 
         audio.play();
     }
@@ -55,9 +55,9 @@ public class SixteenBitSynthesizer {
     // Return the sine wave for a given note
     // 1000 is an eight of 8000, resulting in a note that is 1/8 of a second.
     public double[] getNoteWave(Notes note) {
-        double[] wave = new double[6000];
-        for (int i = 0; i < 6000; i++) {
-            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 48000);
+        double[] wave = new double[2000];
+        for (int i = 0; i < 2000; i++) {
+            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 16000);
         }
         return wave;
     }
