@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Views
-        btnStartRecording = (Button)findViewById(R.id.btnStartRecording);
-        btnStopRecording = (Button)findViewById(R.id.btnStopRecording);
-        btnStartPlayback = (Button)findViewById(R.id.btnStartPlayback);
-        btnStopPlayback = (Button)findViewById(R.id.btnStopPlayback);
+        btnStartRecording = findViewById(R.id.btnStartRecording);
+        btnStopRecording = findViewById(R.id.btnStopRecording);
+        btnStartPlayback = findViewById(R.id.btnStartPlayback);
+        btnStopPlayback = findViewById(R.id.btnStopPlayback);
 
         if(checkPermissionFromDevice()) {
             btnStartRecording.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                             + UUID.randomUUID().toString()+"_audio_rec.3gp";
                     setupMediaRecorder();
                     try {
+
                         recorder.prepare();
                         recorder.start();
                     } catch (IOException e) {
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     btnStartPlayback.setEnabled(false);
                     btnStopPlayback.setEnabled(false);
 
-                    Toast.makeText(MainActivity.this, "Recording...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Recording...",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     btnStopRecording.setEnabled(false);
                     btnStartPlayback.setEnabled(true);
                     btnStopPlayback.setEnabled(false);
+                    Toast.makeText(MainActivity.this, "Recording Stopped",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -85,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     player.start();
 
-                    Toast.makeText(MainActivity.this, "Playing...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Playing...",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -126,9 +131,19 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Save Permission Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Save Permission Denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
