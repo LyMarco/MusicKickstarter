@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:layout_height="wrap_content"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics"
     tools:showIn="@layout/activity_lyrics">
 
@@ -11,6 +13,7 @@
         android:id="@+id/lyricLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
     </LinearLayout>
