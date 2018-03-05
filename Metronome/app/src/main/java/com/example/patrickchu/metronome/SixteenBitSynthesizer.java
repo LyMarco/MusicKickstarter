@@ -13,8 +13,8 @@ public class SixteenBitSynthesizer {
     //https://pages.mtu.edu/~suits/notefreqs.html
     //The double values are the frequency of the notes
     public enum Notes {
-        Beat(220),
-        other(330),
+        Beat(330),
+        other(440),
         A(440),
         B(493.88),
         C(523.25),
@@ -69,15 +69,24 @@ public class SixteenBitSynthesizer {
     // I would be working with a float by doing the >> 16 and >>32 conversions but I don't
     // have access to PCM_FLOAT encoding as that is android 2.1+ so 16bit is the best note
     // synthesizer I have access too.
+    //
+    // Double is sign wave with 2000 entries ranging [-1,1]
+    // Convert to [0, 2^16-1] for pcm format
+    // Return it the 2^8 higher bits and the other 2^8 lower bits
+    // Could also just one 2^8 bits for 8 bit synthesizer
     public byte[] convert16Bit(double[] waves) {
-        int i = 0;
         byte[] sound = new byte[2 * waves.length];
 
+        int i = 0;
         for (double value : waves) {
-            int bits = (int) ((value * (2^16 - 1)));
+            short bits = (short) (value * (2^16 - 1));
             // in 16 bit wav PCM, first byte is the low order byte
-            sound[i++] = (byte) (bits & 0xff);
-            sound[i++] = (byte) ((bits >> 8) & 0xff);
+            //Lower 8 bytes
+            sound[i] = (byte) (bits & 0xff);
+            i++;
+            //Higher 8 bytes
+            sound[i] = (byte) ((bits >> 8) & 0xff);
+            i++;
         }
 
         return sound;

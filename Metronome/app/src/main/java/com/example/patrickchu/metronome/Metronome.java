@@ -18,6 +18,8 @@ public class Metronome {
     public Metronome(int bpm) {
         this.bpm = bpm;
         player = new SixteenBitSynthesizer();
+        this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
+        this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
         this.flag = true;
     }
 
@@ -32,8 +34,6 @@ public class Metronome {
     public void play() {
         byte[] fullSound;
         double[] waves;
-        this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
-        this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
 
         do {
             waves = calculateMetronomeSineWaves();
