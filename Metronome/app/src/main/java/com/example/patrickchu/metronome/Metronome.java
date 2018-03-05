@@ -34,6 +34,7 @@ public class Metronome {
         double[] waves;
         this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
         this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
+
         do {
             waves = calculateMetronomeSineWaves();
             fullSound = this.player.convert16Bit(waves);

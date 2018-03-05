@@ -45,12 +45,12 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
                 bpm = 20 + 20 * progress;
+                text.setText(bpm + " Beats Per Minute");
             }
 
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                text.setText(bpm + " Beats Per Minute");
             }
 
 
