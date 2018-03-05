@@ -32,9 +32,6 @@ public class Lyrics extends AppCompatActivity {
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
-        String countPath = SerializationBase.pathGenerator("Admin",
-                "Default", "Lyrics", "count.ser");
-        SerializationBase.saveObject(verseCount, countPath);
     }
 
     /**
@@ -144,14 +141,7 @@ public class Lyrics extends AppCompatActivity {
      * @return number of verses
      */
     public int getVerseCountFromFile() {
-        // Temp
-        String countPath = SerializationBase.pathGenerator("Admin",
-                "Default", "Lyrics", "count.ser");
-        if (!SerializationBase.isFile(countPath)){
-            return 3;
-        }
-        int count = SerializationBase.genericLoad(countPath, verseCount);
-        return count;
+        return 3;
     }
 
     /**

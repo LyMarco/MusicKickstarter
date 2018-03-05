@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,26 +21,21 @@ import android.util.Log;
 // * Need more information for storing music data or others.
 public class SerializationBase extends Activity {
     // path to store all the data
-    private static String path = "/storage/emulated/0/Android/data/team11.pack/cache/";
+    private static String path = "/sdcard/Android/data/team11.pack/cache/";
 
     // This method should be in main
     public void mainStart()
             throws IOException, ClassNotFoundException {
-        ArrayList<String> users = null;
-        HashMap<String, ArrayList<String>> songs = null;
+        HashSet<User> users = null;
         String userfile = "users.ser";
-        String songfile = "songs.ser";
-        users = genericLoad(userfile, new ArrayList<String>());
-        songs = genericLoad(songfile, new HashMap<String, ArrayList<String>>());
+        users = genericLoad(userfile, new HashSet<User>());
     }
 
     // This method should be in main
-    public void mainStop(ArrayList<String> users, HashMap<String, ArrayList<String>> songs)
+    public void mainStop(HashSet<User> users)
             throws IOException, ClassNotFoundException {
         String userfile = "users.ser";
-        String songfile = "songs.ser";
         saveObject(users, userfile);
-        saveObject(songs, songfile);
     }
 
     //
@@ -111,8 +107,7 @@ public class SerializationBase extends Activity {
     }
 
     // Helper function to create path
-    public static String pathGenerator(String username,
-                                String songname,
+    public static String pathGenerator(Song song,
                                 String type,
                                 String... more) {
         String s = "";
@@ -121,7 +116,7 @@ public class SerializationBase extends Activity {
                 s += "/" + m;
             }
         }
-        return username + '/' + songname + '/' + type + s;
+        return song.getUser().getUsername() + '/' + song.getSongname() + '/' + type + s;
     }
 
 }
