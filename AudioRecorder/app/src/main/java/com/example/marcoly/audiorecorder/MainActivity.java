@@ -16,12 +16,13 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //Variable Declaration
     Button btnStartRecording, btnStopRecording, btnStartPlayback, btnStopPlayback;
-    String path = "";
+    String audioPath = "";
     MediaRecorder recorder;
     MediaPlayer player;
 
@@ -56,11 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case  R.id.btnStartRecording: {
-                path = Environment.getExternalStorageDirectory()
+                audioPath = Environment.getExternalStorageDirectory()
                         .getAbsolutePath()+"/"
                         + UUID.randomUUID().toString()+"_audio_rec.3gp";
 
-                setupMediaRecorder(path);
+                setupMediaRecorder(audioPath);
 
                 new Thread(new Runnable() {
                     public void run() {
@@ -125,6 +126,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+//    private void audioButtonRun(boolean[] buttonSettings, final Function<T> func, String message) {
+//
+//        new Thread(new Runnable() {
+//            public void run() {
+//                func.apply();
+//            }
+//        }).start();
+//
+//        if (!message.equals("")){
+//            Toast.makeText(MainActivity.this, message,
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
     private void setupMediaRecorder(String filepath) {
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -148,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startPlayback(MediaPlayer player){
         try {
-            player.setDataSource(path);
+            player.setDataSource(audioPath);
             player.prepare();
         } catch (IOException e) {
             e.printStackTrace();
