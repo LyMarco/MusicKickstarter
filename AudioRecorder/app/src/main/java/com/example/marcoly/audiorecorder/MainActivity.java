@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
