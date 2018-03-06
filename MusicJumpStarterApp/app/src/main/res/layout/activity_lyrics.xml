@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
 
+<<<<<<< HEAD
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -161,24 +162,26 @@
 
 
 
+=======
+>>>>>>> parent of af5342b... Merge branch 'Audio-Recording' of https://github.com/csc301-winter-2018/project-team-11 into Audio-Recording
     <include
         android:id="@+id/include"
         layout="@layout/content_lyrics"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        android:layout_height="435dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@id/toolbar"
-        app:layout_constraintRight_toRightOf="@id/toolbar" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/addVerse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/toolbar2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
         android:onClick="createNewVerse"
         android:text="Add Verse"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,12 +1,14 @@
 package team11.csc301.musicjumpstarterapp;
 
+<<<<<<< HEAD
 import android.support.v4.content.ContextCompat;
+=======
+>>>>>>> parent of af5342b... Merge branch 'Audio-Recording' of https://github.com/csc301-winter-2018/project-team-11 into Audio-Recording
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -19,45 +21,8 @@ public class Lyrics extends AppCompatActivity {
     ArrayList<Integer> titleIDs;
     ArrayList<Integer> verseIDs;
     Integer verseCount;
-    private boolean paused = true;
 
-    public void buttonPressed(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-
-        if (paused) {
-            paused = false;
-            icon = R.drawable.pause;
-        }
-        else {
-            paused = true;
-            icon = R.drawable.play;
-        }
-
-        button.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), icon));
-
-
-    }
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-
-        button.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
