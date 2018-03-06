@@ -1,9 +1,6 @@
 package team11.csc301.musicjumpstarterapp;
 
-<<<<<<< HEAD
 import android.support.v4.content.ContextCompat;
-=======
->>>>>>> parent of af5342b... Merge branch 'Audio-Recording' of https://github.com/csc301-winter-2018/project-team-11 into Audio-Recording
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
