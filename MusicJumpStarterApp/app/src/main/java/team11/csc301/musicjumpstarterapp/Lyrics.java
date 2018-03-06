@@ -1,6 +1,5 @@
 package team11.csc301.musicjumpstarterapp;
 
-import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
