@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Lyrics extends AppCompatActivity {
     ArrayList<Integer> titleIDs;
     ArrayList<Integer> verseIDs;
     Integer verseCount;
+    private boolean paused = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,36 @@ public class Lyrics extends AppCompatActivity {
 
         //Test Lyrics Suggestions
         String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
+    }
+
+    public void buttonPressed(View view) {
+        ImageButton button = (ImageButton) view;
+        int icon;
+        if (paused) {
+            paused = false;
+            icon = R.drawable.pause;
+        }
+        else {
+            paused = true;
+            icon = R.drawable.play;
+        }
+        button.setImageDrawable(
+        ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    public void buttonPressed2(View view) {
+
+        ImageButton button = (ImageButton) view;
+        int icon;
+        if (paused) {
+            paused = false;
+            icon = R.drawable.record;
+        } else {
+            paused = true;
+            icon = R.drawable.record_stop;
+        }
+        button.setImageDrawable(
+        ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
     /**
