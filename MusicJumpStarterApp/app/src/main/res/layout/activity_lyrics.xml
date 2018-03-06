@@ -24,27 +24,26 @@
         android:layout_alignStart="@+id/toolbar" />
 
 
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/shareButton"
         android:src="@drawable/share"
-        android:background="#eeeeee"
-        android:id="@+id/imageButton2"
+        android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toRightOf="@+id/imageButton3"
-        android:layout_toEndOf="@+id/imageButton3"
-        android:layout_alignParentBottom="true" />
+        android:layout_toEndOf="@+id/drawerButton"
+        android:layout_toRightOf="@+id/drawerButton"
+        android:background="#eeeeee" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/metronomeButton"
         android:src="@drawable/metronome"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar"
-        android:layout_toLeftOf="@+id/imageButton9"
-        android:layout_toStartOf="@+id/imageButton9"
+        android:layout_toLeftOf="@+id/lyricsButton"
+        android:layout_toStartOf="@+id/lyricsButton"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
         android:layout_alignBottom="@+id/toolbar" />
@@ -52,9 +51,9 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/notesButton"
         android:src="@drawable/notes"
         android:background="#eeeeee"
-        android:id="@+id/imageButton2"
         android:layout_alignTop="@+id/toolbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -65,25 +64,12 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/notes"
-        android:background="#eeeeee"
-        android:id="@+id/imageButton2"
-        android:layout_alignTop="@+id/toolbar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="35dp"
-        android:layout_marginEnd="35dp"
-        android:layout_alignBottom="@+id/toolbar" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton4"
-        android:background="#eeeeee"
+        android:id="@+id/forwardButton"
         android:src="@drawable/forward"
+        android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/imageButton"
-        android:layout_toStartOf="@+id/imageButton"
+        android:layout_toLeftOf="@+id/metronomeButton"
+        android:layout_toStartOf="@+id/metronomeButton"
         android:layout_marginRight="43dp"
         android:layout_marginEnd="43dp"
         android:layout_alignParentBottom="true" />
@@ -91,44 +77,44 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton3"
-        android:background="#eeeeee"
+        android:id="@+id/drawerButton"
         android:src="@drawable/drawer"
+        android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/imageButton2"
-        android:layout_toStartOf="@+id/imageButton2"
+        android:layout_toLeftOf="@+id/notesButton"
+        android:layout_toStartOf="@+id/notesButton"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
         android:layout_alignBottom="@+id/toolbar2" />
 
     <ImageButton
+        android:id="@+id/rewindButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton6"
-        android:src="@drawable/rewind"
-        android:background="#eeeeee"
+        android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/imageButton7"
-        android:layout_toStartOf="@+id/imageButton7"
-        android:layout_alignParentBottom="true" />
+        android:layout_toLeftOf="@+id/playButton"
+        android:layout_toStartOf="@+id/playButton"
+        android:background="#eeeeee"
+        android:src="@drawable/rewind" />
 
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/playButton"
         android:src="@drawable/play"
-        android:id="@+id/imageButton7"
         android:onClick="buttonPressed"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/imageButton4"
-        android:layout_toStartOf="@+id/imageButton4"
+        android:layout_toLeftOf="@+id/forwardButton"
+        android:layout_toStartOf="@+id/forwardButton"
         android:layout_alignBottom="@+id/toolbar2" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton8"
+        android:id="@+id/recordButton"
         android:src="@drawable/record"
         android:onClick="buttonPressed2"
         android:background="#eeeeee"
@@ -142,12 +128,12 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton9"
+        android:id="@+id/lyricsButton"
         android:src="@drawable/help"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar"
-        android:layout_alignLeft="@+id/imageButton3"
-        android:layout_alignStart="@+id/imageButton3"
+        android:layout_alignLeft="@+id/drawerButton"
+        android:layout_alignStart="@+id/drawerButton"
         android:layout_alignBottom="@+id/toolbar" />
 
     <EditText
@@ -155,23 +141,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText7"
         android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignRight="@+id/imageButton4"
-        android:layout_alignEnd="@+id/imageButton4"
-        android:layout_toRightOf="@+id/imageButton5"
-        android:layout_toEndOf="@+id/imageButton5" />
+        android:layout_alignRight="@+id/forwardButton"
+        android:layout_alignEnd="@+id/forwardButton"
+        android:layout_toRightOf="@+id/settingsButton"
+        android:layout_toEndOf="@+id/settingsButton" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton5"
+        android:id="@+id/settingsButton"
         android:src="@drawable/settings"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar"
         android:layout_alignLeft="@+id/toolbar"
         android:layout_alignStart="@+id/toolbar"
         android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignRight="@+id/imageButton8"
-        android:layout_alignEnd="@+id/imageButton8" />
+        android:layout_alignRight="@+id/recordButton"
+        android:layout_alignEnd="@+id/recordButton" />
 
 
 
