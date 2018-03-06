@@ -16,9 +16,7 @@ public class Lyrics extends AppCompatActivity {
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int VERSE_MARGINS = 120;
 
-    ArrayList<Integer> titleIDs;
-    ArrayList<Integer> verseIDs;
-    Integer verseCount;
+    LinearLayout layout;
     private boolean paused = true;
 
     @Override
@@ -26,6 +24,7 @@ public class Lyrics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
 
+        layout = findViewById(R.id.lyricLayout);
         init();
     }
 
@@ -35,6 +34,15 @@ public class Lyrics extends AppCompatActivity {
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
+        EditText title, verse;
+        String titleText, verseText;
+        for (int i = 0; i < layout.getChildCount(); i += 2) {
+            title = (EditText) layout.getChildAt(i);
+            verse = (EditText) layout.getChildAt(i + 1);
+            titleText = title.getText().toString();
+            verseText = verse.getText().toString();
+            /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
+        }
     }
 
     /**
@@ -42,9 +50,7 @@ public class Lyrics extends AppCompatActivity {
      * each of these verses and their titles.
      */
     public void init() {
-        titleIDs = new ArrayList<>();
-        verseIDs = new ArrayList<>();
-        verseCount = getVerseCountFromFile();
+        int verseCount = getVerseCountFromFile();
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
         }
@@ -92,7 +98,6 @@ public class Lyrics extends AppCompatActivity {
      */
     public void createVerse(String text, String title, int index) {
         // Get the layout and set the margins.
-        LinearLayout linearLayout = findViewById(R.id.lyricLayout);
         LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         margins.setMargins(VERSE_MARGINS, 0, VERSE_MARGINS, 0);
@@ -122,10 +127,8 @@ public class Lyrics extends AppCompatActivity {
         });
 
         // Add and store views.
-        linearLayout.addView(verseTitle);
-        linearLayout.addView(newVerse);
-        titleIDs.add(index, verseTitle.getId());
-        verseIDs.add(index, newVerse.getId());
+        layout.addView(verseTitle);
+        layout.addView(newVerse);
     }
 
     /**
@@ -134,8 +137,7 @@ public class Lyrics extends AppCompatActivity {
      * @param view view from which this method is called
      */
     public void createNewVerse(View view) {
-        createVerse("Type verse here.", verseCount.toString() + ".", verseCount);
-        verseCount++;
+        createVerse("Type verse here.", layout.getChildCount() + ".", layout.getChildCount());
         updateVerseTitles();
     }
 
