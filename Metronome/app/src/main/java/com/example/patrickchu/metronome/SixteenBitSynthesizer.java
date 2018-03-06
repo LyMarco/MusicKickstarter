@@ -31,9 +31,9 @@ public class SixteenBitSynthesizer {
     private AudioTrack audio;
 
     public SixteenBitSynthesizer() {
-        audio = new AudioTrack(AudioManager.STREAM_MUSIC,  16000,
+        audio = new AudioTrack(AudioManager.STREAM_MUSIC,  8000,
                 AudioFormat.CHANNEL_CONFIGURATION_STEREO,
-                AudioFormat.ENCODING_PCM_16BIT,16000, AudioTrack.MODE_STREAM);
+                AudioFormat.ENCODING_PCM_16BIT,8000, AudioTrack.MODE_STREAM);
 
         audio.play();
     }
@@ -55,9 +55,9 @@ public class SixteenBitSynthesizer {
     // Return the sine wave for a given note
     // 1000 is an eight of 8000, resulting in a note that is 1/8 of a second.
     public double[] getNoteWave(Notes note) {
-        double[] wave = new double[2000];
-        for (int i = 0; i < 2000; i++) {
-            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 16000);
+        double[] wave = new double[1000];
+        for (int i = 0; i < 1000; i++) {
+            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 8000);
         }
         return wave;
     }
@@ -71,7 +71,7 @@ public class SixteenBitSynthesizer {
     // synthesizer I have access too.
     //
     // Double is sign wave with 2000 entries ranging [-1,1]
-    // Convert to [0, 2^16-1] for pcm format
+    // Convert to [0, 2^15-1] for pcm format
     // Return it the 2^8 higher bits and the other 2^8 lower bits
     // Could also just one 2^8 bits for 8 bit synthesizer
     public byte[] convert16Bit(double[] waves) {
@@ -79,7 +79,9 @@ public class SixteenBitSynthesizer {
 
         int i = 0;
         for (double value : waves) {
-            short bits = (short) (value * (2^16 - 1));
+            // CHEAT 30'000 Doesn't really matter since all this does is amplify the sine wave
+            // in pcm format
+            short bits = (short) (value * 30000);
             // in 16 bit wav PCM, first byte is the low order byte
             //Lower 8 bytes
             sound[i] = (byte) (bits & 0xff);

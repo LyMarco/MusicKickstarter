@@ -12,12 +12,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     /** Called when the user taps the Metronome button */
     public void sendMetronome(View view) {
         Intent intent = new Intent(this, MetronomeActivity.class);
         startActivity(intent);
-        /* TODO: Get back into instance */
     }
 }

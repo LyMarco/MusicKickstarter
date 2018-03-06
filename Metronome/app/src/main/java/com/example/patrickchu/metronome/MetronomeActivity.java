@@ -1,5 +1,6 @@
 package com.example.patrickchu.metronome;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +16,15 @@ public class MetronomeActivity extends AppCompatActivity {
     private int bpm = 60;
 
 	/* Trial 1 Variables */
-    private AudioManager audioManager;
-    private SoundPool soundPool;
-    private int low;
-    private int high;
+   // private AudioManager audioManager;
+   // private SoundPool soundPool;
+   // private int low;
+   // private int high;
     private Thread d;
-    private boolean thread;
+   // private boolean thread;
 
 	/* Trial 2 Variables */
-    private Metronome metronome;
+   // private Metronome metronome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,64 +48,64 @@ public class MetronomeActivity extends AppCompatActivity {
                 bpm = 20 + 20 * progress;
             }
 
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 text.setText(bpm + " Beats Per Minute");
             }
 
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 if(d != null) {
-                    d.interrupt();
-                    metronome.stopMetronome();
-                    thread = false;
+                    MetronomeSingleton.getInstance().stopMetronome();
                 }
             }
         });
+
+        MetronomeSingleton metronome = MetronomeSingleton.getInstance();
     }
 
     public void startMetronome(View view) {
-		/* TODO: Convert thread into singleton? */
-        if (this.thread == false) {
-            this.thread = true;
-            this.d = new Thread(new Runnable() {
-                public void run() {
-                    //Trial * 1
-                    //play();
-					
-                    //Trial * 2 Accurate but sounds robotic
-                    metronome = new Metronome(bpm);
-                    metronome.play();
-                }
-            });
-            this.d.start();
-        }
+        this.d = new Thread(new Runnable() {
+            public void run() {
+                //Trial * 1
+                //play();
 
-         /* TODO: Get out and back into instance */
-        setContentView(R.layout.activity_main);
+                //Trial * 2 Accurate but sounds robotic
+                MetronomeSingleton metronome = MetronomeSingleton.getInstance();
+                metronome.setBpm(bpm);
+                metronome.play();
+            }
+        });
+        this.d.start();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 
     /* Trial * 1 Not accurate but sounds good */
-    public void play() {
-        int upbeat = 1;
-        while (!Thread.currentThread().isInterrupted()) {
-            if (System.currentTimeMillis() % bpm == 0) {
-                if (upbeat % 4 == 0) {
-                    soundPool.play(this.high, 0.99f, 0.99f, 0, 0, 1);
-                } else {
-                    soundPool.play(this.low, 0.99f, 0.99f, 0, 0, 1);
-                }
-                upbeat++;
-            }
-        }
-    }
+//    public void play() {
+//        int upbeat = 1;
+//        while (!Thread.currentThread().isInterrupted()) {
+//            if (System.currentTimeMillis() % bpm == 0) {
+//                if (upbeat % 4 == 0) {
+//                    soundPool.play(this.high, 0.99f, 0.99f, 0, 0, 1);
+//                } else {
+//                    soundPool.play(this.low, 0.99f, 0.99f, 0, 0, 1);
+//                }
+//                upbeat++;
+//            }
+//        }
+//    }
 
     public void stopMetronome(View view) {
-        this.d.interrupt();
-        this.metronome.stopMetronome();
-        this.thread = false;
+        //this.d.interrupt();
+        MetronomeSingleton.getInstance().stopMetronome();
+        //this.thread = false;
+    }
+
+    public void goBackFromMetronome(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
