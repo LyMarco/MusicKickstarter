@@ -51,9 +51,9 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/notesButton"
         android:src="@drawable/notes"
         android:background="#eeeeee"
-        android:id="@+id/notesButton"
         android:layout_alignTop="@+id/toolbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -65,8 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forwardButton"
-        android:background="#eeeeee"
         android:src="@drawable/forward"
+        android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toLeftOf="@+id/metronomeButton"
         android:layout_toStartOf="@+id/metronomeButton"
@@ -78,32 +78,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/drawerButton"
-        android:background="#eeeeee"
         android:src="@drawable/drawer"
+        android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
+        android:layout_alignBottom="@+id/toolbar2"
         android:layout_toLeftOf="@+id/notesButton"
         android:layout_toStartOf="@+id/notesButton"
         android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_alignBottom="@+id/toolbar2" />
+        android:layout_marginEnd="18dp" />
 
     <ImageButton
-        android:id="@+id/rewindButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/rewindButton"
+        android:src="@drawable/rewind"
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toLeftOf="@+id/playButton"
         android:layout_toStartOf="@+id/playButton"
-        android:background="#eeeeee"
-        android:src="@drawable/rewind" />
+        android:background="#eeeeee" />
 
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/play"
         android:id="@+id/playButton"
+        android:src="@drawable/play"
         android:onClick="buttonPressed"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
