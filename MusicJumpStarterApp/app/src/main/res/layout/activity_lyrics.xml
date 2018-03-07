@@ -126,15 +126,16 @@
         android:layout_alignTop="@+id/toolbar2" />
 
     <ImageButton
+        android:id="@+id/lyricsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lyricsButton"
-        android:src="@drawable/help"
-        android:background="#eeeeee"
-        android:layout_alignTop="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar"
         android:layout_alignLeft="@+id/drawerButton"
         android:layout_alignStart="@+id/drawerButton"
-        android:layout_alignBottom="@+id/toolbar" />
+        android:layout_alignTop="@+id/toolbar"
+        android:background="#eeeeee"
+        android:onClick="getLyricSuggestion"
+        android:src="@drawable/help" />
 
     <EditText
         android:id="@+id/editText7"

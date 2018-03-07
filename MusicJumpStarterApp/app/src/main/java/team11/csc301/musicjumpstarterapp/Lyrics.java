@@ -3,6 +3,7 @@ package team11.csc301.musicjumpstarterapp;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -87,6 +88,15 @@ public class Lyrics extends AppCompatActivity {
         }
         button.setImageDrawable(
         ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    public void getLyricSuggestion(View view) {
+        EditText verse = (EditText)getCurrentFocus();
+        Editable text = verse.getEditableText();
+        String word = text.toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
+        String suggestion = LyricsSuggestion.GetSuggestions(this, word);
+        text.append(suggestion);
+        verse.setText(text);
     }
 
     /**
