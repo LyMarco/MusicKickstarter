@@ -28,7 +28,6 @@
         android:id="@+id/shareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/shareButton"
         android:src="@drawable/share"
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
@@ -138,14 +137,15 @@
         android:layout_alignBottom="@+id/toolbar" />
 
     <EditText
+        android:id="@+id/editText7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText7"
         android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignRight="@+id/forwardButton"
         android:layout_alignEnd="@+id/forwardButton"
+        android:layout_alignRight="@+id/forwardButton"
+        android:layout_toEndOf="@+id/settingsButton"
         android:layout_toRightOf="@+id/settingsButton"
-        android:layout_toEndOf="@+id/settingsButton" />
+        android:singleLine="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
