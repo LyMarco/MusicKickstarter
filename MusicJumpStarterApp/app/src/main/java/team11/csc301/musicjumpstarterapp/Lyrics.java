@@ -90,6 +90,13 @@ public class Lyrics extends AppCompatActivity {
         ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
+    public void goToNotes(View view) {
+        Intent intent = new Intent(Lyrics.this, Notes.class);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
     /**
      * Create a verse view along along with its corresponding title view and store their ID's.
      *

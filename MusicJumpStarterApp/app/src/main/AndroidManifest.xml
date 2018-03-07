@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MetronomeActivity"></activity>
+        <activity
+            android:name=".Notes"
+            android:label="Notes"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
