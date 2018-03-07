@@ -1,5 +1,6 @@
 package team11.csc301.musicjumpstarterapp;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -206,5 +207,11 @@ public class Lyrics extends AppCompatActivity {
         } else {
             return v + ".";
         }
+    }
+
+    /** Called when the user taps the Metronome button */
+    public void sendMetronome(View view) {
+        Intent intent = new Intent(this, MetronomeActivity.class);
+        startActivity(intent);
     }
 }
