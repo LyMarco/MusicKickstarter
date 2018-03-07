@@ -30,6 +30,7 @@ public class MetronomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
+	MetronomeSingleton.getInstance().stopMetronome();    
 
 		/* Trial 1 Variables */
         //audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
