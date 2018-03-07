@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
+    tools:context="team11.csc301.musicjumpstarterapp.Notes">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -165,21 +165,21 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/content_lyrics"
+        layout="@layout/content_notes"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
     <Button
-        android:id="@+id/addVerse"
+        android:id="@+id/addNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/toolbar2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="createNewVerse"
-        android:text="Add Verse"
+        android:onClick="createNewNote"
+        android:text="Add Note"
         app:layout_constraintBottom_toBottomOf="@id/toolbar2"
         app:layout_constraintLeft_toLeftOf="parent" />
 

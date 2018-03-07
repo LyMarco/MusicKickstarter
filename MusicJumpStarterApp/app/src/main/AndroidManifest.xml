@@ -20,6 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Notes"
+            android:label="Notes"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

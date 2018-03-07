@@ -1,5 +1,6 @@
 package team11.csc301.musicjumpstarterapp;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -87,6 +88,13 @@ public class Lyrics extends AppCompatActivity {
         }
         button.setImageDrawable(
         ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    public void goToNotes(View view) {
+        Intent intent = new Intent(Lyrics.this, Notes.class);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**
