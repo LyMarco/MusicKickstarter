@@ -70,12 +70,12 @@ public class Lyrics extends AppCompatActivity {
             recorder = new MediaRecorder();
 
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
-        init();
+        initVerses();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
@@ -108,7 +108,7 @@ public class Lyrics extends AppCompatActivity {
      * Initialize the activity by creating all saved verses and storing the ID's of the views for
      * each of these verses and their titles.
      */
-    public void init() {
+    public void initVerses() {
         // Dessrialize test
         Log.d("Init:", "start");
         if (! new File(sPath + "/songs.ser").isFile()) {
@@ -435,6 +435,8 @@ public class Lyrics extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
+                    //Initialize Audio Recorder
+                    recorder = new MediaRecorder();
                 } else {
                     Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
                 }
