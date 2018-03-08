@@ -3,8 +3,6 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,13 +25,16 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+// Media Imports
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 // IO Imports
 import android.text.InputType;
 import java.io.File;
 import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
-    // My Permissions
+    // Recording Permissions
     private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
     // Finals needed for Verses
@@ -146,37 +147,6 @@ public class Lyrics extends AppCompatActivity {
 
         //Test Lyrics Suggestions
         String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
-    }
-
-
-    public void buttonPressed(View view) {
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.pause;
-        }
-        else {
-            paused = true;
-            icon = R.drawable.play;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
     public void goToNotes(View view) {
@@ -325,8 +295,9 @@ public class Lyrics extends AppCompatActivity {
     /* ================ AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
     /**
-        Called when the play/pause button is pressed
-        @param  view the button
+     * Called when the play/pause button is pressed
+     * Updates the button image and runs associated function on a Thread
+     * @param  view the button
      */
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
@@ -354,6 +325,7 @@ public class Lyrics extends AppCompatActivity {
 
     /**
      * Called when the recording button is pressed
+     * Updates the button image and runs associated function on a Thread
      * @param view the button
      */
     public void recButtonPressed(View view) {
