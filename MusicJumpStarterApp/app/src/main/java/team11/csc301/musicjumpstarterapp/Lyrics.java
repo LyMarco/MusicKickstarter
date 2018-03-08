@@ -2,6 +2,9 @@ package team11.csc301.musicjumpstarterapp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,7 +17,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
     // My Permissions
@@ -28,6 +33,9 @@ public class Lyrics extends AppCompatActivity {
     LinearLayout layout;
     // Variables for Audio Recording and Playback
     private boolean paused = true;
+    private String audioPath = "";
+    private MediaRecorder recorder;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,43 +82,13 @@ public class Lyrics extends AppCompatActivity {
         }
 
         //Test Lyrics Suggestions
-        String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
-    }
-
-    public void buttonPressed(View view) {
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.pause;
-        }
-        else {
-            paused = true;
-            icon = R.drawable.play;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
+        String suggestions = LyricsSuggestion.GetSuggestions(this, "tomato");
     }
 
     /**
      * Create a verse view along along with its corresponding title view and store their ID's.
      *
-     * @param text text of the verse
+     * @param text  text of the verse
      * @param title title of the verse
      * @param index index at which the verse and its title are stored
      */
@@ -163,7 +141,7 @@ public class Lyrics extends AppCompatActivity {
      * Delete the given verse from the layout and no longer keep track of it.
      *
      * @param view view from which this method is called
-     * @param id verse to delete
+     * @param id   verse to delete
      */
     public void deleteVerse(View view, int id) {
         // Not implemented.
@@ -179,7 +157,7 @@ public class Lyrics extends AppCompatActivity {
         for (int i = 0; i < linearLayout.getChildCount(); i += 2) {
             title = (EditText) linearLayout.getChildAt(i);
             try {
-                Integer.parseInt(title.getText().toString().substring(0,1));
+                Integer.parseInt(title.getText().toString().substring(0, 1));
                 title.setText(nextVerseNum + ".");
                 nextVerseNum++;
             } catch (NumberFormatException e) {
@@ -229,6 +207,104 @@ public class Lyrics extends AppCompatActivity {
     /**
      * AUDIO RECORDING SECTION OF MAIN ACTIVITY
      */
+
+    public void playButtonPressed(View view) {
+        ImageButton button = (ImageButton) view;
+        int icon;
+        paused = !paused;
+        if (!paused) {
+            icon = R.drawable.pause;
+            player = new MediaPlayer();
+            runOnThread(new Runnable() {
+                public void run() {
+                    startPlayback();
+                }
+            }, "Playing...");
+        } else {
+            icon = R.drawable.play;
+            runOnThread(new Runnable() {
+                public void run() {
+                    stopPlayback();
+                }
+            }, "");
+        }
+        button.setImageDrawable(
+                ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    public void recButtonPressed(View view) {
+        ImageButton button = (ImageButton) view;
+        int icon;
+        paused = !paused;
+        if (!paused) {
+            icon = R.drawable.record;
+            // TODO: Make audio path changeable rather than setting randoms
+            audioPath = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath()+"/"
+                    + UUID.randomUUID().toString()+"_audio_rec.3gp";
+            setupMediaRecorder(audioPath);
+            runOnThread(new Runnable() {
+                public void run() {
+                    stopRecording();
+                }
+            }, "Recording Stopped");
+        } else {
+            icon = R.drawable.record_stop;
+            runOnThread(new Runnable() {
+                public void run() {
+                    startRecording();
+                }
+            }, "Recording...");
+        }
+        button.setImageDrawable(
+                ContextCompat.getDrawable(getApplicationContext(), icon));
+
+    }
+
+    private void setupMediaRecorder(String filepath) {
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(filepath);
+    }
+
+    private void runOnThread(final Runnable func, String message) {
+        new Thread(func).start();
+        if (!message.equals(""))
+            Toast.makeText(Lyrics.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startRecording() {
+        try {
+            recorder.prepare();
+            recorder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopRecording() {
+        recorder.stop();
+        recorder.reset();
+    }
+
+    private void startPlayback(){
+        try {
+            player.setDataSource(audioPath);
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
+    }
+
+    private void stopPlayback(){
+        if(player != null) {
+            player.stop();
+            player.release();
+//                    setupMediaRecorder(path);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
