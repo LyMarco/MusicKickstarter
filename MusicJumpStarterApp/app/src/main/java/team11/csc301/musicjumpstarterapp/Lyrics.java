@@ -1,5 +1,9 @@
 package team11.csc301.musicjumpstarterapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,24 +12,38 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Lyrics extends AppCompatActivity {
+    // My Permissions
+    private final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
+    private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
+    // Finals needed for Verses
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int VERSE_MARGINS = 120;
-
+    // Activity Layour
     LinearLayout layout;
+    // Variables for Audio Recording and Playback
     private boolean paused = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
-
         layout = findViewById(R.id.lyricLayout);
-        init();
+
+
+        // Check that you have the proper recording and saving permissions
+        if (!checkPermissionFromDevice()) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+        }
+
+        // Initialize the verses layout
+        initVerses();
     }
 
     @Override
@@ -49,7 +67,7 @@ public class Lyrics extends AppCompatActivity {
      * Initialize the activity by creating all saved verses and storing the ID's of the views for
      * each of these verses and their titles.
      */
-    public void init() {
+    public void initVerses() {
         int verseCount = getVerseCountFromFile();
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
@@ -207,4 +225,46 @@ public class Lyrics extends AppCompatActivity {
             return v + ".";
         }
     }
+
+    /**
+     * AUDIO RECORDING SECTION OF MAIN ACTIVITY
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_RECORD_AUDIO: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Save Permission Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Save Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+    private boolean checkPermissionFromDevice() {
+        boolean record_audio = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        boolean store_file = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        return record_audio && store_file;
+    }
+
+    /**
+     * END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY
+     */
 }
