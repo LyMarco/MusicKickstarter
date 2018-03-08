@@ -149,37 +149,6 @@ public class Lyrics extends AppCompatActivity {
         String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
     }
 
-
-    public void buttonPressed(View view) {
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.pause;
-        }
-        else {
-            paused = true;
-            icon = R.drawable.play;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
     public void goToNotes(View view) {
         Intent intent = new Intent(Lyrics.this, Notes.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -326,8 +295,9 @@ public class Lyrics extends AppCompatActivity {
     /* ================ AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
     /**
-        Called when the play/pause button is pressed
-        @param  view the button
+     * Called when the play/pause button is pressed
+     * Updates the button image and runs associated function on a Thread
+     * @param  view the button
      */
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
@@ -355,6 +325,7 @@ public class Lyrics extends AppCompatActivity {
 
     /**
      * Called when the recording button is pressed
+     * Updates the button image and runs associated function on a Thread
      * @param view the button
      */
     public void recButtonPressed(View view) {
