@@ -2,21 +2,28 @@ package team11.csc301.musicjumpstarterapp;
 
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Lyrics extends AppCompatActivity {
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int VERSE_MARGINS = 120;
+    public static  Song current = null;
+    public static HashSet<User> users = new HashSet<User>();
+    public static String sPath;
 
 
     LinearLayout layout;
@@ -29,6 +36,8 @@ public class Lyrics extends AppCompatActivity {
 
 
         layout = findViewById(R.id.lyricLayout);
+        sPath = getApplicationContext().getFilesDir().getAbsolutePath();
+        Log.d("Path",sPath);
         init();
     }
 
@@ -40,12 +49,27 @@ public class Lyrics extends AppCompatActivity {
         // can keep the ordering of the verses.
         EditText title, verse;
         String titleText, verseText;
+        ArrayList<String> verses = new ArrayList<String>();
+        ArrayList<String> titles = new ArrayList<String>();
         for (int i = 0; i < layout.getChildCount(); i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
             titleText = title.getText().toString();
             verseText = verse.getText().toString();
             /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
+            verses.add(verseText);
+            titles.add(titleText);
+            Log.d("onStop:", verseText);
+        }
+        Log.d("onStop:", "Set");
+        Log.d("onStop:", verses.get(0));
+        current.setVerses(verses);
+        current.setTitles(titles);
+        try {
+            SerializationBase.saveStop(users, current.getUser().getUsername(), current.getSongname());
+        } catch (Exception e){
+            Log.v("Save_Stop Error : ",e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -54,6 +78,35 @@ public class Lyrics extends AppCompatActivity {
      * each of these verses and their titles.
      */
     public void init() {
+        // Dessrialize test
+        Log.d("Init:", "start");
+       if (! new File(sPath + "/users.ser").isFile()) {
+            User user = new User("Default");
+            users.add(user);
+            current = new Song(user, "Default");
+            user.addSong(current);
+            Log.d("Not_Found:", sPath + "/users.ser");
+        } else {
+            Log.d("Read: ", "Start read");
+            HashSet<User> users = null;
+            String usersfile = "/users.ser";
+            String userfile = "/user.ser";
+            String songfile = "/song.ser";
+            users = SerializationBase.genericLoad(usersfile, new HashSet<User>());
+            String username = (String) SerializationBase.loadObject(userfile);
+            Log.d("Read username:", username);
+            String songname = (String) SerializationBase.loadObject(songfile);
+            Log.d("Read songname", songname);
+            Log.d("Read user", "");
+           for (User user : users) {
+               Log.d("User", user.getUsername());
+               if (user.getUsername().equals(username)) {
+                   Log.d("User", user.getSong(songname).getSongname());
+                   current = user.getSong(songname);
+               }
+           }
+        }
+        //
         int verseCount = getVerseCountFromFile();
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
@@ -188,7 +241,10 @@ public class Lyrics extends AppCompatActivity {
      * @return number of verses
      */
     public int getVerseCountFromFile() {
-        // Temp
+        int length = current.getVerses().size();
+        if (length > 1) {
+            return length;
+        }
         return 3;
     }
 
@@ -200,6 +256,10 @@ public class Lyrics extends AppCompatActivity {
      */
     public String getTextFromFile(int v) {
         // Temp
+        if (v < current.getVerses().size()) {
+            return current.getVerses().get(v);
+        }
+        //
         return "Write verse here.";
     }
 
@@ -210,6 +270,9 @@ public class Lyrics extends AppCompatActivity {
      * @return title of the verse as a String
      */
     public String getTitleFromFile(int v) {
+        if (v < current.getTitles().size()) {
+            return current.getTitles().get(v);
+        }
         // Temp
         if (v == 0) {
             return "1.";
