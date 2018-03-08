@@ -37,7 +37,6 @@ public class Lyrics extends AppCompatActivity {
 
         layout = findViewById(R.id.lyricLayout);
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
-        Log.d("Path",sPath);
         init();
     }
 
@@ -47,10 +46,11 @@ public class Lyrics extends AppCompatActivity {
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
-        EditText title, verse;
-        String titleText, verseText;
+        EditText title, verse, note;
+        String titleText, verseText, noteText;
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
+        ArrayList<String> notes = new ArrayList<String>();
         for (int i = 0; i < layout.getChildCount(); i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
@@ -59,12 +59,16 @@ public class Lyrics extends AppCompatActivity {
             /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
             verses.add(verseText);
             titles.add(titleText);
-            Log.d("onStop:", verseText);
         }
-        Log.d("onStop:", "Set");
-        Log.d("onStop:", verses.get(0));
+        LinearLayout noteLayout = findViewById(R.id.notesLayout);
+        for (int i = 0; i < noteLayout.getChildCount(); i += 1) {
+            note = (EditText) noteLayout.getChildAt(i);
+            noteText = note.getText().toString();
+            notes.add(noteText);
+        }
         current.setVerses(verses);
         current.setTitles(titles);
+        current.setNotes(notes);
         try {
             SerializationBase.saveStop(users, current.getUser().getUsername(), current.getSongname());
         } catch (Exception e){
@@ -97,7 +101,6 @@ public class Lyrics extends AppCompatActivity {
             Log.d("Read username:", username);
             String songname = (String) SerializationBase.loadObject(songfile);
             Log.d("Read songname", songname);
-            Log.d("Read user", "");
            for (User user : users) {
                Log.d("User", user.getUsername());
                if (user.getUsername().equals(username)) {

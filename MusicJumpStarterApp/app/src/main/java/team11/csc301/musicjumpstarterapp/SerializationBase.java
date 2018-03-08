@@ -37,7 +37,6 @@ public class SerializationBase extends Activity {
         String usersfile = "/users.ser";
         String userfile = "/user.ser";
         String songfile = "/song.ser";
-        Log.d("saveStop:", username);
         saveObject(users, usersfile);
         saveObject(username, userfile);
         saveObject(songname, songfile);
