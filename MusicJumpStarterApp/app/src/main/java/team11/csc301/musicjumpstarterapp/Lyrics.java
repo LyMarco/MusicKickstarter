@@ -24,13 +24,13 @@ import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
     // My Permissions
-    private final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
-    private final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
+    private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
+    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
     // Finals needed for Verses
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int VERSE_MARGINS = 120;
-    // Activity Layour
+    // Activity Layout
     LinearLayout layout;
     // Variables for Audio Recording and Playback
     private boolean paused = true;
@@ -44,12 +44,16 @@ public class Lyrics extends AppCompatActivity {
         setContentView(R.layout.activity_lyrics);
         layout = findViewById(R.id.lyricLayout);
 
-
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
         }
+        // Did they give me the permission I just asked for?
+        if (checkPermissionFromDevice())
+            //Initialize Audio Recorder
+            recorder = new MediaRecorder();
+
 
         // Initialize the verses layout
         initVerses();
@@ -218,9 +222,7 @@ public class Lyrics extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-        AUDIO RECORDING SECTION OF MAIN ACTIVITY
-    */
+    /* ================ AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
     /**
         Called when the play/pause button is pressed
@@ -394,5 +396,5 @@ public class Lyrics extends AppCompatActivity {
         return record_audio && store_file;
     }
 
-    /*END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY*/
+    /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 }
