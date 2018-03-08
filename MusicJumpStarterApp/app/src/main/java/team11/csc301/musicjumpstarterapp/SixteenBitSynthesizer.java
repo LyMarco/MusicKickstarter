@@ -13,8 +13,8 @@ public class SixteenBitSynthesizer {
     //https://pages.mtu.edu/~suits/notefreqs.html
     //The double values are the frequency of the notes
     public enum Notes {
-        Beat(330),
-        other(440),
+        Beat(440),
+        other(660),
         A(440),
         B(493.88),
         C(523.25),
@@ -57,7 +57,10 @@ public class SixteenBitSynthesizer {
     public double[] getNoteWave(Notes note) {
         double[] wave = new double[1000];
         for (int i = 0; i < 1000; i++) {
-            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 8000);
+            //Sine wave representing a drum hit
+            //Think of a sine wave were the amplitude decreases as you go further
+            //http://www.credland.net/kick-drum-theory/
+            wave[i] = Math.sin(2 * Math.PI * i * note.getValue() / 8000) / (i / 4);
         }
         return wave;
     }
