@@ -211,15 +211,21 @@ public class Lyrics extends AppCompatActivity {
             return v + ".";
         }
     }
-    
+
     /** Called when the user taps the Metronome button */
     public void sendMetronome(View view) {
         Intent intent = new Intent(this, MetronomeActivity.class);
         startActivity(intent);
     }
 
-    /*AUDIO RECORDING SECTION OF MAIN ACTIVITY*/
+    /*
+        AUDIO RECORDING SECTION OF MAIN ACTIVITY
+    */
 
+    /**
+        Called when the play/pause button is pressed
+        @param  view the button
+     */
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
         int icon;
@@ -244,6 +250,10 @@ public class Lyrics extends AppCompatActivity {
                 ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
+    /**
+     * Called when the recording button is pressed
+     * @param view the button
+     */
     public void recButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
         int icon;
@@ -273,6 +283,10 @@ public class Lyrics extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets up the MediaRecorder's input and output formats and sources
+     * @param filepath the path that the MediaRecorder will save to
+     */
     private void setupMediaRecorder(String filepath) {
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -280,12 +294,20 @@ public class Lyrics extends AppCompatActivity {
         recorder.setOutputFile(filepath);
     }
 
+    /**
+     * Runs a function in a thread and prints a message via a Toast if the message is not blank
+     * @param func function to be run on a new Thread
+     * @param message print message
+     */
     private void runOnThread(final Runnable func, String message) {
         new Thread(func).start();
         if (!message.equals(""))
             Toast.makeText(Lyrics.this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Starts the audio recording
+     */
     private void startRecording() {
         try {
             recorder.prepare();
@@ -295,11 +317,17 @@ public class Lyrics extends AppCompatActivity {
         }
     }
 
+    /**
+     * Stops the audio recording
+     */
     private void stopRecording() {
         recorder.stop();
         recorder.reset();
     }
 
+    /**
+     * Starts audio playback
+     */
     private void startPlayback(){
         try {
             player.setDataSource(audioPath);
@@ -310,6 +338,9 @@ public class Lyrics extends AppCompatActivity {
         player.start();
     }
 
+    /**
+     * Stops audio playback
+     */
     private void stopPlayback(){
         if(player != null) {
             player.stop();
@@ -317,6 +348,13 @@ public class Lyrics extends AppCompatActivity {
 //                    setupMediaRecorder(path);
         }
     }
+
+    /**
+     * Checks for all permissions needed for Audio
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -344,6 +382,10 @@ public class Lyrics extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if we currently have permissions
+     * @return whether we have permissions
+     */
     private boolean checkPermissionFromDevice() {
         boolean record_audio = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
