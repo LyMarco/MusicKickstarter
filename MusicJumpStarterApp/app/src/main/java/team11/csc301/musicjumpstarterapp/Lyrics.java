@@ -3,8 +3,6 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,13 +25,16 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+// Media Imports
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 // IO Imports
 import android.text.InputType;
 import java.io.File;
 import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
-    // My Permissions
+    // Recording Permissions
     private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
     // Finals needed for Verses
