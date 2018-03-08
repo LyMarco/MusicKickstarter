@@ -34,9 +34,8 @@ import java.io.File;
 import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
-    // Recording Permissions
-    private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
-    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
+    // Finals for requesting Recording Permissions
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
@@ -62,12 +61,8 @@ public class Lyrics extends AppCompatActivity {
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
         }
-        // Did they give me the permission I just asked for?
-        if (checkPermissionFromDevice())
-            //Initialize Audio Recorder
-            recorder = new MediaRecorder();
 
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
         initVerses();
@@ -329,7 +324,7 @@ public class Lyrics extends AppCompatActivity {
         ImageButton button = (ImageButton) view;
         int icon;
         paused = !paused;
-        if (!paused) {
+        if (paused) {
             icon = R.drawable.record;
             // TODO: Make audio path changeable rather than setting randoms
             audioPath = Environment.getExternalStorageDirectory()
@@ -430,7 +425,7 @@ public class Lyrics extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_RECORD_AUDIO: {
+            case PERMISSIONS_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -439,16 +434,6 @@ public class Lyrics extends AppCompatActivity {
                     recorder = new MediaRecorder();
                 } else {
                     Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-            case PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Save Permission Granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Save Permission Denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
