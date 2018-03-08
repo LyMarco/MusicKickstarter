@@ -1,41 +1,74 @@
 package team11.csc301.musicjumpstarterapp;
 
-
-import android.content.Intent;
-import android.os.Environment;
+// Manifest Import
+import android.Manifest;
+// Support Imports
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+// os Imports
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
+import android.os.Environment;
+// Content and Widget Imports
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.widget.ImageButton;
+// Layout Imports
 import android.widget.LinearLayout;
-
-import java.io.File;
+// Text, Logs, Views Imports
+import android.view.View;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
+// Data Structures Imports
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+// Media Imports
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+// IO Imports
+import android.text.InputType;
+import java.io.File;
+import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
+    // Recording Permissions
+    private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 100;
+    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 200;
+    // Finals needed for Verses
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int VERSE_MARGINS = 120;
-    public static  Song current = null;
-    public static HashSet<User> users = new HashSet<User>();
-    public static String sPath;
-
-
+    // Activity Layout
     LinearLayout layout;
+    //
+    public static Song current = null;
+    public static HashSet<Song> songs = new HashSet<Song>();
+    public static String sPath;
+    // Variables needed for Audio handling
     private boolean paused = true;
+    private MediaRecorder recorder;
+    private MediaPlayer player;
+    private String audioPath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
-
-
         layout = findViewById(R.id.lyricLayout);
+
+        // Check that you have the proper recording and saving permissions
+        if (!checkPermissionFromDevice()) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+        }
+        // Did they give me the permission I just asked for?
+        if (checkPermissionFromDevice())
+            //Initialize Audio Recorder
+            recorder = new MediaRecorder();
+
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
         init();
     }
@@ -61,16 +94,18 @@ public class Lyrics extends AppCompatActivity {
             titles.add(titleText);
         }
         LinearLayout noteLayout = findViewById(R.id.notesLayout);
-        for (int i = 0; i < noteLayout.getChildCount(); i += 1) {
-            note = (EditText) noteLayout.getChildAt(i);
-            noteText = note.getText().toString();
-            notes.add(noteText);
+        if (noteLayout != null) {
+            for (int i = 0; i < noteLayout.getChildCount(); i += 1) {
+                note = (EditText) noteLayout.getChildAt(i);
+                noteText = note.getText().toString();
+                notes.add(noteText);
+            }
         }
         current.setVerses(verses);
         current.setTitles(titles);
         current.setNotes(notes);
         try {
-            SerializationBase.saveStop(users, current.getUser().getUsername(), current.getSongname());
+            SerializationBase.saveStop(songs, current.getSongname());
         } catch (Exception e){
             Log.v("Save_Stop Error : ",e.getMessage());
             e.printStackTrace();
@@ -84,30 +119,28 @@ public class Lyrics extends AppCompatActivity {
     public void init() {
         // Dessrialize test
         Log.d("Init:", "start");
-       if (! new File(sPath + "/users.ser").isFile()) {
-            User user = new User("Default");
-            users.add(user);
-            current = new Song(user, "Default");
-            user.addSong(current);
+        if (! new File(sPath + "/users.ser").isFile()) {
+            current = new Song("Default");
+            songs.add(current);
             Log.d("Not_Found:", sPath + "/users.ser");
         } else {
             Log.d("Read: ", "Start read");
             HashSet<User> users = null;
             String usersfile = "/users.ser";
-            String userfile = "/user.ser";
             String songfile = "/song.ser";
-            users = SerializationBase.genericLoad(usersfile, new HashSet<User>());
-            String username = (String) SerializationBase.loadObject(userfile);
-            Log.d("Read username:", username);
+            songs = SerializationBase.genericLoad(usersfile, new HashSet<Song>());
             String songname = (String) SerializationBase.loadObject(songfile);
             Log.d("Read songname", songname);
-           for (User user : users) {
-               Log.d("User", user.getUsername());
-               if (user.getUsername().equals(username)) {
-                   Log.d("User", user.getSong(songname).getSongname());
-                   current = user.getSong(songname);
-               }
-           }
+            for (Song s : songs) {
+                Log.d("Song ", s.getSongname());
+                if (s.getSongname().equals(songname)) {
+                    Log.d("Current_find", s.getSongname());
+                    current = s;
+                }
+            }
+            if (current  == null) {
+                current = new Song("Default");
+            }
         }
         //
         int verseCount = getVerseCountFromFile();
@@ -117,37 +150,6 @@ public class Lyrics extends AppCompatActivity {
 
         //Test Lyrics Suggestions
         String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
-    }
-
-
-    public void buttonPressed(View view) {
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.pause;
-        }
-        else {
-            paused = true;
-            icon = R.drawable.play;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
     public void goToNotes(View view) {
@@ -292,4 +294,182 @@ public class Lyrics extends AppCompatActivity {
         Intent intent = new Intent(this, MetronomeActivity.class);
         startActivity(intent);
     }
+
+    /* ================ AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
+
+    /**
+     * Called when the play/pause button is pressed
+     * Updates the button image and runs associated function on a Thread
+     * @param  view the button
+     */
+    public void playButtonPressed(View view) {
+        ImageButton button = (ImageButton) view;
+        int icon;
+        paused = !paused;
+        if (!paused) {
+            icon = R.drawable.pause;
+            player = new MediaPlayer();
+            runOnThread(new Runnable() {
+                public void run() {
+                    startPlayback();
+                }
+            }, "Playing...");
+        } else {
+            icon = R.drawable.play;
+            runOnThread(new Runnable() {
+                public void run() {
+                    stopPlayback();
+                }
+            }, "");
+        }
+        button.setImageDrawable(
+                ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    /**
+     * Called when the recording button is pressed
+     * Updates the button image and runs associated function on a Thread
+     * @param view the button
+     */
+    public void recButtonPressed(View view) {
+        ImageButton button = (ImageButton) view;
+        int icon;
+        paused = !paused;
+        if (!paused) {
+            icon = R.drawable.record;
+            // TODO: Make audio path changeable rather than setting randoms
+            audioPath = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath()+"/"
+                    + UUID.randomUUID().toString()+"_audio_rec.3gp";
+            setupMediaRecorder(audioPath);
+            runOnThread(new Runnable() {
+                public void run() {
+                    stopRecording();
+                }
+            }, "Recording Stopped");
+        } else {
+            icon = R.drawable.record_stop;
+            runOnThread(new Runnable() {
+                public void run() {
+                    startRecording();
+                }
+            }, "Recording...");
+        }
+        button.setImageDrawable(
+                ContextCompat.getDrawable(getApplicationContext(), icon));
+
+    }
+
+    /**
+     * Sets up the MediaRecorder's input and output formats and sources
+     * @param filepath the path that the MediaRecorder will save to
+     */
+    private void setupMediaRecorder(String filepath) {
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(filepath);
+    }
+
+    /**
+     * Runs a function in a thread and prints a message via a Toast if the message is not blank
+     * @param func function to be run on a new Thread
+     * @param message print message
+     */
+    private void runOnThread(final Runnable func, String message) {
+        new Thread(func).start();
+        if (!message.equals(""))
+            Toast.makeText(Lyrics.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Starts the audio recording
+     */
+    private void startRecording() {
+        try {
+            recorder.prepare();
+            recorder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Stops the audio recording
+     */
+    private void stopRecording() {
+        recorder.stop();
+        recorder.reset();
+    }
+
+    /**
+     * Starts audio playback
+     */
+    private void startPlayback(){
+        try {
+            player.setDataSource(audioPath);
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.start();
+    }
+
+    /**
+     * Stops audio playback
+     */
+    private void stopPlayback(){
+        if(player != null) {
+            player.stop();
+            player.release();
+//                    setupMediaRecorder(path);
+        }
+    }
+
+    /**
+     * Checks for all permissions needed for Audio
+     * @param requestCode tag
+     * @param permissions tag
+     * @param grantResults tag
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_RECORD_AUDIO: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Save Permission Granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Save Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * Checks if we currently have permissions
+     * @return whether we have permissions
+     */
+    private boolean checkPermissionFromDevice() {
+        boolean record_audio = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        boolean store_file = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        return record_audio && store_file;
+    }
+
+    /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 // The class represent a song
 public class Song implements Serializable{
-    private User user;
     private String songname;
     private ArrayList<String> verses;
     private ArrayList<String> titles;
@@ -17,17 +16,12 @@ public class Song implements Serializable{
     // Variable of Audio
 
     // Init Constructor
-    public Song(User user, String songname) {
-        this.user = user;
+    public Song(String songname) {
         this.songname = songname;
         this.verses = new ArrayList<String>();
         this.titles = new ArrayList<String>();
         this.notes = new ArrayList<String>();
         //this.metronome = null;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public String getSongname() {
