@@ -162,8 +162,6 @@
         android:layout_alignRight="@+id/recordButton"
         android:layout_alignEnd="@+id/recordButton" />
 
-
-
     <include
         android:id="@+id/include"
         layout="@layout/content_lyrics"
@@ -180,8 +178,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="createNewVerse"
-        android:text="Add Verse"
+        android:text="@string/add_verse"
         app:layout_constraintBottom_toBottomOf="@id/toolbar2"
         app:layout_constraintLeft_toLeftOf="parent" />
+
 
 </RelativeLayout>

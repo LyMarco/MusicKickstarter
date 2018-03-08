@@ -71,7 +71,7 @@ public class Lyrics extends AppCompatActivity {
 
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
         Log.d("Path",sPath);
-        init();
+        initVerses();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class Lyrics extends AppCompatActivity {
      * Initialize the activity by creating all saved verses and storing the ID's of the views for
      * each of these verses and their titles.
      */
-    public void init() {
+    public void initVerses() {
         // Dessrialize test
         Log.d("Init:", "start");
        if (! new File(sPath + "/users.ser").isFile()) {
@@ -438,6 +438,8 @@ public class Lyrics extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
+                    //Initialize Audio Recorder
+                    recorder = new MediaRecorder();
                 } else {
                     Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
                 }
