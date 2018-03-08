@@ -7,6 +7,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,6 +84,13 @@ public class Lyrics extends AppCompatActivity {
 
         //Test Lyrics Suggestions
         String suggestions = LyricsSuggestion.GetSuggestions(this, "tomato");
+    }
+
+    public void goToNotes(View view) {
+        Intent intent = new Intent(Lyrics.this, Notes.class);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**
@@ -203,10 +211,14 @@ public class Lyrics extends AppCompatActivity {
             return v + ".";
         }
     }
+    
+    /** Called when the user taps the Metronome button */
+    public void sendMetronome(View view) {
+        Intent intent = new Intent(this, MetronomeActivity.class);
+        startActivity(intent);
+    }
 
-    /**
-     * AUDIO RECORDING SECTION OF MAIN ACTIVITY
-     */
+    /*AUDIO RECORDING SECTION OF MAIN ACTIVITY*/
 
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
@@ -340,7 +352,5 @@ public class Lyrics extends AppCompatActivity {
         return record_audio && store_file;
     }
 
-    /**
-     * END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY
-     */
+    /*END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY*/
 }
