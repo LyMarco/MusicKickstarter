@@ -79,11 +79,11 @@ public class Lyrics extends AppCompatActivity {
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
-        EditText title, verse, note;
-        String titleText, verseText, noteText;
+        EditText title, verse, songTitle;
+        String titleText, verseText;
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
-        ArrayList<String> notes = new ArrayList<String>();
+        songTitle = (EditText) findViewById(R.id.editText7);
         for (int i = 0; i < layout.getChildCount(); i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
@@ -93,17 +93,9 @@ public class Lyrics extends AppCompatActivity {
             verses.add(verseText);
             titles.add(titleText);
         }
-        LinearLayout noteLayout = findViewById(R.id.notesLayout);
-        if (noteLayout != null) {
-            for (int i = 0; i < noteLayout.getChildCount(); i += 1) {
-                note = (EditText) noteLayout.getChildAt(i);
-                noteText = note.getText().toString();
-                notes.add(noteText);
-            }
-        }
         current.setVerses(verses);
         current.setTitles(titles);
-        current.setNotes(notes);
+        current.setSongname(songTitle.getText().toString());
         try {
             SerializationBase.saveStop(songs, current.getSongname());
         } catch (Exception e){
@@ -119,16 +111,16 @@ public class Lyrics extends AppCompatActivity {
     public void init() {
         // Dessrialize test
         Log.d("Init:", "start");
-        if (! new File(sPath + "/users.ser").isFile()) {
+        if (! new File(sPath + "/songs.ser").isFile()) {
             current = new Song("Default");
             songs.add(current);
-            Log.d("Not_Found:", sPath + "/users.ser");
+            Log.d("Not_Found:", sPath + "/songs.ser");
         } else {
             Log.d("Read: ", "Start read");
             HashSet<User> users = null;
-            String usersfile = "/users.ser";
+            String songsfile = "/songs.ser";
             String songfile = "/song.ser";
-            songs = SerializationBase.genericLoad(usersfile, new HashSet<Song>());
+            songs = SerializationBase.genericLoad(songsfile, new HashSet<Song>());
             String songname = (String) SerializationBase.loadObject(songfile);
             Log.d("Read songname", songname);
             for (Song s : songs) {
@@ -144,6 +136,8 @@ public class Lyrics extends AppCompatActivity {
         }
         //
         int verseCount = getVerseCountFromFile();
+        EditText songTitle = findViewById(R.id.editText7);
+        songTitle.setText(current.getSongname());
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
         }
