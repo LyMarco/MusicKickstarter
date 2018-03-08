@@ -75,8 +75,8 @@ public class Lyrics extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
