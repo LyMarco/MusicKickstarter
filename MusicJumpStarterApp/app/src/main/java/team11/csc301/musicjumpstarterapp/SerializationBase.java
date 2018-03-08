@@ -32,14 +32,11 @@ public class SerializationBase extends Activity {
     }
 
     // This method should be in main
-    public static void saveStop(HashSet<User> users, String username, String songname)
+    public static void saveStop(HashSet<Song> songs, String songname)
             throws IOException, ClassNotFoundException {
         String usersfile = "/users.ser";
-        String userfile = "/user.ser";
         String songfile = "/song.ser";
-        Log.d("saveStop:", username);
-        saveObject(users, usersfile);
-        saveObject(username, userfile);
+        saveObject(songs, usersfile);
         saveObject(songname, songfile);
     }
 
@@ -122,7 +119,7 @@ public class SerializationBase extends Activity {
                 s += "/" + m;
             }
         }
-        return '/' + song.getUser().getUsername() + '/' + song.getSongname() + '/' + type + s;
+        return '/' + song.getSongname() + '/' + type + s;
     }
 
 }

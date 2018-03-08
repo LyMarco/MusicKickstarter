@@ -44,8 +44,8 @@ public class Lyrics extends AppCompatActivity {
     // Activity Layout
     LinearLayout layout;
     //
-    public static  Song current = null;
-    public static HashSet<User> users = new HashSet<User>();
+    public static Song current = null;
+    public static HashSet<Song> songs = new HashSet<Song>();
     public static String sPath;
     // Variables needed for Audio handling
     private boolean paused = true;
@@ -70,7 +70,6 @@ public class Lyrics extends AppCompatActivity {
             recorder = new MediaRecorder();
 
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
-        Log.d("Path",sPath);
         initVerses();
     }
 
@@ -80,10 +79,11 @@ public class Lyrics extends AppCompatActivity {
 
         // Need to save text from each verse to file along with their titles in a format so that we
         // can keep the ordering of the verses.
-        EditText title, verse;
-        String titleText, verseText;
+        EditText title, verse, note;
+        String titleText, verseText, noteText;
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
+        ArrayList<String> notes = new ArrayList<String>();
         for (int i = 0; i < layout.getChildCount(); i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
@@ -92,14 +92,20 @@ public class Lyrics extends AppCompatActivity {
             /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
             verses.add(verseText);
             titles.add(titleText);
-            Log.d("onStop:", verseText);
         }
-        Log.d("onStop:", "Set");
-        Log.d("onStop:", verses.get(0));
+        LinearLayout noteLayout = findViewById(R.id.notesLayout);
+        if (noteLayout != null) {
+            for (int i = 0; i < noteLayout.getChildCount(); i += 1) {
+                note = (EditText) noteLayout.getChildAt(i);
+                noteText = note.getText().toString();
+                notes.add(noteText);
+            }
+        }
         current.setVerses(verses);
         current.setTitles(titles);
+        current.setNotes(notes);
         try {
-            SerializationBase.saveStop(users, current.getUser().getUsername(), current.getSongname());
+            SerializationBase.saveStop(songs, current.getSongname());
         } catch (Exception e){
             Log.v("Save_Stop Error : ",e.getMessage());
             e.printStackTrace();
@@ -113,31 +119,28 @@ public class Lyrics extends AppCompatActivity {
     public void initVerses() {
         // Dessrialize test
         Log.d("Init:", "start");
-       if (! new File(sPath + "/users.ser").isFile()) {
-            User user = new User("Default");
-            users.add(user);
-            current = new Song(user, "Default");
-            user.addSong(current);
+        if (! new File(sPath + "/users.ser").isFile()) {
+            current = new Song("Default");
+            songs.add(current);
             Log.d("Not_Found:", sPath + "/users.ser");
         } else {
             Log.d("Read: ", "Start read");
             HashSet<User> users = null;
             String usersfile = "/users.ser";
-            String userfile = "/user.ser";
             String songfile = "/song.ser";
-            users = SerializationBase.genericLoad(usersfile, new HashSet<User>());
-            String username = (String) SerializationBase.loadObject(userfile);
-            Log.d("Read username:", username);
+            songs = SerializationBase.genericLoad(usersfile, new HashSet<Song>());
             String songname = (String) SerializationBase.loadObject(songfile);
             Log.d("Read songname", songname);
-            Log.d("Read user", "");
-           for (User user : users) {
-               Log.d("User", user.getUsername());
-               if (user.getUsername().equals(username)) {
-                   Log.d("User", user.getSong(songname).getSongname());
-                   current = user.getSong(songname);
-               }
-           }
+            for (Song s : songs) {
+                Log.d("Song ", s.getSongname());
+                if (s.getSongname().equals(songname)) {
+                    Log.d("Current_find", s.getSongname());
+                    current = s;
+                }
+            }
+            if (current  == null) {
+                current = new Song("Default");
+            }
         }
         //
         int verseCount = getVerseCountFromFile();
