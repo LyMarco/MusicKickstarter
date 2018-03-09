@@ -63,6 +63,10 @@ public class Lyrics extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
         }
+        if (checkPermissionFromDevice()) {
+            //Initialize Audio Recorder
+            recorder = new MediaRecorder();
+        }
 
         sPath = getApplicationContext().getFilesDir().getAbsolutePath();
         initVerses();
@@ -326,11 +330,6 @@ public class Lyrics extends AppCompatActivity {
         paused = !paused;
         if (paused) {
             icon = R.drawable.record;
-            // TODO: Make audio path changeable rather than setting randoms
-            audioPath = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath()+"/"
-                    + UUID.randomUUID().toString()+"_audio_rec.3gp";
-            setupMediaRecorder(audioPath);
             runOnThread(new Runnable() {
                 public void run() {
                     stopRecording();
@@ -338,6 +337,11 @@ public class Lyrics extends AppCompatActivity {
             }, "Recording Stopped");
         } else {
             icon = R.drawable.record_stop;
+            // TODO: Make audio path changeable rather than setting randoms
+            audioPath = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath()+"/"
+                    + UUID.randomUUID().toString()+"_audio_rec.3gp";
+            setupMediaRecorder(audioPath);
             runOnThread(new Runnable() {
                 public void run() {
                     startRecording();
@@ -346,7 +350,6 @@ public class Lyrics extends AppCompatActivity {
         }
         button.setImageDrawable(
                 ContextCompat.getDrawable(getApplicationContext(), icon));
-
     }
 
     /**
@@ -430,8 +433,6 @@ public class Lyrics extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Mic Permission Granted", Toast.LENGTH_SHORT).show();
-                    //Initialize Audio Recorder
-                    recorder = new MediaRecorder();
                 } else {
                     Toast.makeText(this, "Mic Permission Denied", Toast.LENGTH_SHORT).show();
                 }
