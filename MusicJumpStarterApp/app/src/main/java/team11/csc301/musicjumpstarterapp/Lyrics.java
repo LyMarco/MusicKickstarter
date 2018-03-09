@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lyrics extends AppCompatActivity {
     public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
@@ -57,7 +59,7 @@ public class Lyrics extends AppCompatActivity {
         }
 
         //Test Lyrics Suggestions
-        String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
+        //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
     }
 
     public void buttonPressed(View view) {
@@ -94,9 +96,23 @@ public class Lyrics extends AppCompatActivity {
         EditText verse = (EditText)getCurrentFocus();
         Editable text = verse.getEditableText();
         String word = text.toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
-        String suggestion = LyricsSuggestion.GetSuggestions(this, word);
-        text.append(suggestion);
+        //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
+        LyricsSuggestion.GetSuggestions(this, word);
+        //text.append(suggestion);
         verse.setText(text);
+    }
+
+    // suggestions are just rhymes for now
+    public void onSuggestionReceived(List<String> rhymes){
+        //Log.v("GetSuggestions", suggestion);
+        String rhymesStr = "";
+        for (String rhyme : rhymes) {
+            rhymesStr += rhyme + ", ";
+        }
+        EditText verse = (EditText)getCurrentFocus();
+        Editable text = verse.getEditableText();
+
+        text.append(rhymesStr);
     }
 
     /**
