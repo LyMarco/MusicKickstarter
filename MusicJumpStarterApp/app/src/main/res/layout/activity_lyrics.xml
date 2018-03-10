@@ -6,12 +6,18 @@
     android:layout_height="match_parent"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
 
+
+
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eeeeee"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
+
+
+
+
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -22,6 +28,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/toolbar"
         android:layout_alignStart="@+id/toolbar" />
+
+
 
 
     <ImageButton
@@ -182,5 +190,15 @@
         android:text="Add Verse"
         app:layout_constraintBottom_toBottomOf="@id/toolbar2"
         app:layout_constraintLeft_toLeftOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/horizontal_recycler_view_suggestions"
+        android:background="#eeeeee"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="70dp"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignLeft="@+id/toolbar"
+        android:layout_alignStart="@+id/toolbar"/>
 
 </RelativeLayout>
