@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ class DataWrapper {
     }
 }
 class SuggestionResponse {
-    public List<String> rhymes;
+    public ArrayList<String> rhymes;
     public String defenition;
     public List<String> examples;
     public List<String> synonyms;

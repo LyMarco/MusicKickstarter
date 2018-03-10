@@ -183,7 +183,7 @@
         android:id="@+id/addVerse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/toolbar2"
+        android:layout_above="@+id/horizontal_recycler_view_suggestions"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="createNewVerse"
@@ -193,12 +193,12 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizontal_recycler_view_suggestions"
-        android:background="#eeeeee"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_height="70dp"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_alignLeft="@+id/toolbar"
-        android:layout_alignStart="@+id/toolbar"/>
+        android:layout_above="@+id/toolbar2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#eeeeee"
+        android:minHeight="?attr/actionBarSize" />
 
 </RelativeLayout>

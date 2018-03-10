@@ -29,7 +29,7 @@ public class Lyrics extends AppCompatActivity {
     private boolean paused = true;
 
     private RecyclerView horizontal_recycler_view_suggestions;
-    private ArrayList<String> horizontalList;
+    private ArrayList<String> Suggestions;
     private HorizontalAdapter horizontalAdapter;
 
     public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
@@ -88,19 +88,9 @@ public class Lyrics extends AppCompatActivity {
 
         layout = findViewById(R.id.lyricLayout);
         horizontal_recycler_view_suggestions= (RecyclerView) findViewById(R.id.horizontal_recycler_view_suggestions);
-        horizontalList=new ArrayList<>();
-        horizontalList.add("horizontal 1");
-        horizontalList.add("horizontal 2");
-        horizontalList.add("horizontal 3");
-        horizontalList.add("horizontal 4");
-        horizontalList.add("horizontal 5");
-        horizontalList.add("horizontal 6");
-        horizontalList.add("horizontal 7");
-        horizontalList.add("horizontal 8");
-        horizontalList.add("horizontal 9");
-        horizontalList.add("horizontal 10");
+        Suggestions=new ArrayList<>();
 
-        horizontalAdapter=new HorizontalAdapter(horizontalList);
+        horizontalAdapter=new HorizontalAdapter(Suggestions);
 
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(Lyrics.this, LinearLayoutManager.HORIZONTAL, false);
@@ -184,16 +174,20 @@ public class Lyrics extends AppCompatActivity {
     }
 
     // suggestions are just rhymes for now
-    public void onSuggestionReceived(List<String> rhymes){
+    public void onSuggestionReceived(ArrayList<String> rhymes){
         //Log.v("GetSuggestions", suggestion);
         String rhymesStr = "";
         for (String rhyme : rhymes) {
             rhymesStr += rhyme + ", ";
         }
-        EditText verse = (EditText)getCurrentFocus();
-        Editable text = verse.getEditableText();
+        //EditText verse = (EditText)getCurrentFocus();
+        //Editable text = verse.getEditableText();
+        //text.append(rhymesStr);
 
-        text.append(rhymesStr);
+        // Remove any previous suggestions and add new ones
+        Suggestions.clear();
+        Suggestions.addAll(rhymes);
+        horizontalAdapter.notifyDataSetChanged();
     }
 
     /**
