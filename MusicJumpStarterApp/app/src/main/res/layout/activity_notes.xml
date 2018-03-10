@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
-
-
+    tools:context="team11.csc301.musicjumpstarterapp.Notes">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -14,10 +12,6 @@
         android:background="#eeeeee"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
-
-
-
-
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -28,8 +22,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/toolbar"
         android:layout_alignStart="@+id/toolbar" />
-
-
 
 
     <ImageButton
@@ -44,21 +36,20 @@
         android:background="#eeeeee" />
 
     <ImageButton
-        android:id="@+id/metronomeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:id="@+id/metronomeButton"
+        android:src="@drawable/metronome"
+        android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/lyricsButton"
         android:layout_toStartOf="@+id/lyricsButton"
-        android:background="#eeeeee"
-        android:onClick="sendMetronome"
-        android:src="@drawable/metronome" />
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_alignBottom="@+id/toolbar" />
 
     <ImageButton
-        android:id="@+id/notesButton"
+        android:id="@+id/backtoLyricsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
@@ -68,8 +59,8 @@
         android:layout_marginEnd="35dp"
         android:layout_marginRight="35dp"
         android:background="#eeeeee"
-        android:onClick="goToNotes"
-        android:src="@drawable/notes" />
+        android:onClick="goToLyrics"
+        android:src="@drawable/lyrics" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -91,8 +82,8 @@
         android:src="@drawable/drawer"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/notesButton"
-        android:layout_toStartOf="@+id/notesButton"
+        android:layout_toLeftOf="@+id/backtoLyricsButton"
+        android:layout_toStartOf="@+id/backtoLyricsButton"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
         android:layout_alignBottom="@+id/toolbar2" />
@@ -114,7 +105,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/playButton"
         android:src="@drawable/play"
-        android:onClick="playButtonPressed"
+        android:onClick="buttonPressed"
         android:background="#eeeeee"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toLeftOf="@+id/forwardButton"
@@ -126,7 +117,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/recordButton"
         android:src="@drawable/record"
-        android:onClick="recButtonPressed"
+        android:onClick="buttonPressed2"
         android:background="#eeeeee"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -136,16 +127,15 @@
         android:layout_alignTop="@+id/toolbar2" />
 
     <ImageButton
-        android:id="@+id/lyricsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:id="@+id/lyricsButton"
+        android:src="@drawable/help"
+        android:background="#eeeeee"
+        android:layout_alignTop="@+id/toolbar"
         android:layout_alignLeft="@+id/drawerButton"
         android:layout_alignStart="@+id/drawerButton"
-        android:layout_alignTop="@+id/toolbar"
-        android:background="#eeeeee"
-        android:onClick="getLyricSuggestion"
-        android:src="@drawable/help" />
+        android:layout_alignBottom="@+id/toolbar" />
 
     <EditText
         android:id="@+id/editText7"
@@ -171,34 +161,26 @@
         android:layout_alignRight="@+id/recordButton"
         android:layout_alignEnd="@+id/recordButton" />
 
+
+
     <include
         android:id="@+id/include"
-        layout="@layout/content_lyrics"
+        layout="@layout/content_notes"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
     <Button
-        android:id="@+id/addVerse"
+        android:id="@+id/addNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/horizontal_recycler_view_suggestions"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="createNewVerse"
-        android:text="@string/add_verse"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar2"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/horizontal_recycler_view_suggestions"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
         android:layout_above="@+id/toolbar2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#eeeeee"
-        android:minHeight="?attr/actionBarSize" />
+        android:onClick="createNewNote"
+        android:text="Add Note"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar2"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </RelativeLayout>
