@@ -9,6 +9,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 // os Imports
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.os.Environment;
 // Content and Widget Imports
 import android.content.Intent;
@@ -16,6 +25,11 @@ import android.content.pm.PackageManager;
 import android.widget.ImageButton;
 // Layout Imports
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 // Text, Logs, Views Imports
 import android.view.View;
 import android.util.Log;
@@ -52,11 +66,74 @@ public class Lyrics extends AppCompatActivity {
     private MediaPlayer player;
     private String audioPath = "";
 
+    private RecyclerView horizontal_recycler_view_suggestions;
+    private ArrayList<String> Suggestions;
+    private HorizontalAdapter horizontalAdapter;
+
+    public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
+
+        private List<String> horizontalList;
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView txtView;
+
+            public MyViewHolder(View view) {
+                super(view);
+                txtView = (TextView) view.findViewById(R.id.txtView);
+
+            }
+        }
+
+
+        public HorizontalAdapter(List<String> horizontalList) {
+            this.horizontalList = horizontalList;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.horizontal_item_view, parent, false);
+
+            return new MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolder holder, final int position) {
+            holder.txtView.setText(horizontalList.get(position));
+
+            holder.txtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(Lyrics.this,holder.txtView.getText().toString(),Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return horizontalList.size();
+        }
+    }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
         layout = findViewById(R.id.lyricLayout);
+        horizontal_recycler_view_suggestions= (RecyclerView) findViewById(R.id.horizontal_recycler_view_suggestions);
+        Suggestions=new ArrayList<>();
+
+        horizontalAdapter=new HorizontalAdapter(Suggestions);
+
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(Lyrics.this, LinearLayoutManager.HORIZONTAL, false);
+        horizontal_recycler_view_suggestions.setLayoutManager(horizontalLayoutManager);
+
+        horizontal_recycler_view_suggestions.setAdapter(horizontalAdapter);
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -142,7 +219,7 @@ public class Lyrics extends AppCompatActivity {
         }
 
         //Test Lyrics Suggestions
-        String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
+        //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
     }
 
     public void goToNotes(View view) {
@@ -151,7 +228,49 @@ public class Lyrics extends AppCompatActivity {
             startActivity(intent);
         }
     }
-  
+
+    public void buttonPressed2(View view) {
+
+        ImageButton button = (ImageButton) view;
+        int icon;
+        if (paused) {
+            paused = false;
+            icon = R.drawable.record;
+        } else {
+            paused = true;
+            icon = R.drawable.record_stop;
+        }
+        button.setImageDrawable(
+        ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    public void getLyricSuggestion(View view) {
+        EditText verse = (EditText)getCurrentFocus();
+        Editable text = verse.getEditableText();
+        String word = text.toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
+        //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
+        LyricsSuggestion.GetSuggestions(this, word);
+        //text.append(suggestion);
+        verse.setText(text);
+    }
+
+    // suggestions are just rhymes for now
+    public void onSuggestionReceived(ArrayList<String> rhymes){
+        //Log.v("GetSuggestions", suggestion);
+        String rhymesStr = "";
+        for (String rhyme : rhymes) {
+            rhymesStr += rhyme + ", ";
+        }
+        //EditText verse = (EditText)getCurrentFocus();
+        //Editable text = verse.getEditableText();
+        //text.append(rhymesStr);
+
+        // Remove any previous suggestions and add new ones
+        Suggestions.clear();
+        Suggestions.addAll(rhymes);
+        horizontalAdapter.notifyDataSetChanged();
+    }
+
     /**
      * Create a verse view along along with its corresponding title view and store their ID's.
      *
