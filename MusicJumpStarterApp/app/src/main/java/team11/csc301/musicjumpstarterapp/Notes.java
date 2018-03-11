@@ -1,8 +1,10 @@
 package team11.csc301.musicjumpstarterapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -100,6 +102,13 @@ public class Notes extends AppCompatActivity {
             return Lyrics.current.getNotes().get(n);
         }
         return "Type note here";
+    }
+
+    public void goToLyrics(View view) {
+        Intent intent = new Intent(Notes.this, Lyrics.class);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
 
