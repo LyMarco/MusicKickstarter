@@ -3,9 +3,13 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 // os Imports
 import android.os.Bundle;
@@ -31,7 +35,6 @@ import android.media.MediaRecorder;
 // IO Imports
 import android.text.InputType;
 import java.io.File;
-import java.util.UUID;
 
 public class Lyrics extends AppCompatActivity {
     // Finals for requesting Recording Permissions
@@ -47,16 +50,26 @@ public class Lyrics extends AppCompatActivity {
     public static HashSet<Song> songs = new HashSet<Song>();
     public static String sPath;
     // Variables needed for Audio handling
-    private boolean paused = true;
+    private boolean playing = false;
+    private boolean recording = false;
     private MediaRecorder recorder;
     private MediaPlayer player;
-    private String audioPath = "";
+    private String audioPath;
+    private int verseNumber;
+    private int takeNumber;
+    // General Activity Variables
+    private FragmentManager fragmanager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
         layout = findViewById(R.id.lyricLayout);
+        fragmanager =  getSupportFragmentManager();
+
+        audioPath = "";
+        verseNumber = 1;
+        takeNumber = 1;
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -297,9 +310,11 @@ public class Lyrics extends AppCompatActivity {
      */
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
+        ImageButton record = findViewById(R.id.recordButton);
         int icon;
-        paused = !paused;
-        if (!paused) {
+        playing = !playing;
+        if (playing) {
+            record.setEnabled(false);
             icon = R.drawable.pause;
             player = new MediaPlayer();
             runOnThread(new Runnable() {
@@ -308,6 +323,7 @@ public class Lyrics extends AppCompatActivity {
                 }
             }, "Playing...");
         } else {
+            record.setEnabled(true);
             icon = R.drawable.play;
             runOnThread(new Runnable() {
                 public void run() {
@@ -326,21 +342,24 @@ public class Lyrics extends AppCompatActivity {
      */
     public void recButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
+        ImageButton play = findViewById(R.id.playButton);
         int icon;
-        paused = !paused;
-        if (paused) {
+        recording = !recording;
+        if (!recording) {
+            play.setEnabled(true);
             icon = R.drawable.record;
+            createAlertDialogue();
             runOnThread(new Runnable() {
                 public void run() {
                     stopRecording();
                 }
             }, "Recording Stopped");
         } else {
+            play.setEnabled(false);
             icon = R.drawable.record_stop;
             // TODO: Make audio path changeable rather than setting randoms
-            audioPath = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath()+"/"
-                    + UUID.randomUUID().toString()+"_audio_rec.3gp";
+            takeNumber++;
+            setAudioPath(verseNumber, takeNumber);
             setupMediaRecorder(audioPath);
             runOnThread(new Runnable() {
                 public void run() {
@@ -350,6 +369,16 @@ public class Lyrics extends AppCompatActivity {
         }
         button.setImageDrawable(
                 ContextCompat.getDrawable(getApplicationContext(), icon));
+    }
+
+    /**
+     * Sets the audio pathway for recording/playing
+     */
+    private void setAudioPath(int verseNum, int takeNum) {
+        //  UUID.randomUUID().toString()
+        audioPath = Environment.getExternalStorageDirectory()
+                .getAbsolutePath()+"/Verse_"
+                + verseNum + "_Take_" + takeNum + ".3gp";
     }
 
     /**
@@ -416,6 +445,26 @@ public class Lyrics extends AppCompatActivity {
             player.release();
 //                    setupMediaRecorder(path);
         }
+    }
+
+    private void createAlertDialogue() {
+//        SaveRecDialogFragment dialog = new SaveRecDialogFragment();
+//        dialog.show(fragmanager);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_save_rec)
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     /**
