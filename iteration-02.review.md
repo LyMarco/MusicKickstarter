@@ -38,23 +38,27 @@ List process-related (i.e. team organization) decisions that, in retrospect, wer
  * Feel free to refer/link to process artifact(s).
 
  * Our GitHub workflow that we had planned out (having everyone work on their standalone features in a branch and then merge to master) had a rough start.
-	* Those unfamiliar with the Git workflow or not understanding how branches were organized might do some messy merges that result in local files being deleted, wasting time and resources in recovering the information.
+	* Those unfamiliar with the Git workflow or not understanding how branches were organized might do some messy merges that resulted in local files being deleted, wasting time and resources in recovering the information.
 	* Deleting the work of other's by "resolving" conflicts on their own without properly reviewing the content.
 	* Committing directly to master with an older version of the codebase and reverting commits made by other contributors
 	* In the end, things smoothed out more, but there continue to be rough patches that will hopefully become a smooth and well-oiled machine going into interation 03
- * 
- * 
- * Naming conventions for 
-	* a204d0943a010bfbe99ddaec26d5347356315443
+ * As a follow-up on the previous point, our lack of strict conventions and guidelines going into iteration 02 for how we conduct our pull-requests and merges have left portions of our commit logs to be messy and disheveled. 
+	* Instead of making pull-requests, there have been instances where commits are made directly to master and may at times have volatile consequences to our codebase and require a retcon. These cases can be avoided by submitting pull-requests and requiring a review for the merge before committing it to the master branch. 
+ * Our way of conducting meetings has been quite loose, as oftentimes meetings are re-scheduled due to shifting availabilities of members, and we have used Discord far less than resources like Messenger in our communications. The end result is meetings where not everyone talks, or is able to talk, or meetings that are held on short notice.
+ * Deciding not to have naming conventions for our commits and merges can make reviewing the commit history a tedious process
+	* Names like "Whoops" for commits such as a204d0943a010bfbe99ddaec26d5347356315443 are not very informative
+	* Using generic merge titles (even if the descriptions were more verbose) such as "Merge pull request #__ from csc301-winter-2018/Audio-Recording" are not very insightful. They make sense at the time, in context, when we're talking on Messenger, but upon review they hold no information at first glance.
 
 
 #### Planned changes
 
 List any process-related changes you are planning to make (if there are any)
 
- * Ordered from most to least important.
- * Explain why you are making a change.
-
+ * 
+ * 
+ * 
+ * 
+ * 
 
 ## Product - Review
 
