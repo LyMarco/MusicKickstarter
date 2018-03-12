@@ -54,11 +54,11 @@ List process-related (i.e. team organization) decisions that, in retrospect, wer
 
 List any process-related changes you are planning to make (if there are any)
 
- * 
- * 
- * 
- * 
- * 
+ * Establish firm conventions for how we conduct pull-requests, merges, and commits
+	* For example: NEVER directly commit anything to the codebase. All code should be merged via pull-request
+	* Also any conflicts made during a pull request, if it interferes with another member's submitted code, should ALWAYS be reviewed by one or more parties before merging
+	* One should always try to make merges with purpose or valuable content. 
+ * A naming convention for pull-requests and commits should most likely be implemented, such that the messages convey some information as to what was changed or added during the merge.
 
 ## Product - Review
 
