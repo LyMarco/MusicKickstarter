@@ -91,24 +91,29 @@ List any process-related changes you are planning to make (if there are any)
  * (Goal) Testing Functionality
  	* (Tasks)
 	* Tests were performed over FMessenger, and a collection of Debug.txts, Error reports, and other things were completed.
-	* Most of the testing involved testing on an android phone and seeing if audio was recorded, the metronome played, lyrics and notes were recorded. All of this was iterative so as we developed we tested with each other.
+	* Most of the testing involved testing on an android phone and seeing if audio was recorded, the metronome played, lyrics and notes were recorded. All of this tested functionality so as we developed we tested our programs with each other.
 	
 #### Goals and/or tasks that were planned but not met/completed:
 
 * Audio Playback
 	* Play back audio for multiple tracks
 	* Allow the user to dictate the name of the tracks recorded
+
 Being able to play back and name different audio tracks recorded is an important part to the functionality of our application. We did not get around to writing code for this as it was not priority for this iteration and we worked more towards getting the basic functionality of recording and playing back audio finished. Going into our next iteration, we aim for this task to be done.
 * UI
 	* Provide mock-ups for all features so that development can have a visual-aid in mind when working
+
 We did not provide mock-ups or prototypes for all screens. Rather most of the development here went into creating the UI for the main page and note taking pages as those are the most important parts when viewing our application. As a result the UI for metronome, documents, serialization among other things were not finished as they could function without an explicitly designed UI. We aim to have the UI complete for the parts of the application we did not finish and refine our current UI based on tests we have finished for the next iteration.
 * Overall note functionality
+
 Note taking was incomplete this iteration due to unfamiliarity with android development. At this point the note taking part of the application is currently a branch of lyrics and is still under development. Even though this part of the application is underdeveloped, we learnt a lot about working with multiple screens and having data persist and hope that this helps us with future strides in working towards this goal.
 * Metronome
 	* Set and be able to change speed of beat at fixed speeds.
 	* UI
+
 Most of the metronome is functional although the task above was not to finished to the extent that we wish to have it in our final iteration. Due to complications revolving around the construction of the metronome second by second, only certain speeds (multiples of 20 bps) are playable. We aim to have this in a better state by the next iteration. The UI is explained as above and is in the state of an extremely rough prototype.
 * Serialization
+
 We were able to serialize data in the application for one set of lyrics. However did not get around to complete finishing the functionality of saving different notes and lyrics in separate files and aim to finish this in the next iteration
 
 ## Meeting Highlights
