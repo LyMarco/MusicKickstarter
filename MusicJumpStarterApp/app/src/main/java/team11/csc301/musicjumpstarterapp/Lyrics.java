@@ -342,12 +342,11 @@ public class Lyrics extends AppCompatActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lyricLayout);
         for (int i = 0; i < linearLayout.getChildCount(); i += 2) {
             title = (EditText) linearLayout.getChildAt(i);
-            try {
-                Integer.parseInt(title.getText().toString().substring(0,1));
+            // Check if this title is a number.
+            String titleStr = title.getText().toString();
+            if (titleStr.length() == 0 || titleStr.substring(0,1).matches("\\d+")) {
                 title.setText(nextVerseNum + ".");
                 nextVerseNum++;
-            } catch (NumberFormatException e) {
-                continue;
             }
         }
     }
