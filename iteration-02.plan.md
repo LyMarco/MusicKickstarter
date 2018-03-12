@@ -70,6 +70,8 @@ Essentially, we want to understand how your team members share a codebase and av
  
  * This should keep the master branch always in a stable state and should keep it so that everything in the master branch works according to a certain set of features/tasks. Ideally the features of the master branch should coincide with the tasks in the 'done' section of the project board. Thus, the progress of the project is always well-defined. This also allows each member of the group to work in their own space without having to constantly deal with other members' bugs and it allows each member to know by looking at the master branch what he has to work with while developing his own features.
 
+ * We leverage the GitHub projects boards and To-Do lists in our planning phase, and intend to use it as a good reference tool to see what is currently being worked on by other members, what features are completed in the current master, and what things we have planned for the future. Maintaining these boards will be very important to streamlining our process and keep everyone on the same page without constant face-to-face meetings.
+
  * As an example,
 	* Joshua's role for the current itertion is to develop the lyrics activity (screen where the user can write the lyrics to their song). 
 	* The different tasks Josh will be assigned to will include creating editable texts and being able to separate these texts into verses and titles of verses
