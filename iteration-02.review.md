@@ -38,41 +38,84 @@ List process-related (i.e. team organization) decisions that, in retrospect, wer
  * Feel free to refer/link to process artifact(s).
 
  * Our GitHub workflow that we had planned out (having everyone work on their standalone features in a branch and then merge to master) had a rough start.
-	* Those unfamiliar with the Git workflow or not understanding how branches were organized might do some messy merges that resulted in local files being deleted, wasting time and resources in recovering the information.
+	* Those unfamiliar with the Git workflow or not understanding how branches were organized might do some messy merges that result in local files being deleted, wasting time and resources in recovering the information.
 	* Deleting the work of other's by "resolving" conflicts on their own without properly reviewing the content.
 	* Committing directly to master with an older version of the codebase and reverting commits made by other contributors
 	* In the end, things smoothed out more, but there continue to be rough patches that will hopefully become a smooth and well-oiled machine going into interation 03
- * As a follow-up on the previous point, our lack of strict conventions and guidelines going into iteration 02 for how we conduct our pull-requests and merges have left portions of our commit logs to be messy and disheveled. 
-	* Instead of making pull-requests, there have been instances where commits are made directly to master and may at times have volatile consequences to our codebase and require a retcon. These cases can be avoided by submitting pull-requests and requiring a review for the merge before committing it to the master branch. 
- * Our way of conducting meetings has been quite loose, as oftentimes meetings are re-scheduled due to shifting availabilities of members, and we have used Discord far less than resources like Messenger in our communications. The end result is meetings where not everyone talks, or is able to talk, or meetings that are held on short notice.
- * Deciding not to have naming conventions for our commits and merges can make reviewing the commit history a tedious process
-	* Names like "Whoops" for commits such as a204d0943a010bfbe99ddaec26d5347356315443 are not very informative
-	* Using generic merge titles (even if the descriptions were more verbose) such as "Merge pull request #__ from csc301-winter-2018/Audio-Recording" are not very insightful. They make sense at the time, in context, when we're talking on Messenger, but upon review they hold no information at first glance.
+ * 
+ * 
+ * Naming conventions for 
+	* a204d0943a010bfbe99ddaec26d5347356315443
 
 
 #### Planned changes
 
 List any process-related changes you are planning to make (if there are any)
 
+<<<<<<< HEAD
  * Establish firm conventions for how we conduct pull-requests, merges, and commits
 	* For example: NEVER directly commit anything to the codebase. All code should be merged via pull-request
 	* Also any conflicts made during a pull request, if it interferes with another member's submitted code, should ALWAYS be reviewed by one or more parties before merging
 	* One should always try to make merges with purpose or valuable content. 
  * Establish a naming convention for pull-requests and commits should most likely be implemented, such that the messages convey some information as to what was changed or added during the merge.
+=======
+ * Ordered from most to least important.
+ * Explain why you are making a change.
+
+>>>>>>> 86c0d0fc068891a362570a5de9484a66a2d62556
 
 ## Product - Review
 
 #### Goals and/or tasks that were met/completed:
 
- * From most to least important.
- * Refer/link to artifact(s) that show that a goal/task was met/completed.
- * If a goal/task was not part of the original iteration plan, please mention it.
-
+ * (Goal) Basic functionality involving recording / playback of audio
+	* (Tasks)
+	* Playback sounds.
+	* Record audio from microphone.
+	* Save audio at least long enough so that it can be played back.
+	* Save audio for multiple tracks
+ * (Goal) UI for the Main Screen
+	* (Tasks)
+	* Develop main screen so that lyrics are displayed at the same time that voice recording can occur.
+ * (Goal) Basic functionality for writing / editing user lyrics
+	* (Tasks)
+	* Text is editable for lyrics
+	* Lyrics and Verses are separated
+	* Functionality of adding/deleting verses and lyrics
+	* Provide a scrollable view to review all lyrics and verses written
+ * (Goal) Note taking functionality
+	* (Tasks)
+	* A notes page was created and can be accessed.
+ * (Goal) Metronome is completely functional with minor problems
+ * (Goal) Saving text and audio
+	* (Tasks)
+	* Notes and lyrics persist for one creation.
+	* Recordings are saved to the device
+ * (Goal) Testing Functionality
+ 	* (Tasks)
+ 	* Test Lyrics.
+	* Test Metronome.
+	* Test UI.
+	* Test Audio / Recording.
+	* Test Serialization.
+	
 #### Goals and/or tasks that were planned but not met/completed:
 
- * From most to least important.
- * For each goal/task, explain why it was not met/completed.      
-   e.g. Did you change your mind, or did you just not get to it yet?
+* Audio Playback
+	* Play back audio for multiple tracks
+	* Allow the user to dictate the name of the tracks recorded
+Being able to play back and name different audio tracks recorded is an important part to the functionality of our application. We did not get around to writing code for this as it was not priority for this iteration and we worked more towards getting the basic functionality of recording and playing back audio finished. Going into our next iteration, we aim for this task to be done.
+* UI
+	* Provide mock-ups for all features so that development can have a visual-aid in mind when working
+We did not provide mock-ups or prototypes for all screens. Rather most of the development here went into creating the UI for the main page and note taking pages as those are the most important parts when viewing our application. As a result the UI for metronome, documents, serialization among other things were not finished as they could function without an explicitly designed UI. We aim to have the UI complete for the parts of the application we did not finish and refine our current UI based on tests we have finished for the next iteration.
+* Overall note functionality
+Note taking was incomplete this iteration due to unfamiliarity with android development. At this point the note taking part of the application is currently a branch of lyrics and is still under development. Even though this part of the application is underdeveloped, we learnt a lot about working with multiple screens and having data persist and hope that this helps us with future strides in working towards this goal.
+* Metronome
+	* Set and be able to change speed of beat at fixed speeds.
+	* UI
+Most of the metronome is functional although the task above was not to finished to the extent that we wish to have it in our final iteration. Due to complications revolving around the construction of the metronome second by second, only certain speeds (multiples of 20 bps) are playable. We aim to have this in a better state by the next iteration. The UI is explained as above and is in the state of an extremely rough prototype.
+* Serialization
+We were able to serialize data in the application for one set of lyrics. However did not get around to complete finishing the functionality of saving different notes and lyrics in separate files and aim to finish this in the next iteration
 
 ## Meeting Highlights
 
