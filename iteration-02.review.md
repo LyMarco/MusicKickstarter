@@ -60,37 +60,31 @@ List any process-related changes you are planning to make (if there are any)
 
 #### Goals and/or tasks that were met/completed:
 
- * Basic functionality involving recording / playback of audio
+ * (Goal) Basic functionality involving recording / playback of audio
 	* (Tasks)
 	* Playback sounds.
 	* Record audio from microphone.
 	* Save audio at least long enough so that it can be played back.
 	* Save audio for multiple tracks
- * UI for the Main Screen
+ * (Goal) UI for the Main Screen
 	* (Tasks)
-	* Create a prototype for the UI.
 	* Develop main screen so that lyrics are displayed at the same time that voice recording can occur.
- * Basic functionality for writing / editing user lyrics
+ * (Goal) Basic functionality for writing / editing user lyrics
 	* (Tasks)
-	* Have editable texts for lyrics.
-	* Separate lyrics by verses and titles.
-	* Add more verses
-	* Delete verses
+	* Text is editable for lyrics
+	* Lyrics and Verses are separated
+	* Functionality of adding/deleting verses and lyrics
 	* Provide a scrollable view to review all lyrics and verses written
- * On-the-side note taking functionality
+ * (Goal) Note taking functionality
 	* (Tasks)
-	* Allow a 2-dimensional notes interface
- * Metronome is Functional
+	* A notes page was created and can be accessed.
+ * (Goal) Metronome is completely functional with minor problems
+ * (Goal) Saving text and audio
 	* (Tasks)
-	* Playback sound at a fixed beat.
-	* Change speed / beat at fixed intervals.
-	* Beat persists throughout all screens of the application.
-	* Have a distinct downbeat in 4/4 time
- * Basic saving of text and audio would be ideal.
-	* (Tasks)
-	* Notes and lyrics should persist throughout use of application.
-	* Should be able to save recording of songs.
- * Testing Functionality
+	* Notes and lyrics persist for one creation.
+	* Recordings are saved to the device
+ * (Goal) Testing Functionality
+ 	* (Tasks)
  	* Test Lyrics.
 	* Test Metronome.
 	* Test UI.
