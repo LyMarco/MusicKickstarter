@@ -3,13 +3,11 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 // os Imports
 import android.os.Bundle;
@@ -26,6 +24,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 // Data Structures Imports
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,8 +35,10 @@ import android.media.MediaRecorder;
 // IO Imports
 import android.text.InputType;
 import java.io.File;
+// Imports for saving audio
+import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
-public class Lyrics extends AppCompatActivity {
+public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
@@ -58,18 +60,21 @@ public class Lyrics extends AppCompatActivity {
     private int verseNumber;
     private int takeNumber;
     // General Activity Variables
-    private FragmentManager fragmanager;
+    private FragmentManager fragManager;
+    private FileOutputStream audioOutStream;
+    private File audioOutFile;
+//    private String songPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lyrics);
         layout = findViewById(R.id.lyricLayout);
-        fragmanager =  getSupportFragmentManager();
+        fragManager =  getSupportFragmentManager();
 
         audioPath = "";
         verseNumber = 1;
-        takeNumber = 1;
+        takeNumber = 0;
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -149,7 +154,7 @@ public class Lyrics extends AppCompatActivity {
         //
         int verseCount = getVerseCountFromFile();
         EditText songTitle = findViewById(R.id.editText7);
-        songTitle.setText(current.getSongname());
+        songTitle.setHint(current.getSongname());
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i);
         }
@@ -193,7 +198,7 @@ public class Lyrics extends AppCompatActivity {
         // Create the verse view.
         EditText newVerse = new EditText(this);
         newVerse.setLayoutParams(margins);
-        newVerse.setText(text);
+        newVerse.setHint(text);
         newVerse.setInputType(VERSE_INPUT_TYPE);
         newVerse.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -312,6 +317,7 @@ public class Lyrics extends AppCompatActivity {
         ImageButton button = (ImageButton) view;
         ImageButton record = findViewById(R.id.recordButton);
         int icon;
+
         playing = !playing;
         if (playing) {
             record.setEnabled(false);
@@ -344,23 +350,28 @@ public class Lyrics extends AppCompatActivity {
         ImageButton button = (ImageButton) view;
         ImageButton play = findViewById(R.id.playButton);
         int icon;
+
+
+
         recording = !recording;
         if (!recording) {
             play.setEnabled(true);
             icon = R.drawable.record;
-            createAlertDialogue();
-            runOnThread(new Runnable() {
-                public void run() {
-                    stopRecording();
-                }
-            }, "Recording Stopped");
+            createSaveDialogue();
         } else {
             play.setEnabled(false);
             icon = R.drawable.record_stop;
             // TODO: Make audio path changeable rather than setting randoms
             takeNumber++;
-            setAudioPath(verseNumber, takeNumber);
-            setupMediaRecorder(audioPath);
+            String verse = "Verse_" + verseNumber + "_Take_" + takeNumber;
+            setAudioPath(verse);
+            audioOutFile = new File(audioPath);
+            try {
+                audioOutStream = new FileOutputStream(audioOutFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            setupMediaRecorder();
             runOnThread(new Runnable() {
                 public void run() {
                     startRecording();
@@ -371,25 +382,68 @@ public class Lyrics extends AppCompatActivity {
                 ContextCompat.getDrawable(getApplicationContext(), icon));
     }
 
+    public void onDialogClickSaveRec(String saveString) {
+        runOnThread(new Runnable() {
+            public void run() {
+                stopRecording();
+            }
+        }, "Recording Saved");
+        try {
+            audioOutStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        Path source = audioOutFile.toPath();
+//        try {
+//            Files.move(source, source.resolveSibling(formattedName));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        if (!saveString.equals(audioOutFile.getName())) {
+            File newFile = new File(saveString);
+            if (newFile.exists()) {
+                DialogFragment dialog = new FileExistsDialogFragment();
+                dialog.show(fragManager, "fileExists");
+            }
+            if (!audioOutFile.renameTo(newFile)) {
+                System.out.println("RENAMING FAILED");
+            }
+        }
+    }
+
+    public void onDialogClickCancel() {
+        runOnThread(new Runnable() {
+            public void run() {
+                recorder.reset();
+            }
+        }, "Recording Canceled");
+    }
+
+    public String getDefaultText(){
+        return  "Verse " + verseNumber + " Take " + takeNumber;
+    }
+
     /**
      * Sets the audio pathway for recording/playing
      */
-    private void setAudioPath(int verseNum, int takeNum) {
+    private void setAudioPath(String saveString) {
         //  UUID.randomUUID().toString()
         audioPath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath()+"/Verse_"
-                + verseNum + "_Take_" + takeNum + ".3gp";
+                .getAbsolutePath()+"/" + saveString + ".3gp";
     }
 
     /**
      * Sets up the MediaRecorder's input and output formats and sources
-     * @param filepath the path that the MediaRecorder will save to
      */
-    private void setupMediaRecorder(String filepath) {
+    private void setupMediaRecorder() {
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setOutputFile(filepath);
+        try {
+            recorder.setOutputFile(audioOutStream.getFD());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -443,28 +497,12 @@ public class Lyrics extends AppCompatActivity {
         if(player != null) {
             player.stop();
             player.release();
-//                    setupMediaRecorder(path);
         }
     }
 
-    private void createAlertDialogue() {
-//        SaveRecDialogFragment dialog = new SaveRecDialogFragment();
-//        dialog.show(fragmanager);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialog_save_rec)
-                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog alert = builder.create();
-        alert.show();
+    private void createSaveDialogue() {
+        DialogFragment dialog = new SaveRecDialogFragment();
+        dialog.show(fragManager, "saving");
     }
 
     /**
@@ -474,7 +512,6 @@ public class Lyrics extends AppCompatActivity {
      * @param grantResults tag
      */
 
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CODE: {
