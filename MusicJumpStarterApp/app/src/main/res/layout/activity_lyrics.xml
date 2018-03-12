@@ -179,18 +179,6 @@
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
-    <Button
-        android:id="@+id/addVerse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/horizontal_recycler_view_suggestions"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="createNewVerse"
-        android:text="@string/add_verse"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar2"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizontal_recycler_view_suggestions"
         android:layout_width="match_parent"

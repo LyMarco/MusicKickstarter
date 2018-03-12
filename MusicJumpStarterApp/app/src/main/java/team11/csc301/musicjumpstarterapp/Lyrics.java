@@ -176,7 +176,7 @@ public class Lyrics extends AppCompatActivity {
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
         songTitle = (EditText) findViewById(R.id.editText7);
-        for (int i = 0; i < layout.getChildCount(); i += 2) {
+        for (int i = 0; i < layout.getChildCount() - 1; i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
             titleText = title.getText().toString();
@@ -231,7 +231,7 @@ public class Lyrics extends AppCompatActivity {
         EditText songTitle = findViewById(R.id.editText7);
         songTitle.setText(current.getSongname());
         for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i);
+            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
         }
 
         //Test Lyrics Suggestions
@@ -280,6 +280,10 @@ public class Lyrics extends AppCompatActivity {
      * @param index index at which the verse and its title are stored
      */
     public void createVerse(String text, String title, int index) {
+        // index must be before last view in the layout.
+        if (index >= layout.getChildCount()) {
+            index = layout.getChildCount() - 1;
+        }
         // Get the layout and set the margins.
         LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -320,18 +324,19 @@ public class Lyrics extends AppCompatActivity {
                 // Executed on double return.
                 if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
                     // Get the index where we will place a new verse.
-                    int i = (layout.indexOfChild(getCurrentFocus()) + 1) / 2;
+                    int i = layout.indexOfChild(getCurrentFocus()) + 1;
                     EditText verse = (EditText) getCurrentFocus();
                     editable.delete(editable.length() - 2, editable.length());
-                    createVerse("Type verse here.", i + ".", i);
-                    layout.getChildAt((i * 2) + 1).requestFocus();
+                    createVerse("Type verse here.", (i / 2) + ".", i);
+                    if (i < layout.getChildCount() - 1) {
+                        layout.getChildAt(i + 1).requestFocus();
+                    }
                 }
             }
         });
 
-        // Add and store views.
-        layout.addView(verseTitle, index * 2);
-        layout.addView(newVerse, (index * 2) + 1);
+        layout.addView(verseTitle, index);
+        layout.addView(newVerse, index + 1);
     }
 
     /**
@@ -340,7 +345,7 @@ public class Lyrics extends AppCompatActivity {
      * @param view view from which this method is called
      */
     public void createNewVerse(View view) {
-        createVerse("Type verse here.", layout.getChildCount() + ".", layout.getChildCount());
+        createVerse("Type verse here.", ((layout.getChildCount() - 1) / 2) + ".", layout.getChildCount() - 1);
         updateVerseTitles();
     }
 
@@ -348,10 +353,17 @@ public class Lyrics extends AppCompatActivity {
      * Delete the given verse from the layout and no longer keep track of it.
      *
      * @param view view from which this method is called
-     * @param id verse to delete
+     * @param i index of verse to delete
      */
-    public void deleteVerse(View view, int id) {
-        // Not implemented.
+    public void deleteVerse(View view, int i) {
+        View title = layout.getChildAt(i - (i% 2));
+        View verse = layout.getChildAt(i - (i % 2) + 1);
+        layout.removeView(title);
+        layout.removeView(verse);
+    }
+
+    public void deleteVerse(View view) {
+        deleteVerse(view, layout.getChildCount() - 2);
     }
 
     /**
@@ -361,7 +373,7 @@ public class Lyrics extends AppCompatActivity {
         EditText title;
         int nextVerseNum = 1;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lyricLayout);
-        for (int i = 0; i < linearLayout.getChildCount(); i += 2) {
+        for (int i = 0; i < linearLayout.getChildCount() - 1; i += 2) {
             title = (EditText) linearLayout.getChildAt(i);
             // Check if this title is a number.
             String titleStr = title.getText().toString();
