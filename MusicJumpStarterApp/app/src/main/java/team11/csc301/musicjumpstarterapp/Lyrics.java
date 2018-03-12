@@ -78,6 +78,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     private FragmentManager fragManager;
     private FileOutputStream audioOutStream;
     private File audioOutFile;
+    private String currentVerse;
 //    private String songPath;
 
     private RecyclerView horizontal_recycler_view_suggestions;
@@ -131,8 +132,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,15 +141,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
         audioPath = "";
         verseNumber = 1;
-        takeNumber = 0;
-
-        fragmanager =  getSupportFragmentManager();
-
-        audioPath = "";
-        verseNumber = 1;
-        takeNumber = 1;
+//        takeNumber = 0;
       
-        horizontal_recycler_view_suggestions= (RecyclerView) findViewById(R.id.horizontal_recycler_view_suggestions);
+        horizontal_recycler_view_suggestions = findViewById(R.id.horizontal_recycler_view_suggestions);
         Suggestions=new ArrayList<>();
 
         horizontalAdapter=new HorizontalAdapter(Suggestions);
@@ -463,8 +456,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         ImageButton play = findViewById(R.id.playButton);
         int icon;
 
-
-
         recording = !recording;
         if (!recording) {
             play.setEnabled(true);
@@ -473,11 +464,17 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         } else {
             play.setEnabled(false);
             icon = R.drawable.record_stop;
-            // TODO: Make audio path changeable rather than setting randoms
-            takeNumber++;
-            String verse = "Verse_" + verseNumber + "_Take_" + takeNumber;
-            setAudioPath(verse);
+            int takeNumber = 1;
+            currentVerse =  "Verse " + verseNumber + " Take " + takeNumber;
+            setAudioPath(currentVerse);
             audioOutFile = new File(audioPath);
+            while (audioOutFile.exists()) {
+                takeNumber++;
+                currentVerse =  "Verse " + verseNumber + " Take " + takeNumber;
+                setAudioPath(currentVerse);
+                audioOutFile = new File(audioPath);
+            }
+
             try {
                 audioOutStream = new FileOutputStream(audioOutFile);
             } catch (FileNotFoundException e) {
@@ -495,51 +492,54 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     public void onDialogClickSaveRec(String saveString) {
-        runOnThread(new Runnable() {
-            public void run() {
-                stopRecording();
-            }
-        }, "Recording Saved");
-        try {
-            audioOutStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        saveString = (saveString + ".3gp");
+        boolean success = true;
+        String saveStringPath = Environment.getExternalStorageDirectory()
+                .getAbsolutePath()+"/" + saveString;
+        File newFile = new File(saveStringPath);
+
+        if ((!saveString.equals(audioOutFile.getName())) && newFile.exists()) {
+            DialogFragment dialog = new FileExistsDialogFragment();
+            dialog.show(fragManager, "fileExists");
+            success = false;
+        } else if (!audioOutFile.renameTo(newFile)) {
+//                System.out.println("RENAMING FAILED");
+            success = false;
         }
-//        Path source = audioOutFile.toPath();
-//        try {
-//            Files.move(source, source.resolveSibling(formattedName));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        if (!saveString.equals(audioOutFile.getName())) {
-            File newFile = new File(saveString);
-            if (newFile.exists()) {
-                DialogFragment dialog = new FileExistsDialogFragment();
-                dialog.show(fragManager, "fileExists");
-            }
-            if (!audioOutFile.renameTo(newFile)) {
-                System.out.println("RENAMING FAILED");
-            }
+        if (!success) {
+            runOnThread(new Runnable() {
+                public void run() {
+                    dumpRecording();
+                }
+            }, "Save Canceled");
+
+//            takeNumber--;
+        } else {
+            runOnThread(new Runnable() {
+                public void run() {
+                    stopRecording();
+                }
+            }, "Recording Saved");
         }
     }
 
     public void onDialogClickCancel() {
         runOnThread(new Runnable() {
             public void run() {
-                recorder.reset();
+                dumpRecording();
             }
-        }, "Recording Canceled");
+        }, "Save Canceled");
     }
 
     public String getDefaultText(){
-        return  "Verse " + verseNumber + " Take " + takeNumber;
+        return  currentVerse;
     }
 
     /**
      * Sets the audio pathway for recording/playing
      */
     private void setAudioPath(String saveString) {
-        //  UUID.randomUUID().toString()
+        //  sPath +
         audioPath = Environment.getExternalStorageDirectory()
                 .getAbsolutePath()+"/" + saveString + ".3gp";
     }
@@ -587,6 +587,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     private void stopRecording() {
         recorder.stop();
         recorder.reset();
+    }
+
+    private void dumpRecording() {
+        recorder.reset();
+        if (!audioOutFile.delete()) {
+            System.out.println("DELETION FAILED");
+        }
     }
 
     /**
