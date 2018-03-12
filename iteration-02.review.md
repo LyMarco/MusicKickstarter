@@ -65,30 +65,33 @@ List any process-related changes you are planning to make (if there are any)
 	* Record audio from microphone.
 	* Save audio at least long enough so that it can be played back.
 	* Save audio for multiple tracks
+	* Lyrics.java (the audio has been implement inside the lyrics page)
  * (Goal) UI for the Main Screen
 	* (Tasks)
 	* Develop main screen so that lyrics are displayed at the same time that voice recording can occur.
+	* activity_lyrics.xml
  * (Goal) Basic functionality for writing / editing user lyrics
 	* (Tasks)
 	* Text is editable for lyrics
 	* Lyrics and Verses are separated
 	* Functionality of adding/deleting verses and lyrics
 	* Provide a scrollable view to review all lyrics and verses written
+	* Lyrics.java, LyricsSuggestion.java, content_lyrics.xml
  * (Goal) Note taking functionality
 	* (Tasks)
 	* A notes page was created and can be accessed.
+	* Notes.java, content_notes.xml
  * (Goal) Metronome is completely functional with minor problems
+  	* MetronomeSingleton.java, MetronomeActivity.java, SixteenBitSynthesizer.java, activity_metronome.xml
  * (Goal) Saving text and audio
 	* (Tasks)
 	* Notes and lyrics persist for one creation.
 	* Recordings are saved to the device
+	* Song.java, User.java, SerializationBase.java
  * (Goal) Testing Functionality
  	* (Tasks)
- 	* Test Lyrics.
-	* Test Metronome.
-	* Test UI.
-	* Test Audio / Recording.
-	* Test Serialization.
+	* Tests were performed over FMessenger, and a collection of Debug.txts, Error reports, and other things were completed.
+	* Most of the testing involved testing on an android phone and seeing if audio was recorded, the metronome played, lyrics and notes were recorded. All of this was iterative so as we developed we tested with each other.
 	
 #### Goals and/or tasks that were planned but not met/completed:
 
