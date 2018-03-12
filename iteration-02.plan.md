@@ -63,13 +63,10 @@ List/describe the artifacts you will produce in order to organize your team.
 
 Describe your Git / GitHub workflow.     
 Essentially, we want to understand how your team members share a codebase and avoid conflicts.
-
- * Be concise, yet precise.      
-For example, "we use pull-requests" is not a precise statement since it leaves too many open questions - Pull-requests from where to where? Who reviews the pull-requests? Who is responsible for merging them? etc.
- * If applicable, specify any naming conventions or standards you decide to adopt.
- * Don't forget to **explain why** you chose this workflow.
  
- * Each epic/main role of the project will have its own branch in the repository. Each member will work on the branch of their role and merge it using pull-requests with the master branch once a certain defined task or feature has been implemented fully. The pull-request will be handled by the person who developed the feature. If anything is broken as a result of a merge, it is the responsibility of them who made the merge to fix it.
+ * Each epic/main role of the project will have its own branch in the repository. Each member will work on the branch of their role and merge it using pull-requests with the master branch once a certain defined task or feature has been implemented fully. The pull-request will be handled by the person who developed the feature. If anything is broken as a result of a merge, it is the responsibility of the person who made the merge to fix it.
+
+ * The person who made the pull request may additionally enlist the assistance of another group member to review the request and have them confirm the merge. Most commonly, we alert/update all other members of the pull-request prior to commiting it to master branch via Messenger for any members who wish to look the merge over and sign off on its viability.
  
  * This should keep the master branch always in a stable state and should keep it so that everything in the master branch works according to a certain set of features/tasks. Ideally the features of the master branch should coincide with the tasks in the 'done' section of the project board. Thus, the progress of the project is always well-defined. This also allows each member of the group to work in their own space without having to constantly deal with other members' bugs and it allows each member to know by looking at the master branch what he has to work with while developing his own features.
 
@@ -85,33 +82,38 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
 ## Product
 
 #### Goals and tasks
-
- * Describe your goals for this iteration and the tasks that you will have to complete in order to achieve these goals.
- * Order the items from most to least important.
- * Feel free (but not obligated) to specify some/all tasks as user stories.
  
  * Our app should be working and able to record and playback audio.
 	* (Tasks)
 	* Playback sounds.
 	* Record audio from microphone.
 	* Save audio at least long enough so that it can be played back.
+	* (Optionally)
+	* Save audio for multiple tracks
+	* Play back audio for multiple tracks
+	* Allow the user to dictate the name of the tracks recorded
  * We would like there to be a fairly developed UI for the end of this iteration.
 	* (Tasks)
 	* Create a prototype for the UI.
-	* Develop main screen so that lyrics are shown at the same time that recording can be done.
+	* Develop main screen so that lyrics are displayed at the same time that voice recording can occur.
+	* Provide mock-ups for all features so that development can have a visual-aid in mind when working
  * There should be a main screen where the user can write and edit lyrics to a song.
 	* (Tasks)
-	* Need editable texts for lyrics.
+	* Have editable texts for lyrics.
 	* Separate lyrics by verses and titles.
-	* Add and delete verses?
+	* Add more verses
+	* Delete verses
+	* Provide a scrollable view to review all lyrics and verses written
  * There should at least be a place for writing miscellaneous notes.
 	* (Tasks)
-	* Separate notes by verses?
+	* Allow a 2-dimensional notes interface
+		* That is, one page will contain Note Titles, while the second "layer" consists of pages with note contents
  * We aim to have at least a somewhat functional metronome.
 	* (Tasks)
 	* Playback sound at a fixed beat.
 	* Set and be able to change speed of beat.
 	* Beat persists throughout all screens of the application.
+	* Have a distinct downbeat in 4/4 time
  * Basic saving of text and audio would be ideal.
 	* (Tasks)
 	* Notes and lyrics should persist throughout use of application.
@@ -120,12 +122,8 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
 #### Artifacts
 
 List/describe the artifacts you will produce in order to present your project idea.
-
- * Artifacts can be text, code, images, videos, interactive mock-ups and/or any other useful artifact you can think of.
- * Make sure to explain the purpose of each artifact (i.e. Why is it on your to-do list? Why is it useful for your team?)
- * Be concise, yet precise.         
-   For example: "Build the website" is not precise at all, but "Build a static home page and upload it somewhere, so that it is publicly accessible" is much clearer.
    
  * Prototype for UI: Shows the interface that users will see once the app is finished. Gives the group a feel for what they are designing and for how the features they develop will be used.
 
+ * Page Mock-ups: Mock-ups for each featural page, including, but not limited to, the notes page and metronome page, as they will be separate activities with a look that should be distinct from the main page, and will require a visualization
 

@@ -244,21 +244,6 @@ public class Lyrics extends AppCompatActivity {
         }
     }
 
-    public void buttonPressed2(View view) {
-
-        ImageButton button = (ImageButton) view;
-        int icon;
-        if (paused) {
-            paused = false;
-            icon = R.drawable.record;
-        } else {
-            paused = true;
-            icon = R.drawable.record_stop;
-        }
-        button.setImageDrawable(
-        ContextCompat.getDrawable(getApplicationContext(), icon));
-    }
-
     public void getLyricSuggestion(View view) {
         EditText verse = (EditText)getCurrentFocus();
         Editable text = verse.getEditableText();
