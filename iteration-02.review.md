@@ -58,7 +58,7 @@ List any process-related changes you are planning to make (if there are any)
 	* For example: NEVER directly commit anything to the codebase. All code should be merged via pull-request
 	* Also any conflicts made during a pull request, if it interferes with another member's submitted code, should ALWAYS be reviewed by one or more parties before merging
 	* One should always try to make merges with purpose or valuable content. 
- * A naming convention for pull-requests and commits should most likely be implemented, such that the messages convey some information as to what was changed or added during the merge.
+ * Establish a naming convention for pull-requests and commits should most likely be implemented, such that the messages convey some information as to what was changed or added during the merge.
 
 ## Product - Review
 
@@ -78,8 +78,5 @@ List any process-related changes you are planning to make (if there are any)
 
 Going into the next iteration, our main insights are:
 
- * 2 - 4 items
- * Short (no more than one short paragraph per item)
- * High-level concepts that should guide your work for the next iteration.
- * These concepts should help you decide on where to focus your efforts.
- * Can be related to product and/or process.
+ * In our Review meeting we outlined specific tasks we want each person to work on for the next iteration, breaking down larger tasks into more specific and focused tasks, and addressing problems we came across when working on this past iteration. 
+ * To take our app from a Minimum Viable Product to a full-fledged, proper application, we have decided that focus and support should be directed towards our core features. Supporting features are obviously important, and should be maintained alongside the core features of the app, but to really flush out the app we need to add enhancements and details that will make the app user-friendly and viable to our target audiences as their top choice. Any core feature that needs aid, now that most minimum features have been established, should receive extra help in any way it needs. Whether it be with research or coding development. 
