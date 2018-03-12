@@ -44,6 +44,24 @@ Describe meetings (and other events) you are planning to have:
  * Feb 15th 
 	* Online
 	* Review the difficulty and implementation of tasks, ensure each person has a plan to start working on their task, or adjust if there are difficulties (The tasks need to be broken down further, more people or time is required to complete the task by Deliverable 2 Sprint)
+ * Feb 23th 
+	* Online
+ 	* Ensure the schedule of each person's work.(If someone find his task having heavier wokrload than planned, assign one to help him.)
+	* Discuss some details on the part need collaborations
+ * Feb 26th
+ 	* In-person
+	* Review the implementation of tasks, discuss the problems occured during implementation and find solutions.
+ * Mar 2th
+ 	* Online
+ 	* Ensure the schedule of each person's work
+ * Mar 5th
+ 	* In-person
+ 	* Review the implementation of tasks, try to merge everyone's work together
+ * Mar 9th
+ 	* Online
+	* As review meeting
+ 	* Ensure the completion of tasks, review the goals that were planned but not met
+	* Assign goals for the next iteration
 
 
 #### Artifacts
