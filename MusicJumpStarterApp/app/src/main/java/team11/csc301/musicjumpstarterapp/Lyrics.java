@@ -17,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -307,10 +308,30 @@ public class Lyrics extends AppCompatActivity {
                 updateVerseTitles();
             }
         });
+        newVerse.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Executed on double return.
+                if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
+                    // Get the index where we will place a new verse.
+                    int i = (layout.indexOfChild(getCurrentFocus()) + 1) / 2;
+                    EditText verse = (EditText) getCurrentFocus();
+                    editable.delete(editable.length() - 2, editable.length());
+                    createVerse("Type verse here.", i + ".", i);
+                    layout.getChildAt((i * 2) + 1).requestFocus();
+                }
+            }
+        });
 
         // Add and store views.
-        layout.addView(verseTitle);
-        layout.addView(newVerse);
+        layout.addView(verseTitle, index * 2);
+        layout.addView(newVerse, (index * 2) + 1);
     }
 
     /**
