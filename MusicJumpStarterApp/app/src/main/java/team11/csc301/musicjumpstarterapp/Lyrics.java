@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.EditText;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 // View imports
 import android.view.LayoutInflater;
@@ -179,7 +180,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
         songTitle = (EditText) findViewById(R.id.editText7);
-        for (int i = 0; i < layout.getChildCount(); i += 2) {
+        for (int i = 0; i < layout.getChildCount() - 1; i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
             titleText = title.getText().toString();
@@ -234,7 +235,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         EditText songTitle = findViewById(R.id.editText7);
         songTitle.setHint(current.getSongname());
         for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i);
+            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
         }
 
         //Test Lyrics Suggestions
@@ -283,6 +284,10 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * @param index index at which the verse and its title are stored
      */
     public void createVerse(String text, String title, int index) {
+        // index must be before last view in the layout.
+        if (index >= layout.getChildCount()) {
+            index = layout.getChildCount() - 1;
+        }
         // Get the layout and set the margins.
         LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -311,10 +316,46 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
                 updateVerseTitles();
             }
         });
+        newVerse.addTextChangedListener(new TextWatcher() {
+            private boolean doubleReturn = false;
+            int split;
 
-        // Add and store views.
-        layout.addView(verseTitle);
-        layout.addView(newVerse);
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 1 && charSequence.charAt(i - 1) == '\n' && charSequence.charAt(i) == '\n') {
+                    doubleReturn = true;
+                    split = i -1;
+                } else {
+                    doubleReturn = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Executed on double return.
+                //if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
+                if (doubleReturn) {
+                    String newVerseText = "Type verse here.";
+                    // Get the index where we will place a new verse.
+                    int i = layout.indexOfChild(getCurrentFocus()) + 1;
+                    editable.delete(split, split + 2);
+                    if (editable.length() >= split + 2) {
+                        newVerseText = editable.subSequence(split, editable.length()).toString();
+                        editable.delete(split, editable.length());
+                    }
+                    createVerse(newVerseText, (i / 2) + ".", i);
+                    if (i < layout.getChildCount() - 1) {
+                        layout.getChildAt(i + 1).requestFocus();
+                    }
+                }
+            }
+        });
+
+        layout.addView(verseTitle, index);
+        layout.addView(newVerse, index + 1);
     }
 
     /**
@@ -323,7 +364,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * @param view view from which this method is called
      */
     public void createNewVerse(View view) {
-        createVerse("Type verse here.", layout.getChildCount() + ".", layout.getChildCount());
+        createVerse("Type verse here.", ((layout.getChildCount() - 1) / 2) + ".", layout.getChildCount() - 1);
         updateVerseTitles();
     }
 
@@ -331,10 +372,17 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * Delete the given verse from the layout and no longer keep track of it.
      *
      * @param view view from which this method is called
-     * @param id verse to delete
+     * @param i index of verse to delete
      */
-    public void deleteVerse(View view, int id) {
-        // Not implemented.
+    public void deleteVerse(View view, int i) {
+        View title = layout.getChildAt(i - (i % 2));
+        View verse = layout.getChildAt(i - (i % 2) + 1);
+        layout.removeView(title);
+        layout.removeView(verse);
+    }
+
+    public void deleteVerse(View view) {
+        deleteVerse(view, layout.getChildCount() - 2);
     }
 
     /**
@@ -344,14 +392,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         EditText title;
         int nextVerseNum = 1;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lyricLayout);
-        for (int i = 0; i < linearLayout.getChildCount(); i += 2) {
+        for (int i = 0; i < linearLayout.getChildCount() - 1; i += 2) {
             title = (EditText) linearLayout.getChildAt(i);
-            try {
-                Integer.parseInt(title.getText().toString().substring(0,1));
+            // Check if this title is a number.
+            String titleStr = title.getText().toString();
+            if (titleStr.length() == 0 || titleStr.substring(0,1).matches("\\d+")) {
                 title.setText(nextVerseNum + ".");
                 nextVerseNum++;
-            } catch (NumberFormatException e) {
-                continue;
             }
         }
     }
