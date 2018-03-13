@@ -4,6 +4,7 @@ package team11.csc301.musicjumpstarterapp;
 import android.Manifest;
 // Support Imports
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -313,21 +314,36 @@ public class Lyrics extends AppCompatActivity {
             }
         });
         newVerse.addTextChangedListener(new TextWatcher() {
+            private boolean doubleReturn = false;
+            int split;
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 1 && charSequence.charAt(i - 1) == '\n' && charSequence.charAt(i) == '\n') {
+                    doubleReturn = true;
+                    split = i -1;
+                } else {
+                    doubleReturn = false;
+                }
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 // Executed on double return.
-                if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
+                //if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
+                if (doubleReturn) {
+                    String newVerseText = "Type verse here.";
                     // Get the index where we will place a new verse.
                     int i = layout.indexOfChild(getCurrentFocus()) + 1;
-                    EditText verse = (EditText) getCurrentFocus();
-                    editable.delete(editable.length() - 2, editable.length());
-                    createVerse("Type verse here.", (i / 2) + ".", i);
+                    editable.delete(split, split + 2);
+                    if (editable.length() >= split + 2) {
+                        newVerseText = editable.subSequence(split, editable.length()).toString();
+                        editable.delete(split, editable.length());
+                    }
+                    createVerse(newVerseText, (i / 2) + ".", i);
                     if (i < layout.getChildCount() - 1) {
                         layout.getChildAt(i + 1).requestFocus();
                     }
@@ -356,7 +372,7 @@ public class Lyrics extends AppCompatActivity {
      * @param i index of verse to delete
      */
     public void deleteVerse(View view, int i) {
-        View title = layout.getChildAt(i - (i% 2));
+        View title = layout.getChildAt(i - (i % 2));
         View verse = layout.getChildAt(i - (i % 2) + 1);
         layout.removeView(title);
         layout.removeView(verse);
