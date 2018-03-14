@@ -165,16 +165,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             recorder = new MediaRecorder();
         }
 
-        sPath = getApplicationContext().getFilesDir().getAbsolutePath();
+        //sPath = getApplicationContext().getFilesDir().getAbsolutePath();
+        sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MusicJump/";
         initVerses();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        // Need to save text from each verse to file along with their titles in a format so that we
-        // can keep the ordering of the verses.
+    @Override
+    protected void onPause() {
+        super.onPause();
         EditText title, verse, songTitle;
         String titleText, verseText;
         ArrayList<String> verses = new ArrayList<String>();
@@ -191,7 +190,16 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         }
         current.setVerses(verses);
         current.setTitles(titles);
-        current.setSongname(songTitle.getText().toString());
+        String songname = songTitle.getText().toString();
+        if (songname.equals("")) {
+            current.setSongname("Default");
+        }
+        if (!songname.equals(current.getSongname())) {
+            File oldFolder = new File(SerializationBase.pathGenerator(current));
+            File newFolder = new File(sPath + songname + '/');
+            boolean success = oldFolder.renameTo(newFolder);
+            current.setSongname(songTitle.getText().toString());
+        }
         try {
             SerializationBase.saveStop(songs, current.getSongname());
         } catch (Exception e){
@@ -199,6 +207,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Initialize the activity by creating all saved verses and storing the ID's of the views for
@@ -233,7 +242,14 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         //
         int verseCount = getVerseCountFromFile();
         EditText songTitle = findViewById(R.id.editText7);
-        songTitle.setHint(current.getSongname());
+        if (current.getSongname().equals("Default")) {
+            songTitle.setHint(current.getSongname());
+        } else {
+            songTitle.setText(current.getSongname());
+        }
+        while (layout.getChildCount() > 1) {
+            deleteVerse(layout);
+        }
         for (int i = 0; i < verseCount; i++) {
             createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
         }
@@ -245,6 +261,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     public void goToNotes(View view) {
         Intent intent = new Intent(Lyrics.this, Notes.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
@@ -308,7 +325,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         // Create the verse view.
         EditText newVerse = new EditText(this);
         newVerse.setLayoutParams(margins);
-        newVerse.setHint(text);
+        if (text.equals("Type verse here.")) {
+            newVerse.setHint(text);
+        } else if (text.equals("")) {
+            newVerse.setHint("Type verse here.");
+        } else {
+            newVerse.setText(text);
+        }
         newVerse.setInputType(VERSE_INPUT_TYPE);
         newVerse.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -428,7 +451,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             return current.getVerses().get(v);
         }
         //
-        return "Write verse here.";
+        return "Type verse here.";
     }
 
     /**
@@ -455,6 +478,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     /** Called when the user taps the Metronome button */
     public void sendMetronome(View view) {
         Intent intent = new Intent(this, MetronomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
