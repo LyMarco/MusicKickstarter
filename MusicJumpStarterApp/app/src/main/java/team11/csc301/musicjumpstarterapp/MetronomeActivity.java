@@ -104,6 +104,7 @@ public class MetronomeActivity extends AppCompatActivity {
 
     public void goBackFromMetronome(View view) {
         Intent intent = new Intent(this, Lyrics.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }
