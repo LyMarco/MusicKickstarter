@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Music JumpStarter App</string>
+    <string name="add_verse">Add Verse</string>
+    <string name="dialog_save_rec">Keep Recording?</string>
+    <string name="dialog_file_exists">This File Already Exists!</string>
+    <string name="save_suggestion">Verse # Take #</string>
+    <string name="save">Save</string>
+    <string name="save_as">Save As:</string>
+    <string name="cancel">Discard</string>
+    <string name="okay">OK</string>
 </resources>

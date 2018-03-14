@@ -52,12 +52,9 @@ if __name__ == "__main__":
     response['antonyms'] = list(OrderedDict.fromkeys(antonyms)) #set(antonyms)
     
     
-    
-    
-    
-    
     responseJson = json.dumps(response)
     
+    #The node js server notices this print and reads the data.
     print(responseJson)
 
     

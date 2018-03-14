@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class User implements Serializable{
     private String username;
-    private HashSet<Song> songs;
+    private HashSet<Song> songs = new HashSet<Song>();
     public User(String name) {
         this.username = name;
     }
@@ -20,7 +20,7 @@ public class User implements Serializable{
 
     public Song getSong(String songName) {
         for (Song s : songs) {
-            if (s.getSongname() == songName) {
+            if (s.getSongname().equals(songName)) {
                 return s;
             }
         }

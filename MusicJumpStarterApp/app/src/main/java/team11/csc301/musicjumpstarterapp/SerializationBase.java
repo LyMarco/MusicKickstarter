@@ -1,7 +1,7 @@
 package team11.csc301.musicjumpstarterapp;
 
 /**
- * Created by Terrence_Z on 2018/3/4.
+ * Created by Terrence_Z on 2018/2/28.
  */
 
 import java.io.File;
@@ -11,36 +11,30 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.content.Context;
 
 // * Need more information for storing music data or others.
 public class SerializationBase extends Activity {
-    // path to store all the data
-    private static String path = "/sdcard/Android/data/team11.pack/cache/";
 
-    // This method should be in main
-    public void mainStart()
+    // Helper method to save data in onStop
+    public static void saveStop(HashSet<Song> songs, String songname)
             throws IOException, ClassNotFoundException {
-        HashSet<User> users = null;
-        String userfile = "users.ser";
-        users = genericLoad(userfile, new HashSet<User>());
-    }
-
-    // This method should be in main
-    public void mainStop(HashSet<User> users)
-            throws IOException, ClassNotFoundException {
-        String userfile = "users.ser";
-        saveObject(users, userfile);
+        String songsfile = "/songs.ser";
+        String songfile = "/song.ser";
+        saveObject(songs, songsfile);
+        saveObject(songname, songfile);
     }
 
     //
     public static boolean isFile(String filename) {
-        File f = new File(path + filename);
+        File f = new File( Lyrics.sPath + filename);
         if(f.exists() && !f.isDirectory()) {
             return true;
         }
@@ -49,10 +43,11 @@ public class SerializationBase extends Activity {
 
     // Basic serialization for any object
     public static <T> void saveObject(T o, String filename) {
-        String fullFilename = path + filename;
+        String fullFilename =  Lyrics.sPath+ filename;
+        Log.d("Save:", fullFilename);
         try
         {
-            FileOutputStream fos= new FileOutputStream(fullFilename);
+            FileOutputStream fos= new FileOutputStream(new File(fullFilename));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(o);
             oos.flush();
@@ -74,7 +69,7 @@ public class SerializationBase extends Activity {
     // Basic deserialization for any object
     public static Object loadObject(String filename)
     {
-        String fullFilename = path + filename;
+        String fullFilename = Lyrics.sPath + filename;
         try
         {
             FileInputStream fis = new FileInputStream(fullFilename);
@@ -108,15 +103,15 @@ public class SerializationBase extends Activity {
 
     // Helper function to create path
     public static String pathGenerator(Song song,
-                                String type,
-                                String... more) {
+                                       String type,
+                                       String... more) {
         String s = "";
         if (more != null) {
             for (String m : more) {
                 s += "/" + m;
             }
         }
-        return song.getUser().getUsername() + '/' + song.getSongname() + '/' + type + s;
+        return '/' + song.getSongname() + '/' + type + s;
     }
 
 }

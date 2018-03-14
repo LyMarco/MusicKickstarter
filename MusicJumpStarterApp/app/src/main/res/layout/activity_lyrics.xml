@@ -1,29 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
 
+
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar" />
+
+
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/toolbar"
+        android:layout_alignStart="@+id/toolbar" />
+
+
+
+
+    <ImageButton
+        android:id="@+id/shareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/share"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/toolbar2"
+        android:layout_toEndOf="@+id/drawerButton"
+        android:layout_toRightOf="@+id/drawerButton"
+        android:background="#eeeeee" />
+
+    <ImageButton
+        android:id="@+id/metronomeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@+id/lyricsButton"
+        android:layout_toStartOf="@+id/lyricsButton"
+        android:background="#eeeeee"
+        android:onClick="sendMetronome"
+        android:src="@drawable/metronome" />
+
+    <ImageButton
+        android:id="@+id/notesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
+        android:background="#eeeeee"
+        android:onClick="goToNotes"
+        android:src="@drawable/notes" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forwardButton"
+        android:src="@drawable/forward"
+        android:background="#eeeeee"
+        android:layout_alignTop="@+id/toolbar2"
+        android:layout_toLeftOf="@+id/metronomeButton"
+        android:layout_toStartOf="@+id/metronomeButton"
+        android:layout_marginRight="43dp"
+        android:layout_marginEnd="43dp"
+        android:layout_alignParentBottom="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawerButton"
+        android:src="@drawable/drawer"
+        android:background="#eeeeee"
+        android:layout_alignTop="@+id/toolbar2"
+        android:layout_toLeftOf="@+id/notesButton"
+        android:layout_toStartOf="@+id/notesButton"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_alignBottom="@+id/toolbar2" />
+
+    <ImageButton
+        android:id="@+id/rewindButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/toolbar2"
+        android:layout_toLeftOf="@+id/playButton"
+        android:layout_toStartOf="@+id/playButton"
+        android:background="#eeeeee"
+        android:src="@drawable/rewind" />
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playButton"
+        android:src="@drawable/play"
+        android:onClick="playButtonPressed"
+        android:background="#eeeeee"
+        android:layout_alignTop="@+id/toolbar2"
+        android:layout_toLeftOf="@+id/forwardButton"
+        android:layout_toStartOf="@+id/forwardButton"
+        android:layout_alignBottom="@+id/toolbar2" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recordButton"
+        android:src="@drawable/record"
+        android:onClick="recButtonPressed"
+        android:background="#eeeeee"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_alignTop="@+id/toolbar2" />
+
+    <ImageButton
+        android:id="@+id/lyricsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignLeft="@+id/drawerButton"
+        android:layout_alignStart="@+id/drawerButton"
+        android:layout_alignTop="@+id/toolbar"
+        android:background="#eeeeee"
+        android:onClick="getLyricSuggestion"
+        android:src="@drawable/help" />
+
+    <EditText
+        android:id="@+id/editText7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignEnd="@+id/forwardButton"
+        android:layout_alignRight="@+id/forwardButton"
+        android:layout_toEndOf="@+id/settingsButton"
+        android:layout_toRightOf="@+id/settingsButton"
+        android:singleLine="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsButton"
+        android:src="@drawable/settings"
+        android:background="#eeeeee"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_alignLeft="@+id/toolbar"
+        android:layout_alignStart="@+id/toolbar"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignRight="@+id/recordButton"
+        android:layout_alignEnd="@+id/recordButton" />
+
     <include
         android:id="@+id/include"
         layout="@layout/content_lyrics"
-        android:layout_height="435dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="@id/toolbar"
+        app:layout_constraintRight_toRightOf="@id/toolbar" />
 
-    <Button
-        android:id="@+id/addVerse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:onClick="createNewVerse"
-        android:text="Add Verse"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/horizontal_recycler_view_suggestions"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_above="@+id/toolbar2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#eeeeee"
+        android:minHeight="?attr/actionBarSize" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

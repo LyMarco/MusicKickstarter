@@ -9,24 +9,19 @@ import java.util.ArrayList;
 
 // The class represent a song
 public class Song implements Serializable{
-    private User user;
     private String songname;
-    private ArrayList<String> lyrics;
+    private ArrayList<String> verses;
+    private ArrayList<String> titles;
     private ArrayList<String> notes;
-    // private Metronome metronome;
     // Variable of Audio
 
     // Init Constructor
-    public Song(User user, String songname) {
-        this.user = user;
+    public Song(String songname) {
         this.songname = songname;
-        this.lyrics = null;
-        this.notes = null;
+        this.verses = new ArrayList<String>();
+        this.titles = new ArrayList<String>();
+        this.notes = new ArrayList<String>();
         //this.metronome = null;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public String getSongname() {
@@ -37,12 +32,20 @@ public class Song implements Serializable{
         this.songname = songname;
     }
 
-    public ArrayList<String> getLyrics() {
-        return lyrics;
+    public ArrayList<String> getVerses() {
+        return verses;
     }
 
-    public void setLyrics(ArrayList<String> lyrics) {
-        this.lyrics = lyrics;
+    public void setVerses(ArrayList<String> verses) {
+        this.verses = verses;
+    }
+
+    public ArrayList<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(ArrayList<String> titles) {
+        this.titles = titles;
     }
 
     public ArrayList<String> getNotes() {
@@ -53,11 +56,4 @@ public class Song implements Serializable{
         this.notes = notes;
     }
 
-    //public Metronome getMetronome() {
-    //    return metronome;
-    //}
-
-    //public void setMetronome(Metronome metronome) {
-    //    this.metronome = metronome;
-    //}
 }
