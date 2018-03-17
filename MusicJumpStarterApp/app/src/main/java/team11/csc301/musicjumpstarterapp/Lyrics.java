@@ -589,6 +589,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         recorder.reset();
     }
 
+    /**
+     * Stops and deletes audio recording
+     */
     private void dumpRecording() {
         recorder.reset();
         if (!audioOutFile.delete()) {
