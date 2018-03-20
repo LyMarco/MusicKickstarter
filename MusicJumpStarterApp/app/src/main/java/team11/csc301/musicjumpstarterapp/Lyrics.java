@@ -287,8 +287,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         horizontalAdapter.notifyDataSetChanged();
     }
 
-
-
     /**
      * Create a new verse with default text and the next numbered title.
      *
