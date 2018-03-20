@@ -492,12 +492,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     public void playButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
         ImageButton record = findViewById(R.id.recordButton);
-        int icon;
+        int icon, icon_2, icon_3;
 
         playing = !playing;
         if (playing) {
             record.setEnabled(false);
             icon = R.drawable.pause;
+            icon_2 = R.drawable.record_grey;
+            record.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon_2));
             player = new MediaPlayer();
             runOnThread(new Runnable() {
                 public void run() {
@@ -505,6 +508,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
                 }
             }, "Playing...");
         } else {
+            icon_3 = R.drawable.record;
+            record.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon_3));
             record.setEnabled(true);
             icon = R.drawable.play;
             runOnThread(new Runnable() {
@@ -525,14 +531,20 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     public void recButtonPressed(View view) {
         ImageButton button = (ImageButton) view;
         ImageButton play = findViewById(R.id.playButton);
-        int icon;
+        int icon, icon_2, icon_3;
 
         recording = !recording;
         if (!recording) {
             play.setEnabled(true);
             icon = R.drawable.record;
+            icon_2 = R.drawable.play;
+            play.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon_2));
             createSaveDialogue();
         } else {
+            icon_3 = R.drawable.play_grey;
+            play.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon_3));
             play.setEnabled(false);
             icon = R.drawable.record_stop;
             int takeNumber = 1;
