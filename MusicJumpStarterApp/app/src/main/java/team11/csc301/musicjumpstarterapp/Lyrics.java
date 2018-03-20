@@ -348,7 +348,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 1 && charSequence.charAt(i - 1) == '\n' && charSequence.charAt(i) == '\n') {
+                if (i > 0 && charSequence.charAt(i - 1) == '\n' && charSequence.charAt(i) == '\n') {
                     doubleReturn = true;
                     split = i -1;
                 } else {
