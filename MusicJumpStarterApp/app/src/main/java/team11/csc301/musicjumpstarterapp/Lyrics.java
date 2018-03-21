@@ -58,9 +58,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
-    public static final int VERSE_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
-    public static final int VERSE_TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
-    public static final int VERSE_MARGINS = 120;
+
     // Activity Layout
     LinearLayout layout;
     //
@@ -174,16 +172,16 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     @Override
     protected void onPause() {
         super.onPause();
-        EditText title, verse, songTitle;
+        Verse verse;
+        EditText songTitle;
         String titleText, verseText;
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
         songTitle = (EditText) findViewById(R.id.editText7);
-        for (int i = 0; i < layout.getChildCount() - 1; i += 2) {
-            title = (EditText) layout.getChildAt(i);
-            verse = (EditText) layout.getChildAt(i + 1);
-            titleText = title.getText().toString();
-            verseText = verse.getText().toString();
+        for (int i = 0; i < layout.getChildCount() - 1; i++) {
+            verse = (Verse) layout.getChildAt(i);
+            titleText = verse.getTitle();
+            verseText = verse.getBody();
             /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
             verses.add(verseText);
             titles.add(titleText);
@@ -251,7 +249,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             deleteVerse(layout);
         }
         for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
+            layout.addView(new Verse(this, getTextFromFile(i), getTitleFromFile(i)), i);
         }
 
         //Test Lyrics Suggestions
@@ -267,13 +265,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     public void getLyricSuggestion(View view) {
-        EditText verse = (EditText)getCurrentFocus();
-        Editable text = verse.getEditableText();
-        String word = text.toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
-        //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
+        Verse verse = (Verse) getCurrentFocus();
+        String word = verse.getSelection();
         LyricsSuggestion.GetSuggestions(this, word);
-        //text.append(suggestion);
-        verse.setText(text);
     }
 
     // suggestions are just rhymes for now
@@ -293,93 +287,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         horizontalAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * Create a verse view along along with its corresponding title view and store their ID's.
-     *
-     * @param text text of the verse
-     * @param title title of the verse
-     * @param index index at which the verse and its title are stored
-     */
-    public void createVerse(String text, String title, int index) {
-        // index must be before last view in the layout.
-        if (index >= layout.getChildCount()) {
-            index = layout.getChildCount() - 1;
-        }
-        // Get the layout and set the margins.
-        LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        margins.setMargins(VERSE_MARGINS, 0, VERSE_MARGINS, 0);
 
-        // Create the title view.
-        EditText verseTitle = new EditText(this);
-        verseTitle.setLayoutParams(margins);
-        verseTitle.setInputType(VERSE_TITLE_INPUT_TYPE);
-        verseTitle.setText(title);
-        verseTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                updateVerseTitles();
-            }
-        });
-
-        // Create the verse view.
-        EditText newVerse = new EditText(this);
-        newVerse.setLayoutParams(margins);
-        if (text.equals("Type verse here.")) {
-            newVerse.setHint(text);
-        } else if (text.equals("")) {
-            newVerse.setHint("Type verse here.");
-        } else {
-            newVerse.setText(text);
-        }
-        newVerse.setInputType(VERSE_INPUT_TYPE);
-        newVerse.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                updateVerseTitles();
-            }
-        });
-        newVerse.addTextChangedListener(new TextWatcher() {
-            private boolean doubleReturn = false;
-            int split;
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (i > 0 && charSequence.charAt(i - 1) == '\n' && charSequence.charAt(i) == '\n') {
-                    doubleReturn = true;
-                    split = i -1;
-                } else {
-                    doubleReturn = false;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // Executed on double return.
-                //if (editable.charAt(editable.length() - 1) == '\n' && editable.charAt(editable.length() - 2) == '\n') {
-                if (doubleReturn) {
-                    String newVerseText = "Type verse here.";
-                    // Get the index where we will place a new verse.
-                    int i = layout.indexOfChild(getCurrentFocus()) + 1;
-                    editable.delete(split, split + 2);
-                    if (editable.length() >= split + 2) {
-                        newVerseText = editable.subSequence(split, editable.length()).toString();
-                        editable.delete(split, editable.length());
-                    }
-                    createVerse(newVerseText, (i / 2) + ".", i);
-                    if (i < layout.getChildCount() - 1) {
-                        layout.getChildAt(i + 1).requestFocus();
-                    }
-                }
-            }
-        });
-
-        layout.addView(verseTitle, index);
-        layout.addView(newVerse, index + 1);
-    }
 
     /**
      * Create a new verse with default text and the next numbered title.
@@ -387,7 +295,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * @param view view from which this method is called
      */
     public void createNewVerse(View view) {
-        createVerse("Type verse here.", ((layout.getChildCount() - 1) / 2) + ".", layout.getChildCount() - 1);
+        layout.addView(new Verse(this, "", ""), layout.getChildCount() - 1);
         updateVerseTitles();
     }
 
@@ -398,10 +306,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * @param i index of verse to delete
      */
     public void deleteVerse(View view, int i) {
-        View title = layout.getChildAt(i - (i % 2));
-        View verse = layout.getChildAt(i - (i % 2) + 1);
-        layout.removeView(title);
-        layout.removeView(verse);
+        layout.removeView(layout.getChildAt(i));
     }
 
     public void deleteVerse(View view) {
@@ -412,15 +317,14 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * Update the verse titles so that they are in a valid order.
      */
     public void updateVerseTitles() {
-        EditText title;
+        Verse verse;
         int nextVerseNum = 1;
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lyricLayout);
-        for (int i = 0; i < linearLayout.getChildCount() - 1; i += 2) {
-            title = (EditText) linearLayout.getChildAt(i);
+        for (int i = 0; i < layout.getChildCount() - 1; i++) {
+            verse = (Verse) layout.getChildAt(i);
             // Check if this title is a number.
-            String titleStr = title.getText().toString();
-            if (titleStr.length() == 0 || titleStr.substring(0,1).matches("\\d+")) {
-                title.setText(nextVerseNum + ".");
+            String title = verse.getTitle();
+            if (title.length() == 0 || title.substring(0,1).matches("\\d+")) {
+                verse.setTitle(nextVerseNum + ".");
                 nextVerseNum++;
             }
         }
@@ -451,7 +355,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             return current.getVerses().get(v);
         }
         //
-        return "Type verse here.";
+        return "";
     }
 
     /**
