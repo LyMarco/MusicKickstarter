@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MusicJumpStarterApp.iml" filepath="$PROJECT_DIR$/MusicJumpStarterApp.iml" />
+      <module fileurl="file://D:\Documents\GitHub\project-team-11\MusicJumpStarterApp\MusicJumpStarterApp.iml" filepath="D:\Documents\GitHub\project-team-11\MusicJumpStarterApp\MusicJumpStarterApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
