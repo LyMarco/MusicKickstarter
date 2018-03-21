@@ -21,7 +21,6 @@ public class Verse extends RelativeLayout {
     public static final int BODY_TOP_MARGIN = 120;
     public static final int CHORDS_TOP_MARGIN = 70;
 
-
     private RelativeLayout.LayoutParams title_margins;
     private RelativeLayout.LayoutParams body_margins;
     private RelativeLayout.LayoutParams chords_margins;
