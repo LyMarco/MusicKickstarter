@@ -51,6 +51,7 @@ import android.media.MediaRecorder;
 // IO Imports
 import android.text.InputType;
 import java.io.File;
+import java.util.Set;
 // Imports for saving audio
 import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
@@ -65,7 +66,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     LinearLayout layout;
     //
     public static Song current = null;
-    public static HashSet<Song> songs = new HashSet<Song>();
+    public static Set<Song> songs = new HashSet<Song>();
     public static String sPath;
     // Variables needed for Audio handling
     private boolean playing = false;
@@ -201,7 +202,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             current.setSongname(songTitle.getText().toString());
         }
         try {
-            SerializationBase.saveStop(songs, current.getSongname());
+            SerializationBase.saveStop(songs);
         } catch (Exception e){
             Log.v("Save_Stop Error : ",e.getMessage());
             e.printStackTrace();
@@ -222,37 +223,16 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             Log.d("Not_Found:", sPath + "/songs.ser");
         } else {
             Log.d("Read: ", "Start read");
-            HashSet<User> users = null;
             String songsfile = "/songs.ser";
-            String songfile = "/song.ser";
             songs = SerializationBase.genericLoad(songsfile, new HashSet<Song>());
-            String songname = (String) SerializationBase.loadObject(songfile);
-            Log.d("Read songname", songname);
-            for (Song s : songs) {
-                Log.d("Song ", s.getSongname());
-                if (s.getSongname().equals(songname)) {
-                    Log.d("Current_find", s.getSongname());
-                    current = s;
-                }
+            current = new Song("Default");
+            if (songs == null) {
+                songs = new HashSet<Song>();
             }
-            if (current  == null) {
-                current = new Song("Default");
-            }
+            Log.d("Songs", songs.toString());
+            songs.add(current);
         }
-        //
-        int verseCount = getVerseCountFromFile();
-        EditText songTitle = findViewById(R.id.editText7);
-        if (current.getSongname().equals("Default")) {
-            songTitle.setHint(current.getSongname());
-        } else {
-            songTitle.setText(current.getSongname());
-        }
-        while (layout.getChildCount() > 1) {
-            deleteVerse(layout);
-        }
-        for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
-        }
+        switchToSong(current);
 
         //Test Lyrics Suggestions
         //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
@@ -480,6 +460,78 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         Intent intent = new Intent(this, MetronomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    /* ================ SWITCH TO OTHER SONG IN MAIN ACTIVITY ================ */
+
+    /**
+     *  Retrun a String List of name of songs
+     */
+    private List<String> getSongList() {
+        List<String> songNames = new ArrayList<String>();
+        for (Song song : songs) {
+            if (song.getSongname().equals("")) {
+                songNames.add("Default");
+            } else  {
+                songNames.add(song.getSongname());
+            }
+        }
+        return songNames;
+    }
+
+    /**
+     *  Get song by Name
+     *  @param Name the name of the song
+     */
+    private Song getSongbyName (String Name) {
+        Song result = new Song("Default");
+        for (Song song : songs) {
+            if (song.getSongname().equals(Name)) {
+                result = song;
+            }
+        }
+        return result;
+    }
+
+    /**
+     *  Switch to song s
+     *  @param s the song to switch to
+     */
+    public void switchToSong (Song s) {
+        current = s;
+        if (current  == null) {
+            current = new Song("Default");
+        }
+        int verseCount = getVerseCountFromFile();
+        EditText songTitle = findViewById(R.id.editText7);
+        if (current.getSongname().equals("Default")) {
+            songTitle.setHint(current.getSongname());
+        } else {
+            songTitle.setText(current.getSongname());
+        }
+        while (layout.getChildCount() > 1) {
+            deleteVerse(layout);
+        }
+        for (int i = 0; i < verseCount; i++) {
+            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
+        }
+    }
+
+    /**
+     *  Create a new song and switch to it
+     */
+    public void createNewSong () {
+        current = new Song("Default");
+        songs.add(current);
+        switchToSong(current);
+    }
+
+    /**
+     *  Switch to song by Name
+     *  @param Name the name of the song to switch to
+     */
+    public void switchToSongByName (String Name) {
+        switchToSong(getSongbyName(Name));
     }
 
     /* ================ AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */

@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,14 +27,12 @@ import android.content.Context;
 public class SerializationBase extends Activity {
 
     // Helper method to save data in onStop
-    public static void saveStop(HashSet<Song> songs, String songname)
+    public static void saveStop(Set<Song> songs)
             throws IOException, ClassNotFoundException {
         File directory = new File(Lyrics.sPath);
         directory.mkdirs();
         String songsfile = "songs.ser";
-        String songfile = "song.ser";
         saveObject(songs, Lyrics.sPath + songsfile);
-        saveObject(songname, Lyrics.sPath + songfile);
         for (Song s : songs) {
             String path = pathGenerator(s);
             File d = new File(path + '/');
@@ -41,15 +41,6 @@ public class SerializationBase extends Activity {
                 saveLyricsToText(s.getVerses(), s.getTitles(), path + "/Lyrics.txt");
             }
         }
-    }
-
-    //
-    public static boolean isFile(String filename) {
-        File f = new File( Lyrics.sPath + filename);
-        if(f.exists() && !f.isDirectory()) {
-            return true;
-        }
-        return false;
     }
 
     // Basic serialization for any object
@@ -71,8 +62,8 @@ public class SerializationBase extends Activity {
         }
     }
 
-    // For note? lyrics?
-    public static void saveLyricsToText(ArrayList<String> l, ArrayList<String> t , String filename){
+    // For save lyrics
+    public static void saveLyricsToText(List<String> l, List<String> t , String filename){
         Log.d("Save:", filename);
         try
         {
@@ -110,13 +101,6 @@ public class SerializationBase extends Activity {
             e.printStackTrace();
         }
         return null;
-    }
-
-    // For note or lyrics again
-    @SuppressWarnings("unchecked")
-    public static Object loadStringList(String filename) {
-        ArrayList<String> s = new ArrayList<String>();
-        return (ArrayList<String>) loadObject(filename);
     }
 
     // Load for spectic type of data
