@@ -1,13 +1,11 @@
 package team11.csc301.musicjumpstarterapp;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,7 +33,6 @@ public class Verse extends RelativeLayout {
     private EditText title;
     private EditText body;
     private EditText chords;
-    private int editing;
 
     public Verse(Lyrics context, String bodyText, String titleText) {
         super(context);

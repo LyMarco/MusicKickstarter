@@ -58,7 +58,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
-    private int editing;
+    private int editingMode;
     // Activity Layout
     LinearLayout layout;
     //
@@ -166,7 +166,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         //sPath = getApplicationContext().getFilesDir().getAbsolutePath();
         sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MusicJump/";
         initVerses();
-        editing = Verse.BODY;
+        editingMode = Verse.BODY;
     }
 
 
@@ -295,13 +295,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      */
     public void toggleChords(View view) {
         Verse verse;
-        switch(editing) {
-            case Verse.BODY: editing = Verse.CHORDS; break;
-            case Verse.CHORDS: editing = Verse.BODY; break;
+        switch(editingMode) {
+            case Verse.BODY: editingMode = Verse.CHORDS; break;
+            case Verse.CHORDS: editingMode = Verse.BODY; break;
         }
         for (int i = 0; i < layout.getChildCount() - 1; i++) {
             verse = (Verse) layout.getChildAt(i);
-            verse.setEditingMode(editing);
+            verse.setEditingMode(editingMode);
         }
         layout.invalidate();
         layout.requestLayout();
