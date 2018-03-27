@@ -44,6 +44,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="60dp"
         android:max="5"
+        android:backgroundTint="#2980b9"
         android:progress="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
