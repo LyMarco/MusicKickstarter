@@ -189,4 +189,15 @@
         android:background="#eeeeee"
         android:minHeight="?attr/actionBarSize" />
 
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/toolbar"
+        android:onClick="toggleChords"
+        android:textOff="Lyrics"
+        android:textOn="Chords" />
+
 </RelativeLayout>
