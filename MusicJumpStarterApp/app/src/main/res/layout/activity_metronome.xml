@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_alignEnd="@+id/rewindButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="146dp"
         android:onClick="startMetronome"
         android:text="Start"
         app:layout_constraintBaseline_toBaselineOf="@+id/button2"
@@ -20,7 +22,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_alignTop="@+id/button"
+        android:layout_marginStart="-14dp"
+        android:layout_toEndOf="@+id/editText7"
         android:onClick="stopMetronome"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,37 +32,205 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBarMetronome" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:onClick="goBackFromMetronome"
-        android:text="Back"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <SeekBar
         android:id="@+id/seekBarMetronome"
         android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="112dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="173dp"
+        android:elevation="3dp"
         android:max="5"
-        android:backgroundTint="#2980b9"
         android:progress="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMetronome" />
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="179dp" />
 
     <TextView
         android:id="@+id/textViewMetronome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="133dp"
         android:text="60 Beats Per Minute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:minHeight="?attr/actionBarSize" />
+
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/toolbar"
+    android:layout_alignParentBottom="true"
+    android:layout_alignStart="@+id/toolbar"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:minHeight="?attr/actionBarSize" />
+
+
+<ImageButton
+    android:id="@+id/shareButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignTop="@+id/toolbar2"
+    android:layout_toEndOf="@+id/drawerButton"
+    android:layout_toRightOf="@+id/drawerButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/share" />
+
+<ImageButton
+    android:id="@+id/metronomeButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@+id/toolbar"
+    android:layout_alignTop="@+id/toolbar"
+    android:layout_marginEnd="18dp"
+    android:layout_marginRight="18dp"
+    android:layout_toLeftOf="@+id/lyricsButton"
+    android:layout_toStartOf="@+id/lyricsButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/metronome" />
+
+<ImageButton
+    android:id="@+id/backtoLyricsButton"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginEnd="14dp"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:onClick="goBackFromMetronome"
+    android:src="@drawable/lyrics" />
+
+<ImageButton
+    android:id="@+id/forwardButton"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:layout_alignParentBottom="true"
+    android:layout_toEndOf="@+id/playButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/forward" />
+
+<ImageButton
+    android:id="@+id/drawerButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@+id/toolbar2"
+    android:layout_alignTop="@+id/toolbar2"
+    android:layout_marginEnd="18dp"
+    android:layout_marginRight="18dp"
+    android:layout_toLeftOf="@+id/backtoLyricsButton"
+    android:layout_toStartOf="@+id/backtoLyricsButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/drawer" />
+
+<ImageButton
+    android:id="@+id/rewindButton"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginStart="126dp"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/rewind" />
+
+
+<ImageButton
+    android:id="@+id/playButton"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:layout_alignParentBottom="true"
+    android:layout_toEndOf="@+id/rewindButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:onClick="buttonPressed"
+    android:src="@drawable/play" />
+
+<ImageButton
+    android:id="@+id/recordButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignTop="@+id/toolbar2"
+    android:layout_marginLeft="28dp"
+    android:layout_marginStart="28dp"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:onClick="buttonPressed2"
+    android:src="@drawable/record" />
+
+<ImageButton
+    android:id="@+id/lyricsButton"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignStart="@+id/drawerButton"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/help" />
+
+    <EditText
+        android:id="@+id/editText7"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignEnd="@+id/forwardButton"
+        android:layout_alignRight="@+id/forwardButton"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_toEndOf="@+id/settingsButton"
+        android:layout_toRightOf="@+id/settingsButton"
+        android:backgroundTint="#2980b9"
+        android:elevation="3dp"
+        android:singleLine="true" />
+
+<ImageButton
+    android:id="@+id/settingsButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@+id/toolbar"
+    android:layout_alignEnd="@+id/recordButton"
+    android:layout_alignLeft="@+id/toolbar"
+    android:layout_alignRight="@+id/recordButton"
+    android:layout_alignStart="@+id/toolbar"
+    android:layout_alignTop="@+id/toolbar"
+    android:background="#ffffff"
+    android:elevation="3dp"
+    android:src="@drawable/settings" />
+
+
+
+<include
+    android:id="@+id/include"
+    layout="@layout/content_notes"
+    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintLeft_toLeftOf="@id/toolbar"
+    app:layout_constraintRight_toRightOf="@id/toolbar" />
+
+</RelativeLayout>
+
