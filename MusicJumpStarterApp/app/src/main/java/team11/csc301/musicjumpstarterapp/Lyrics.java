@@ -276,7 +276,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
         LyricsSuggestion.GetSuggestions(this, word);
         //text.append(suggestion);
-        verse.setText(text);
+        //verse.setText(text);
     }
 
 
