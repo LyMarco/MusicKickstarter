@@ -747,7 +747,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
     /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
-    // Stops Metronome when exiting the application
+    // Stops MEtron
     @Override
     protected void onStop() {
         MetronomeSingleton.getInstance().stopMetronome();

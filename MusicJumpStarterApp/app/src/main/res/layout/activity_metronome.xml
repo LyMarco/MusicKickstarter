@@ -13,7 +13,7 @@
         android:layout_alignEnd="@+id/rewindButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="146dp"
-        android:onClick="startMetronome"
+        android:onClick="startDrums"
         android:text="Start"
         app:layout_constraintBaseline_toBaselineOf="@+id/button2"
         app:layout_constraintStart_toStartOf="parent" />

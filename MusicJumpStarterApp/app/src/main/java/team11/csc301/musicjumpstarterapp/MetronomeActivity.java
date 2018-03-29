@@ -1,43 +1,31 @@
 package team11.csc301.musicjumpstarterapp;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.SoundPool;
+import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 public class MetronomeActivity extends AppCompatActivity {
-    /* All variables between 1 and 2 */
     private TextView text;
     private SeekBar seekBar;
+    private SeekBar upBeatBar;
+    private MediaPlayer mediaPlayer;
+
+    private int upBeat = 4;
     private int bpm = 60;
-
-    /* Trial 1 Variables */
-    // private AudioManager audioManager;
-    // private SoundPool soundPool;
-    // private int low;
-    // private int high;
     private Thread d;
-    // private boolean thread;
-
-	/* Trial 2 Variables */
-    // private Metronome metronome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
         MetronomeSingleton.getInstance().stopMetronome();
-
-		/* Trial 1 Variables */
-        //audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        //this.soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        //this.low = this.soundPool.load(this, R.raw.low,1);
-        //this.high = soundPool.load(this, R.raw.high,1);
-        //this.thread = false;
 
 		/* UI functionality */
         text = (TextView) findViewById(R.id.textViewMetronome);
@@ -62,21 +50,35 @@ public class MetronomeActivity extends AppCompatActivity {
                 }
             }
         });
+        /*
+        upBeatBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
+                upBeat = 1 + progress;
+            }
 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if (d != null) {
+                    MetronomeSingleton.getInstance().stopMetronome();
+                }
+            }
+        });
+        */
         MetronomeSingleton metronome = MetronomeSingleton.getInstance();
     }
 
     public void startMetronome(View view) {
-        DrumSingleton.getInstance().stopDrums();
+        stopDrums();
         this.d = new Thread(new Runnable() {
             public void run() {
-                //Trial * 1
-                //play();
-
-                //Trial * 2 Accurate but sounds robotic
                 MetronomeSingleton metronome = MetronomeSingleton.getInstance();
                 metronome.setBpm(bpm);
-                //metronome.setUpbeat(upbeat);
+                metronome.setUpbeat(upBeat);
                 metronome.play();
             }
         });
@@ -85,26 +87,30 @@ public class MetronomeActivity extends AppCompatActivity {
 
     public void startDrums(View view) {
         MetronomeSingleton.getInstance().stopMetronome();
+        stopDrums();
+        String filename = "bpm" + Integer.toString(bpm);
+        int id = getResources().getIdentifier(filename, "raw", getPackageName());
+        mediaPlayer = MediaPlayer.create(this, id);
         this.d = new Thread(new Runnable() {
             public void run() {
-                //Trial * 1
-                //play();
-
-                //Trial * 2 Accurate but sounds robotic
-                DrumSingleton drums = DrumSingleton.getInstance();
-                drums.setBpm(bpm);
-                drums.play();
+                mediaPlayer.start();
             }
         });
         this.d.start();
     }
 
-    public void stopMetronome(View view) {
-        MetronomeSingleton.getInstance().stopMetronome();
+    private void stopDrums(){
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
-    public void stopDrums(View view) {
-        DrumSingleton.getInstance().stopDrums();
+
+    public void stopMetronome(View view) {
+        MetronomeSingleton.getInstance().stopMetronome();
+        stopDrums();
     }
 
     public void goBackFromMetronome(View view) {

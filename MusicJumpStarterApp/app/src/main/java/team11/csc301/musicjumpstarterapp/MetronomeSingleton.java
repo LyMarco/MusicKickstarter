@@ -36,6 +36,7 @@ public class MetronomeSingleton {
 
     public void setBpm(int bpm) {
         this.bpm = Math.round((8000 * 60) / bpm);
+        this.upbeat = 4;
     }
     public void setUpbeat(int upbeat) {
         this.upbeat = bpm;
@@ -64,7 +65,7 @@ public class MetronomeSingleton {
                             currentbeat++;
                         }
 
-                        if (currentbeat % 4 == 0) {
+                        if (currentbeat % upbeat == 0) {
                             waves[time] = this.other[sound];
                         } else {
                             waves[time] = this.beat[sound];
@@ -82,37 +83,4 @@ public class MetronomeSingleton {
             } while (flag);
         }
     }
-
-    //8000 is the sampleRate, the sound lasts for 1000 samples. 1/8 of a second.
-    //Sound is a sign wave.
-    //Return the sine waves of all the beats and silence that will be played.
-    /*
-    public double[] calculateMetronomeSineWaves() {
-        double[] waves = new double[8000 * 60];
-        int upbeat = 1;
-        for (int time = 0; time < (8000 * 60); time++) {
-            if (time % (int) (8000 * 60 / this.bpm) == 0) {
-                for (int sound = 0; sound < 1000; sound++) {
-                    if (sound < 1000) {
-                        //The tick lasts for 1/8 of a second
-                        if (upbeat % 4 == 0) {
-                            waves[time] = this.other[sound];
-                        } else {
-                            waves[time] = this.beat[sound];
-                        }
-                    } else {
-                        //Fill the rest of the tick with silence
-                        waves[time] = 0;
-                    }
-                    time++;
-                }
-                upbeat++;
-            } else {
-                //Fill a second with silence if bpm is quite small
-                waves[time] = 0;
-            }
-        }
-        return waves;
-    }
-    */
 }
