@@ -9,7 +9,9 @@ public class MetronomeSingleton {
 
     private SixteenBitSynthesizer player;
     private boolean flag;
+    public int upbeat;
     public int bpm;
+    private int waiting;
     public double[] beat;
     public double[] other;
 
@@ -33,7 +35,10 @@ public class MetronomeSingleton {
     }
 
     public void setBpm(int bpm) {
-        this.bpm = bpm;
+        this.bpm = Math.round((8000 * 60) / bpm);
+    }
+    public void setUpbeat(int upbeat) {
+        this.upbeat = bpm;
     }
 
     // Keep calculating the fullSound and looping until player is stopped.
@@ -41,13 +46,37 @@ public class MetronomeSingleton {
         if (flag == false) {
             flag = true;
             byte[] fullSound;
-            double[] waves;
+            double[] waves = new double[8000];
+            int sound = 0;
+            int currentbeat = 1;
+            this.waiting = 0;
+
             player = new SixteenBitSynthesizer();
             this.beat = this.player.getNoteWave(SixteenBitSynthesizer.Notes.Beat);
             this.other = this.player.getNoteWave(SixteenBitSynthesizer.Notes.other);
 
             do {
-                waves = calculateMetronomeSineWaves();
+                for (int time = 0; time < 8000; time++) {
+                    if (waiting == 0) {
+                        if (sound == 1000) {
+                            sound = 0;
+                            waiting = bpm;
+                            currentbeat++;
+                        }
+
+                        if (currentbeat % 4 == 0) {
+                            waves[time] = this.other[sound];
+                        } else {
+                            waves[time] = this.beat[sound];
+                        }
+
+                        sound++;
+                    } else {
+                        waves[time] = 0;
+                        waiting--;
+                    }
+                }
+
                 fullSound = this.player.convert16Bit(waves);
                 this.player.playSound(fullSound);
             } while (flag);
@@ -57,6 +86,7 @@ public class MetronomeSingleton {
     //8000 is the sampleRate, the sound lasts for 1000 samples. 1/8 of a second.
     //Sound is a sign wave.
     //Return the sine waves of all the beats and silence that will be played.
+    /*
     public double[] calculateMetronomeSineWaves() {
         double[] waves = new double[8000 * 60];
         int upbeat = 1;
@@ -84,4 +114,5 @@ public class MetronomeSingleton {
         }
         return waves;
     }
+    */
 }

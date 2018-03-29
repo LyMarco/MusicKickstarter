@@ -30,7 +30,7 @@ public class MetronomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
-	MetronomeSingleton.getInstance().stopMetronome();    
+        MetronomeSingleton.getInstance().stopMetronome();
 
 		/* Trial 1 Variables */
         //audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -42,11 +42,12 @@ public class MetronomeActivity extends AppCompatActivity {
 		/* UI functionality */
         text = (TextView) findViewById(R.id.textViewMetronome);
         seekBar = (SeekBar) findViewById(R.id.seekBarMetronome);
+        //upBeatBar = (SeekBar) findViewById(R.id.upBeatBar);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-                bpm = 20 + 20 * progress;
+                bpm = 30 + 10 * progress;
             }
 
             @Override
@@ -56,7 +57,7 @@ public class MetronomeActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                if(d != null) {
+                if (d != null) {
                     MetronomeSingleton.getInstance().stopMetronome();
                 }
             }
@@ -66,6 +67,7 @@ public class MetronomeActivity extends AppCompatActivity {
     }
 
     public void startMetronome(View view) {
+        DrumSingleton.getInstance().stopDrums();
         this.d = new Thread(new Runnable() {
             public void run() {
                 //Trial * 1
@@ -74,38 +76,49 @@ public class MetronomeActivity extends AppCompatActivity {
                 //Trial * 2 Accurate but sounds robotic
                 MetronomeSingleton metronome = MetronomeSingleton.getInstance();
                 metronome.setBpm(bpm);
+                //metronome.setUpbeat(upbeat);
                 metronome.play();
             }
         });
         this.d.start();
     }
 
+    public void startDrums(View view) {
+        MetronomeSingleton.getInstance().stopMetronome();
+        this.d = new Thread(new Runnable() {
+            public void run() {
+                //Trial * 1
+                //play();
 
-    /* Trial * 1 Not accurate but sounds good */
-//    public void play() {
-//        int upbeat = 1;
-//        while (!Thread.currentThread().isInterrupted()) {
-//            if (System.currentTimeMillis() % bpm == 0) {
-//                if (upbeat % 4 == 0) {
-//                    soundPool.play(this.high, 0.99f, 0.99f, 0, 0, 1);
-//                } else {
-//                    soundPool.play(this.low, 0.99f, 0.99f, 0, 0, 1);
-//                }
-//                upbeat++;
-//            }
-//        }
-//    }
+                //Trial * 2 Accurate but sounds robotic
+                DrumSingleton drums = DrumSingleton.getInstance();
+                drums.setBpm(bpm);
+                drums.play();
+            }
+        });
+        this.d.start();
+    }
 
     public void stopMetronome(View view) {
-        //this.d.interrupt();
         MetronomeSingleton.getInstance().stopMetronome();
-        //this.thread = false;
+    }
+
+    public void stopDrums(View view) {
+        DrumSingleton.getInstance().stopDrums();
     }
 
     public void goBackFromMetronome(View view) {
         Intent intent = new Intent(this, Lyrics.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    // Stops Metronome when exiting the application
+    @Override
+    protected void onUserLeaveHint()
+    {
+        MetronomeSingleton.getInstance().stopMetronome();
+        super.onUserLeaveHint();
     }
 }
 
