@@ -36,10 +36,9 @@ public class MetronomeSingleton {
 
     public void setBpm(int bpm) {
         this.bpm = Math.round((8000 * 60) / bpm);
-        this.upbeat = 4;
     }
     public void setUpbeat(int upbeat) {
-        this.upbeat = bpm;
+        this.upbeat = upbeat;
     }
 
     // Keep calculating the fullSound and looping until player is stopped.

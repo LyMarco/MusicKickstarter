@@ -1,7 +1,6 @@
 package team11.csc301.musicjumpstarterapp;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +8,9 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 public class MetronomeActivity extends AppCompatActivity {
     private TextView text;
+    private TextView text2;
     private SeekBar seekBar;
     private SeekBar upBeatBar;
     private MediaPlayer mediaPlayer;
@@ -28,9 +26,10 @@ public class MetronomeActivity extends AppCompatActivity {
         MetronomeSingleton.getInstance().stopMetronome();
 
 		/* UI functionality */
-        text = (TextView) findViewById(R.id.textViewMetronome);
+        text = (TextView) findViewById(R.id.textViewMetronome2);
+        text2 = (TextView) findViewById(R.id.textViewMetronome2);
         seekBar = (SeekBar) findViewById(R.id.seekBarMetronome);
-        //upBeatBar = (SeekBar) findViewById(R.id.upBeatBar);
+        upBeatBar = (SeekBar) findViewById(R.id.upBeatBar);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -50,7 +49,7 @@ public class MetronomeActivity extends AppCompatActivity {
                 }
             }
         });
-        /*
+
         upBeatBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
@@ -59,6 +58,7 @@ public class MetronomeActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                text2.setText("Upbeat: "+ upBeat);
             }
 
             @Override
@@ -68,7 +68,7 @@ public class MetronomeActivity extends AppCompatActivity {
                 }
             }
         });
-        */
+
         MetronomeSingleton metronome = MetronomeSingleton.getInstance();
     }
 
