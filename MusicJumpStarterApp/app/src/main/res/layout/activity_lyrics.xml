@@ -191,6 +191,7 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar2"
         app:layout_constraintLeft_toLeftOf="parent" />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizontal_recycler_view_suggestions"
         android:layout_width="match_parent"

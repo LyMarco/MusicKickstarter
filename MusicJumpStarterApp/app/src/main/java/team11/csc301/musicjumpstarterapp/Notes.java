@@ -107,6 +107,7 @@ public class Notes extends AppCompatActivity {
     public void goToLyrics(View view) {
         Intent intent = new Intent(Notes.this, Lyrics.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }

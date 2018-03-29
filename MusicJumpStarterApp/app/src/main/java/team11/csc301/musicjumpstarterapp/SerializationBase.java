@@ -7,6 +7,7 @@ package team11.csc301.musicjumpstarterapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,10 +27,20 @@ public class SerializationBase extends Activity {
     // Helper method to save data in onStop
     public static void saveStop(HashSet<Song> songs, String songname)
             throws IOException, ClassNotFoundException {
-        String songsfile = "/songs.ser";
-        String songfile = "/song.ser";
-        saveObject(songs, songsfile);
-        saveObject(songname, songfile);
+        File directory = new File(Lyrics.sPath);
+        directory.mkdirs();
+        String songsfile = "songs.ser";
+        String songfile = "song.ser";
+        saveObject(songs, Lyrics.sPath + songsfile);
+        saveObject(songname, Lyrics.sPath + songfile);
+        for (Song s : songs) {
+            String path = pathGenerator(s);
+            File d = new File(path + '/');
+            d.mkdirs();
+            if (s.getVerses() != null) {
+                saveLyricsToText(s.getVerses(), s.getTitles(), path + "/Lyrics.txt");
+            }
+        }
     }
 
     //
@@ -43,11 +54,10 @@ public class SerializationBase extends Activity {
 
     // Basic serialization for any object
     public static <T> void saveObject(T o, String filename) {
-        String fullFilename =  Lyrics.sPath+ filename;
-        Log.d("Save:", fullFilename);
+        Log.d("Save:", filename);
         try
         {
-            FileOutputStream fos= new FileOutputStream(new File(fullFilename));
+            FileOutputStream fos= new FileOutputStream(new File(filename));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(o);
             oos.flush();
@@ -62,8 +72,23 @@ public class SerializationBase extends Activity {
     }
 
     // For note? lyrics?
-    public static void saveStringList(ArrayList<String> s, String filename){
-        saveObject(s, filename);
+    public static void saveLyricsToText(ArrayList<String> l, ArrayList<String> t , String filename){
+        Log.d("Save:", filename);
+        try
+        {
+            File f = new File(filename);
+            FileWriter writer = new FileWriter(f);
+            for (int i = 0; i < l.size(); i++) {
+                writer.write(t.get(i) + "\n");
+                writer.write(l.get(i) + "\n");
+            }
+            writer.close();
+        }
+        catch(Exception e)
+        {
+            Log.v("Serial_Save Error : ", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // Basic deserialization for any object
@@ -103,15 +128,14 @@ public class SerializationBase extends Activity {
 
     // Helper function to create path
     public static String pathGenerator(Song song,
-                                       String type,
                                        String... more) {
         String s = "";
         if (more != null) {
             for (String m : more) {
-                s += "/" + m;
+                s += m + '/';
             }
         }
-        return '/' + song.getSongname() + '/' + type + s;
+        return Lyrics.sPath + song.getSongname() + '/' + s;
     }
 
 }
