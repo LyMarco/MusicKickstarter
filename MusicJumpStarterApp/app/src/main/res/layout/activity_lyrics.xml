@@ -15,10 +15,6 @@
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
 
-
-
-
-
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,9 +24,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/toolbar"
         android:layout_alignStart="@+id/toolbar" />
-
-
-
 
     <ImageButton
         android:id="@+id/shareButton"
@@ -179,6 +172,13 @@
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
+    <fragment
+        android:id="@+id/drawer_frag"
+        android:name="team11.csc301.musicjumpstarterapp.DrawerFragment"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        />
+
     <Button
         android:id="@+id/addVerse"
         android:layout_width="wrap_content"
@@ -202,3 +202,4 @@
         android:minHeight="?attr/actionBarSize" />
 
 </RelativeLayout>
+
