@@ -243,6 +243,7 @@ public class Verse extends RelativeLayout {
     }
 
     /**
+<<<<<<< HEAD
      * Performs a check operation on the chords of this verse by ensuring that the length of each
      * line of the chords is as close as possible to the length of the corresponding line in the
      * body of this verse. Will delete non-space characters.
@@ -367,6 +368,8 @@ public class Verse extends RelativeLayout {
     }
 
     /**
+=======
+>>>>>>> f2f61d0bfac00f740570528511cb363fa7adf5f6
      * Set the editing mode for this verse to allow editing of only the body or only the chords.
      *
      * @param mode mode to set to
@@ -411,6 +414,7 @@ public class Verse extends RelativeLayout {
     }
 
     /**
+<<<<<<< HEAD
      * Get an iterator over the lines of the body of this verse.
      *
      * @return a line iterator for this verse's lyrics/body
@@ -439,6 +443,8 @@ public class Verse extends RelativeLayout {
     }
 
     /**
+=======
+>>>>>>> f2f61d0bfac00f740570528511cb363fa7adf5f6
      * Get the index in the parent layout of this verse.
      *
      * @return the index of this verse
