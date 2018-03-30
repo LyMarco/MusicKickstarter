@@ -7,30 +7,33 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.util.Log;
+
+import java.util.Iterator;
+import java.util.concurrent.Callable;
 
 
 public class Verse extends RelativeLayout {
 
-    // Finals for verse attributes, layout.
+    // Finals for verse attributes and the layout.
     public static final int TITLE_INPUT_TYPE = InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
     public static final int BODY_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
     public static final int CHORDS_INPUT_TYPE = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
     public static final int SIDE_MARGIN = 120;
     public static final int TITLE_TOP_MARGIN = 0;
     public static final int BODY_TOP_MARGIN = 120;
-    public static final int CHORDS_TOP_MARGIN = 70;
+    public static final int CHORDS_TOP_MARGIN = 62;
     public static final int LINE_SPACING_EXTRA = 70;
-
     // Finals for editing mode.
     public static final int BODY = 0;
     public static final int CHORDS = 1;
 
+    // Margins for this verse.
     private RelativeLayout.LayoutParams title_margins;
     private RelativeLayout.LayoutParams body_margins;
     private RelativeLayout.LayoutParams chords_margins;
+    // The actual textviews for this verse.
     private EditText title;
     private EditText body;
     private EditText chords;
@@ -53,9 +56,15 @@ public class Verse extends RelativeLayout {
         initBody(bodyText);
         initChords("");
 
+        checkChords();
         setEditingMode(BODY);
     }
 
+    /**
+     * Initialize the title of this verse.
+     *
+     * @param titleText title to be displayed
+     */
     private void initTitle(String titleText) {
         title = new EditText(getContext());
         title.setLayoutParams(title_margins);
@@ -72,6 +81,11 @@ public class Verse extends RelativeLayout {
         addView(title);
     }
 
+    /**
+     * Initialize the body or lyrics of this verse.
+     *
+     * @param bodyText lyrics to be displayed
+     */
     private void initBody(String bodyText) {
         body = new EditText(getContext());
         body.setLayoutParams(body_margins);
@@ -103,6 +117,9 @@ public class Verse extends RelativeLayout {
                     deleteNewline = !deleteNewline;
                     split = i;
                 }
+                if (i1 == 1) {
+                    updateChords(charSequence.subSequence(i, i + 1).toString(), "", i);
+                }
             }
 
             @Override
@@ -116,6 +133,9 @@ public class Verse extends RelativeLayout {
                         insertNewline = !insertNewline;
                         split = i;
                     }
+                }
+                if (i2 == 1) {
+                    updateChords("", charSequence.subSequence(i, i + 1).toString(), i);
                 }
             }
 
@@ -158,6 +178,11 @@ public class Verse extends RelativeLayout {
         addView(body);
     }
 
+    /**
+     * Initialize the chords of this verse.
+     *
+     * @param chordsText chords to be displayed
+     */
     private void initChords(String chordsText) {
         chords = new EditText(getContext());
         chords.setLayoutParams(chords_margins);
@@ -172,7 +197,6 @@ public class Verse extends RelativeLayout {
         });
         chords.setBackgroundColor(Color.TRANSPARENT);
         chords.addTextChangedListener(new TextWatcher() {
-            private boolean doubleReturn = false; // True if the user typed in a newline twice at the same position.
             private boolean insertNewline = false; // True if we just added a newline and need to add another to keep it double-spaced.
             private boolean deleteNewline = false; // True if we just deleted a newline and need to delete another to keep it double-spaced.
             private int split;
@@ -219,6 +243,130 @@ public class Verse extends RelativeLayout {
     }
 
     /**
+     * Performs a check operation on the chords of this verse by ensuring that the length of each
+     * line of the chords is as close as possible to the length of the corresponding line in the
+     * body of this verse. Will delete non-space characters.
+     */
+    public void checkChords() {
+        Paint bodyPaint = new Paint(body.getPaint());
+        Paint chordsPaint = new Paint(body.getPaint());
+        // Reference to body of the lyrics.
+        String bodyString = getBody();
+        // Will be our new chords once we're done here.
+        StringBuilder chordsString = new StringBuilder(getChords());
+        // The indices of the start and end of the lines as we loop through them.
+        int bodyLineEnd, chordsLineEnd = 0;
+        int bodyLineStart = 0, chordsLineStart = 0;
+
+        // Loop through lines, updating each separately.
+        while (bodyLineStart < bodyString.length()) {
+            // Set the indices pointing to the end of the current lines.
+            bodyLineEnd = bodyString.substring(bodyLineStart).indexOf('\n') + bodyLineStart;
+            if (bodyLineEnd == bodyLineStart - 1) {
+                bodyLineEnd = bodyString.length();
+            }
+            chordsLineEnd = chordsString.substring(chordsLineStart).indexOf('\n') + chordsLineStart;
+            if (chordsLineEnd == chordsLineStart - 1) {
+                chordsLineEnd = chordsString.length();
+            }
+
+            // Perform the actual update of this line of the chords.
+            float bodyWidth = bodyPaint.measureText(bodyString.substring(bodyLineStart, bodyLineEnd));
+            float chordsWidth = chordsPaint.measureText(chordsString.substring(chordsLineStart, chordsLineEnd));
+            while (chordsWidth > bodyWidth) {
+                chordsString.delete(chordsLineEnd - 1, chordsLineEnd);
+                chordsLineEnd--;
+                chordsWidth = chordsPaint.measureText(chordsString.substring(chordsLineStart, chordsLineEnd));
+            }
+            while (chordsWidth < bodyWidth) {
+                chordsString.insert(chordsLineEnd, " ");
+                chordsLineEnd++;
+                chordsWidth = chordsPaint.measureText(chordsString.substring(chordsLineStart, chordsLineEnd));
+            }
+
+            // Set the indices pointing to the start of the current lines.
+            chordsLineStart = chordsLineEnd + 2;
+            if (chordsLineStart == chordsString.length() + 2) {
+                chordsString.append("\n\n "); // chordsLineStart points to the space.
+            } else if (chordsLineStart == chordsString.length()) {
+                chordsString.append(" "); // chordsLineStart points to the space.
+            } else if (chordsLineStart > chordsString.length()) {
+                throw new StringIndexOutOfBoundsException();
+            }
+            bodyLineStart = bodyLineEnd + 2;
+        }
+        if (chordsLineEnd != chordsString.length()) {
+            chordsString.delete(chordsLineEnd, chordsString.length());
+        }
+
+        setChords(chordsString.toString());
+    }
+
+    /**
+     * Updates the chords to account for a change in the body of the verse. Will add spaces to
+     * account for an insertion at index i of the body (indicated by prev being the empty string and
+     * now being a string of the inserted character), or will delete spaces to account for a
+     * deletion at index i of the body (indicated by an empty now and a character in prev). Will not
+     * delete non-space characters. Will attempt to make the change as close to the place in the
+     * body of the verse as possible.
+     *
+     * @param prev one character string representing the character removed (or null if insertion)
+     * @param now one character string representing the character inserted (or null if deletion)
+     * @param i index into the body of the verse where the change was made
+     */
+    public void updateChords(String prev, String now, int i) {
+        Paint bodyPaint = new Paint(body.getPaint());
+        Paint chordsPaint = new Paint(body.getPaint());
+        LineIterator bodyLines = getBodyIterator();
+        LineIterator chordsLines = getChordsIterator();
+        String bodyLine = "", chordsLine = "";
+
+        // Find the line where the change occurred.
+        while (bodyLines.hasNext()) {
+            bodyLine = bodyLines.next();
+            if (!chordsLines.hasNext()) {
+                if (getChords().length() == 0 || getChords().charAt(getChords().length() - 1) == '\n') {
+                    // Then the last line was simply empty.
+                    setChords(getChords() + " ");
+                } else {
+                    setChords(getChords() + "\n\n ");
+                }
+            }
+            chordsLine = chordsLines.next();
+            if (i <= bodyLines.end) {
+                i -= bodyLines.start;
+                break;
+            }
+        }
+        if (i > bodyLine.length()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        // Perform the actual update.
+        float bodyWidth = bodyPaint.measureText(bodyLine.substring(0, i));
+        int j = getIndexOfWidth(bodyWidth, chordsLine, chordsPaint);
+        StringBuilder newChords = new StringBuilder(getChords());
+        if (prev.matches("")) {
+            // Then this was an insert.
+            int extraSpace = Math.round(bodyPaint.measureText(now) / chordsPaint.measureText(" "));
+            for (int k = 0; k < extraSpace; k++) {
+                newChords.insert(j + chordsLines.start, " ");
+            }
+        } else {
+            // Then this was a delete.
+            int extraSpace = Math.round(bodyPaint.measureText(prev) / chordsPaint.measureText(" "));
+            for (int k = 0; k < extraSpace; k++) {
+                while (j + chordsLines.start < newChords.length() && newChords.charAt(j + chordsLines.start) != ' ') {
+                    j++;
+                }
+                newChords.delete(j + chordsLines.start, j + chordsLines.start + 1);
+            }
+        }
+
+        setChords(newChords.toString());
+    }
+
+    /**
      * Set the editing mode for this verse to allow editing of only the body or only the chords.
      *
      * @param mode mode to set to
@@ -229,11 +377,13 @@ public class Verse extends RelativeLayout {
                 chords.setEnabled(false);
                 body.setEnabled(true);
                 body.bringToFront();
+                checkChords();
                 break;
             case CHORDS:
                 body.setEnabled(false);
                 chords.setEnabled(true);
                 chords.bringToFront();
+                checkChords();
                 break;
         }
     }
@@ -258,6 +408,34 @@ public class Verse extends RelativeLayout {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Get an iterator over the lines of the body of this verse.
+     *
+     * @return a line iterator for this verse's lyrics/body
+     */
+    public LineIterator getBodyIterator() {
+        return new LineIterator(new Callable<String>() {
+            @Override
+            public String call() {
+                return getBody();
+            }
+        });
+    }
+
+    /**
+     * Get an iterator over the lines of the chords of this verse.
+     *
+     * @return a line iterator for this verse's chords
+     */
+    public LineIterator getChordsIterator() {
+        return new LineIterator(new Callable<String>() {
+            @Override
+            public String call() {
+                return getChords();
+            }
+        });
     }
 
     /**
@@ -291,5 +469,92 @@ public class Verse extends RelativeLayout {
 
     public void setChords(String chordsText) {
         chords.setText(chordsText);
+    }
+
+    /**
+     * An iterator which iterates over the lines of the string returned by the function given as a
+     * parameter to the iterator. The string may add lines while its iterator is being used but it
+     * is undefined what will happen if lines are deleted or changed.
+     *
+     * The string must be in the format of the chords or lyrics in this class.
+     */
+    class LineIterator implements Iterator<String> {
+        // The start and end index of the current line.
+        private int start = 0;
+        private int end = -2;
+        Callable<String> stringGetter;
+
+        LineIterator(Callable<String> stringGetter) {
+            super();
+            this.stringGetter = stringGetter;
+        }
+
+        @Override
+        public boolean hasNext() {
+            try {
+                return end + 2 < stringGetter.call().length(); // + 2 ensures not an empty line
+            } catch (Exception e) {
+                Log.d("Verse", "LineIterator: hasNext()");
+                return false;
+            }
+
+        }
+
+        @Override
+        public String next() {
+            try {
+                start = end + 2;
+                end = stringGetter.call().substring(start).indexOf('\n') + start;
+                if (end == start - 1) {
+                    end = stringGetter.call().length();
+                }
+                return stringGetter.call().substring(start, end);
+            } catch (Exception e) {
+                Log.d("Verse", "LineIterator: next()");
+                return null;
+            }
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+    }
+
+    /**
+     * Get an index within 1 of being the given width from the beginning of the given string.
+     *
+     * Uses binary search.
+     *
+     * @param width desired width of substring from 0 to the returned index in the given string
+     * @param s string from which to get the index from
+     * @param paint used to measure the width
+     * @return an index into s which gives a prefix of approximately width length
+     */
+    private int getIndexOfWidth(float width, String s, Paint paint) {
+        int a = 0, b = s.length() - 1;
+        int i = b / 2;
+        float diff = Math.abs(paint.measureText(s.substring(0, i)) - width);
+        while (true) {
+            if (i == 0) {
+                break;
+            } else if (paint.measureText(s.substring(0, i)) > width) {
+                b = i;
+                i -= (i - a) / 2;
+                if (i == b) {
+                    break;
+                }
+            } else {
+                a = i;
+                i += (b - i) / 2;
+                if (i == a) {
+                    break;
+                }
+            }
+        }
+        return i;
     }
 }
