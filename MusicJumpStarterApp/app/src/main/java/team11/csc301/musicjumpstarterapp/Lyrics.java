@@ -357,6 +357,30 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      *  @param s the song to switch to
      */
     public void switchToSong (Song s) {
+        if (current != null) {
+            // Get text from verses.
+            ArrayList<String> verses = new ArrayList<>();
+            ArrayList<String> titles = new ArrayList<>();
+            for (int i = 0; i < layout.getChildCount() - 1; i++) {
+                Verse verse = (Verse) layout.getChildAt(i);
+                verses.add(verse.getBody());
+                titles.add(verse.getTitle());
+            }
+            current.setVerses(verses);
+            current.setTitles(titles);
+
+            // Set song title.
+            String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
+            if (songname.equals("")) {
+                current.setSongname("Default");
+            }
+            if (!songname.equals(current.getSongname())) {
+                File oldFolder = new File(SerializationBase.pathGenerator(current));
+                File newFolder = new File(sPath + songname + '/');
+                boolean success = oldFolder.renameTo(newFolder);
+                current.setSongname(songname);
+            }
+        }
         boolean isNew = false;
         current = s;
         if (current  == null) {
@@ -388,9 +412,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      *  Create a new song and switch to it
      */
     public void createNewSong () {
-        current = new Song("Default");
+        switchToSong(null);
         songs.add(current);
-        switchToSong(current);
     }
 
     /**
