@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -254,10 +255,16 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     public void getLyricSuggestion(View view) {
+        RecyclerView suggestionBar = findViewById(R.id.horizontal_recycler_view_suggestions);
+        suggestionBar.setVisibility(View.VISIBLE);
         Verse verse = (Verse) getCurrentFocus();
         String word = verse.getSelection();
+        //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
         LyricsSuggestion.GetSuggestions(this, word);
+        //text.append(suggestion);
+        //verse.setText(text);
     }
+
 
     // suggestions are just rhymes for now
     public void onSuggestionReceived(ArrayList<String> rhymes){
@@ -604,4 +611,11 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
+
+    // Stops MEtron
+    @Override
+    protected void onStop() {
+        MetronomeSingleton.getInstance().stopMetronome();
+        super.onStop();
+    }
 }
