@@ -196,49 +196,21 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * each of these verses and their titles.
      */
     public void initSong() {
-        boolean isNew = false;
         // Load/create new song.
         Log.d("Init:", "start");
         if (! new File(sPath + "/songs.ser").isFile()) {
-            current = new Song("Default");
-            songs.add(current);
             Log.d("Not_Found:", sPath + "/songs.ser");
-            isNew = true;
         } else {
             Log.d("Read: ", "Start read");
             String songsfile = "/songs.ser";
             songs = SerializationBase.genericLoad(songsfile, new HashSet<Song>());
-            if (current  == null) {
-                current = new Song("Default");
-                isNew = true;
             if (songs == null) {
                 songs = new HashSet<Song>();
             }
             Log.d("Songs", songs.toString());
-            songs.add(current);
         }
-
-        // Set title.
-        EditText songTitle = findViewById(R.id.editText7);
-        if (current.getSongname().equals("Default")) {
-            songTitle.setHint(current.getSongname());
-        } else {
-            songTitle.setText(current.getSongname());
-        }
-        while (layout.getChildCount() > 1) {
-            deleteVerse(layout);
-        }
-        // Create verses.
-        if (isNew) {
-            for (int i = 0; i < 3; i++) {
-                layout.addView(new Verse(this, "", "", ""), i);
-            }
-        } else {
-            for (int i = 0; i < current.getVerses().size(); i++) {
-                layout.addView(new Verse(this, current.getTitles().get(i), current.getVerses().get(i), ""), i);
-            }
-        }
-        switchToSong(current);
+        switchToSong(null);
+        songs.add(current);
 
         //Test Lyrics Suggestions
         //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
@@ -385,11 +357,12 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      *  @param s the song to switch to
      */
     public void switchToSong (Song s) {
+        boolean isNew = false;
         current = s;
         if (current  == null) {
             current = new Song("Default");
+            isNew = true;
         }
-        int verseCount = getVerseCountFromFile();
         EditText songTitle = findViewById(R.id.editText7);
         if (current.getSongname().equals("Default")) {
             songTitle.setHint(current.getSongname());
@@ -399,8 +372,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         while (layout.getChildCount() > 1) {
             deleteVerse(layout);
         }
-        for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
+        // Create verses.
+        if (isNew) {
+            for (int i = 0; i < 3; i++) {
+                layout.addView(new Verse(this, "", "", ""), i);
+            }
+        } else {
+            for (int i = 0; i < current.getVerses().size(); i++) {
+                layout.addView(new Verse(this, current.getTitles().get(i), current.getVerses().get(i), ""), i);
+            }
         }
     }
 
