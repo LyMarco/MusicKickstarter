@@ -1,5 +1,6 @@
 package team11.csc301.musicjumpstarterapp;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Editable;
@@ -8,12 +9,17 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.util.Log;
 
 import java.util.Iterator;
 import java.util.concurrent.Callable;
 
-
+/**
+ * This is a verse for a particular song.
+ *
+ * This verse includes a body, a title, and chords, each of which can be edited and retrieved. This
+ * verse is displayed as a single layout and can be treated as a single entity in its parent
+ * context, which must be an instance of Lyrics.
+ */
 public class Verse extends RelativeLayout {
 
     // Finals for verse attributes and the layout.
@@ -23,7 +29,7 @@ public class Verse extends RelativeLayout {
     public static final int SIDE_MARGIN = 120;
     public static final int TITLE_TOP_MARGIN = 0;
     public static final int BODY_TOP_MARGIN = 120;
-    public static final int CHORDS_TOP_MARGIN = 62;
+    public static final int CHORDS_TOP_MARGIN = 63;
     public static final int LINE_SPACING_EXTRA = 70;
     // Finals for editing mode.
     public static final int BODY = 0;
@@ -37,9 +43,25 @@ public class Verse extends RelativeLayout {
     private EditText title;
     private EditText body;
     private EditText chords;
-    private int editing;
 
-    public Verse(Lyrics context, String bodyText, String titleText) {
+    /**
+     * Used by RelativeLayout.
+     */
+    public Verse(Context context) {
+        super(context);
+    }
+
+    /**
+     * Create a verse from the given title, lyrics, and chords.
+     *
+     * @param context parent context, must be an instance of Lyrics
+     * @param titleText title of this verse, will default to the number required by its parent
+     *                  context if its first character is a number or if empty
+     * @param bodyText lyrics of this verse, will be set as a hint if 'Type verse here' and will
+     *                 default to that if given the empty string
+     * @param chordsText chords of this verse
+     */
+    public Verse(Lyrics context, String titleText, String bodyText, String chordsText) {
         super(context);
 
         title_margins = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -54,7 +76,7 @@ public class Verse extends RelativeLayout {
 
         initTitle(titleText);
         initBody(bodyText);
-        initChords("");
+        initChords(chordsText);
 
         checkChords();
         setEditingMode(BODY);
@@ -89,12 +111,15 @@ public class Verse extends RelativeLayout {
     private void initBody(String bodyText) {
         body = new EditText(getContext());
         body.setLayoutParams(body_margins);
-        if (bodyText.equals("Type verse here.")) {
-            body.setHint("Type verse here.");
-        } else if (bodyText.equals("")) {
-            body.setHint("Type verse here.");
-        } else {
-            body.setText(bodyText);
+        switch(bodyText) {
+            case "Type verse here.":
+                body.setHint("Type verse here.");
+                break;
+            case "":
+                body.setHint("Type verse here.");
+                break;
+            default:
+                body.setText(bodyText);
         }
         body.setInputType(BODY_INPUT_TYPE);
         body.setLineSpacing(LINE_SPACING_EXTRA, 0);
@@ -109,7 +134,6 @@ public class Verse extends RelativeLayout {
             private boolean insertNewline = false; // True if we just added a newline and need to add another to keep it double-spaced.
             private boolean deleteNewline = false; // True if we just deleted a newline and need to delete another to keep it double-spaced.
             private int split;
-            private int count = 0;
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -143,7 +167,6 @@ public class Verse extends RelativeLayout {
             public void afterTextChanged(Editable editable) {
                 if (doubleReturn) {
                     String newVerseText = "";
-                    int i = getIndex();
                     // Delete extra newlines at end of this verse.
                     editable.delete(split, split + 3);
                     if (editable.length() >= split) {
@@ -152,7 +175,7 @@ public class Verse extends RelativeLayout {
                         newVerseText = editable.subSequence(split, editable.length()).toString();
                         editable.delete(split, editable.length());
                     }
-                    Verse newVerse = new Verse((Lyrics) getContext(), newVerseText, "");
+                    Verse newVerse = new Verse((Lyrics) getContext(), "", newVerseText, "");
                     ((Lyrics) getContext()).layout.addView(newVerse, getIndex() + 1);
                     newVerse.requestBodyFocus();
                 }
@@ -200,7 +223,6 @@ public class Verse extends RelativeLayout {
             private boolean insertNewline = false; // True if we just added a newline and need to add another to keep it double-spaced.
             private boolean deleteNewline = false; // True if we just deleted a newline and need to delete another to keep it double-spaced.
             private int split;
-            private int count = 0;
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -243,7 +265,6 @@ public class Verse extends RelativeLayout {
     }
 
     /**
-<<<<<<< HEAD
      * Performs a check operation on the chords of this verse by ensuring that the length of each
      * line of the chords is as close as possible to the length of the corresponding line in the
      * body of this verse. Will delete non-space characters.
@@ -368,8 +389,6 @@ public class Verse extends RelativeLayout {
     }
 
     /**
-=======
->>>>>>> f2f61d0bfac00f740570528511cb363fa7adf5f6
      * Set the editing mode for this verse to allow editing of only the body or only the chords.
      *
      * @param mode mode to set to
@@ -414,7 +433,6 @@ public class Verse extends RelativeLayout {
     }
 
     /**
-<<<<<<< HEAD
      * Get an iterator over the lines of the body of this verse.
      *
      * @return a line iterator for this verse's lyrics/body
@@ -443,8 +461,6 @@ public class Verse extends RelativeLayout {
     }
 
     /**
-=======
->>>>>>> f2f61d0bfac00f740570528511cb363fa7adf5f6
      * Get the index in the parent layout of this verse.
      *
      * @return the index of this verse
@@ -453,26 +469,56 @@ public class Verse extends RelativeLayout {
         return ((Lyrics) getContext()).layout.indexOfChild(this);
     }
 
+    /**
+     * Get the title of this verse.
+     *
+     * @return title as a string
+     */
     public String getTitle() {
         return title.getText().toString();
     }
 
+    /**
+     * Get the body/lyrics of this verse.
+     *
+     * @return body as a string
+     */
     public String getBody() {
         return body.getText().toString();
     }
 
+    /**
+     * Get the chords of this verse.
+     *
+     * @return chords as a string
+     */
     public String getChords() {
         return chords.getText().toString();
     }
 
+     /**
+     * Set the title of this verse.
+     *
+     * @param titleText the new title of this verse
+     */
     public void setTitle(String titleText) {
         title.setText(titleText);
     }
 
+    /**
+     * Set the body/lyrics of this verse.
+     *
+     * @param bodyText the new lyrics of this verse
+     */
     public void setBody(String bodyText) {
         body.setText(bodyText);
     }
 
+    /**
+     * Set the chords of this verse.
+     *
+     * @param chordsText new chords of this verse
+     */
     public void setChords(String chordsText) {
         chords.setText(chordsText);
     }
@@ -500,7 +546,6 @@ public class Verse extends RelativeLayout {
             try {
                 return end + 2 < stringGetter.call().length(); // + 2 ensures not an empty line
             } catch (Exception e) {
-                Log.d("Verse", "LineIterator: hasNext()");
                 return false;
             }
 
@@ -516,7 +561,6 @@ public class Verse extends RelativeLayout {
                 }
                 return stringGetter.call().substring(start, end);
             } catch (Exception e) {
-                Log.d("Verse", "LineIterator: next()");
                 return null;
             }
         }
@@ -543,7 +587,6 @@ public class Verse extends RelativeLayout {
     private int getIndexOfWidth(float width, String s, Paint paint) {
         int a = 0, b = s.length() - 1;
         int i = b / 2;
-        float diff = Math.abs(paint.measureText(s.substring(0, i)) - width);
         while (true) {
             if (i == 0) {
                 break;
