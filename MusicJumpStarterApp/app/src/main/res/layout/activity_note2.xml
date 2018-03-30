@@ -4,102 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team11.csc301.musicjumpstarterapp.MetronomeActivity">
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/recordButton"
-        android:layout_alignStart="@+id/recordButton"
-        android:layout_below="@+id/upBeatBar"
-        android:layout_marginTop="34dp"
-        android:onClick="startMetronome"
-        android:text="Metronome"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_toEndOf="@+id/rewindButton"
-        android:layout_toRightOf="@+id/rewindButton"
-        android:onClick="startDrums"
-        android:text="Drums"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_toEndOf="@+id/textViewMetronome2"
-        android:layout_toRightOf="@+id/textViewMetronome2"
-        android:onClick="stopMetronome"
-        android:text="Stop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarMetronome" />
+    tools:context="team11.csc301.musicjumpstarterapp.NoteActivity2">
 
 
-    <SeekBar
-        android:id="@+id/seekBarMetronome"
-        android:layout_width="300dp"
-        android:layout_height="112dp"
-        android:layout_alignLeft="@+id/upBeatBar"
-        android:layout_alignStart="@+id/upBeatBar"
-        android:layout_below="@+id/textViewMetronome2"
-        android:elevation="3dp"
-        android:max="17"
-        android:progress="3"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="179dp" />
-
-    <SeekBar
-        android:id="@+id/upBeatBar"
-        android:layout_width="300dp"
-        android:layout_height="112dp"
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="346dp"
+        android:layout_height="339dp"
+        android:layout_below="@+id/button4"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:elevation="3dp"
-        android:max="10"
-        android:progress="4"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="179dp" />
-
-    <TextView
-        android:id="@+id/textViewMetronome3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewMetronome2"
-        android:layout_alignStart="@+id/textViewMetronome2"
-        android:layout_below="@+id/textViewMetronome2"
-        android:layout_marginTop="11dp"
-        android:text="Upbeat: 4"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewMetronome2"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="133dp"
-        android:text="60 Beats Per Minute"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/editText7"
+        android:layout_marginTop="51dp"
+        android:onClick="back"
+        android:text="save"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button4"
+        android:layout_alignBottom="@+id/button4"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_alignRight="@+id/editText"
+        android:onClick="delete"
+        android:text="delete"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.Toolbar

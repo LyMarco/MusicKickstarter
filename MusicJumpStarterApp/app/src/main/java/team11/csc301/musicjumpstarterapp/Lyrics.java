@@ -217,7 +217,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     public void goToNotes(View view) {
-        Intent intent = new Intent(Lyrics.this, Notes.class);
+        Intent intent = new Intent(Lyrics.this, NoteActivity.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
