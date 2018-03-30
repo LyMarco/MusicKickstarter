@@ -7,159 +7,167 @@
     tools:context="team11.csc301.musicjumpstarterapp.Notes">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eeeeee"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:minHeight="?attr/actionBarSize" />
+
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eeeeee"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar2"
-        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/toolbar"
-        android:layout_alignStart="@+id/toolbar" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/toolbar"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:minHeight="?attr/actionBarSize" />
 
 
     <ImageButton
         android:id="@+id/shareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/share"
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toEndOf="@+id/drawerButton"
         android:layout_toRightOf="@+id/drawerButton"
-        android:background="#eeeeee" />
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/share" />
 
     <ImageButton
+        android:id="@+id/metronomeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/metronomeButton"
-        android:src="@drawable/metronome"
-        android:background="#eeeeee"
+        android:layout_alignBottom="@+id/toolbar"
         android:layout_alignTop="@+id/toolbar"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/lyricsButton"
         android:layout_toStartOf="@+id/lyricsButton"
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_alignBottom="@+id/toolbar" />
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/metronome" />
 
     <ImageButton
         android:id="@+id/backtoLyricsButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
+        android:layout_height="55dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/toolbar"
-        android:layout_marginEnd="35dp"
-        android:layout_marginRight="35dp"
-        android:background="#eeeeee"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="14dp"
+        android:background="#ffffff"
+        android:elevation="3dp"
         android:onClick="goToLyrics"
         android:src="@drawable/lyrics" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/forwardButton"
-        android:src="@drawable/forward"
-        android:background="#eeeeee"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/metronomeButton"
-        android:layout_toStartOf="@+id/metronomeButton"
-        android:layout_marginRight="43dp"
-        android:layout_marginEnd="43dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/playButton"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/forward" />
 
     <ImageButton
+        android:id="@+id/drawerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/drawerButton"
-        android:src="@drawable/drawer"
-        android:background="#eeeeee"
+        android:layout_alignBottom="@+id/toolbar2"
         android:layout_alignTop="@+id/toolbar2"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/backtoLyricsButton"
         android:layout_toStartOf="@+id/backtoLyricsButton"
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_alignBottom="@+id/toolbar2" />
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/drawer" />
 
     <ImageButton
         android:id="@+id/rewindButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/playButton"
-        android:layout_toStartOf="@+id/playButton"
-        android:background="#eeeeee"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="126dp"
+        android:background="#ffffff"
+        android:elevation="3dp"
         android:src="@drawable/rewind" />
 
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/playButton"
-        android:src="@drawable/play"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/rewindButton"
+        android:background="#ffffff"
+        android:elevation="3dp"
         android:onClick="buttonPressed"
-        android:background="#eeeeee"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/forwardButton"
-        android:layout_toStartOf="@+id/forwardButton"
-        android:layout_alignBottom="@+id/toolbar2" />
+        android:src="@drawable/play" />
 
     <ImageButton
+        android:id="@+id/recordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recordButton"
-        android:src="@drawable/record"
-        android:onClick="buttonPressed2"
-        android:background="#eeeeee"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/toolbar2"
         android:layout_marginLeft="28dp"
         android:layout_marginStart="28dp"
-        android:layout_alignTop="@+id/toolbar2" />
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:onClick="buttonPressed2"
+        android:src="@drawable/record" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/lyricsButton"
-        android:src="@drawable/help"
-        android:background="#eeeeee"
-        android:layout_alignTop="@+id/toolbar"
-        android:layout_alignLeft="@+id/drawerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/drawerButton"
-        android:layout_alignBottom="@+id/toolbar" />
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/help" />
 
     <EditText
         android:id="@+id/editText7"
-        android:layout_width="wrap_content"
+        android:layout_width="155dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignEnd="@+id/forwardButton"
         android:layout_alignRight="@+id/forwardButton"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
         android:layout_toEndOf="@+id/settingsButton"
         android:layout_toRightOf="@+id/settingsButton"
+        android:backgroundTint="#2980b9"
+        android:elevation="3dp"
         android:singleLine="true" />
 
     <ImageButton
+        android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/settingsButton"
-        android:src="@drawable/settings"
-        android:background="#eeeeee"
-        android:layout_alignTop="@+id/toolbar"
-        android:layout_alignLeft="@+id/toolbar"
-        android:layout_alignStart="@+id/toolbar"
         android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignEnd="@+id/recordButton"
+        android:layout_alignLeft="@+id/toolbar"
         android:layout_alignRight="@+id/recordButton"
-        android:layout_alignEnd="@+id/recordButton" />
+        android:layout_alignStart="@+id/toolbar"
+        android:layout_alignTop="@+id/toolbar"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:src="@drawable/settings" />
 
 
 
