@@ -227,8 +227,11 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     public void getLyricSuggestion(View view) {
         RecyclerView suggestionBar = findViewById(R.id.horizontal_recycler_view_suggestions);
         suggestionBar.setVisibility(View.VISIBLE);
-        Verse verse = (Verse) getCurrentFocus();
-        String word = verse.getSelection();
+        String word = "";
+        EditText verse = (EditText) getCurrentFocus();
+        if (verse.getSelectionStart() != -1 && verse.getSelectionEnd() != -1) {
+            word = verse.getText().toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
+        }
         //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
         LyricsSuggestion.GetSuggestions(this, word);
         //text.append(suggestion);
