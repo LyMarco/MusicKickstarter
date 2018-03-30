@@ -73,10 +73,6 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
    	* User clicks on the question mark button to get suggestions for word from server
    	* Suggested words are displayed on the bar at the bottom of the screen
 
- * (Goal) User can go to notes screen, create notes, and view contents of each note
-	* (Tasks)
-	* Allow a 2-dimensional notes interface
-		* That is, one page will contain Note Titles, while the second "layer" consists of pages with note contents
 		
  * (Goal) Saving text and audio
 	* (Tasks)
@@ -88,6 +84,16 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
 * Audio Playback
 	* Play back audio for multiple tracks
 	* Allow the user to dictate the name of the tracks recorded
+
+ * User can go to notes screen, create notes, and view contents of each note
+	* Allow a 2-dimensional notes interface
+		* That is, one page will contain Note Titles, while the second "layer" consists of pages with note contents
+	
+* Metronome
+	* Set and be able to change speed of beat at fixed speeds.
+	* UI
+* Serialization
+	* Saving multiple recordings and lyrics
 
 
 #### Artifacts
