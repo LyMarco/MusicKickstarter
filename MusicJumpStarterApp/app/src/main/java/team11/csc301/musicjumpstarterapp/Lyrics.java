@@ -666,6 +666,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     @Override
     protected void onStop() {
         MetronomeSingleton.getInstance().stopMetronome();
+        MetronomeActivity.stopDrums();
         super.onStop();
     }
 }
