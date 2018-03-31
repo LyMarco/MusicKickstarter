@@ -10,19 +10,28 @@
     tools:visibility="invisible">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/activity_lyrics" />
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <android.support.design.widget.NavigationView
-        android:id="@+id/main_nav_view"
+        android:id="@+id/main_nav_left"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/toolbar"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/main_menu" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/main_nav_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/toolbar"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu" />
 
 </android.support.v4.widget.DrawerLayout>
