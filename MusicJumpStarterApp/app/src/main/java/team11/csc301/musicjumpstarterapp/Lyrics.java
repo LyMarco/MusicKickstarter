@@ -159,13 +159,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         mainMenuLayout = findViewById(R.id.main_menu_layout);
         mainNavView = findViewById(R.id.main_nav_left);
         mainNavView.setNavigationItemSelectedListener(this);
-        //initializeMainMenuList();
-        // TODO: Add toolbar button?
-
-//        // Initialize Drawer
-//        drawerLayout = findViewById(R.id.drawer_layout);
         drawerNavView = findViewById(R.id.main_nav_right);
-//        drawerNavView.setNavigationItemSelectedListener(this);
+        // TODO: Add toolbar button?
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -198,7 +193,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         current.setTitles(titles);
 
         // Set song title.
-        String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
+        String songname = ((EditText) findViewById(R.id.song_title)).getText().toString();
         if (songname.equals("")) {
             current.setSongname("Default");
         }
@@ -395,7 +390,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             current = new Song("Default");
             isNew = true;
         }
-        EditText songTitle = findViewById(R.id.editText7);
+        EditText songTitle = findViewById(R.id.song_title);
         if (current.getSongname().equals("Default")) {
             songTitle.setHint(current.getSongname());
         } else {
