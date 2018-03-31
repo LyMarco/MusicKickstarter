@@ -9,12 +9,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-<<<<<<< HEAD
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-=======
 import android.support.v4.widget.NestedScrollView;
->>>>>>> master
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,24 +40,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 // Data Structures Imports
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 // Media Imports
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-<<<<<<< HEAD
-// IO Imports
-import java.io.File;
+// Regex imports
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-=======
-// I/O Imports
+// IO Imports
 import java.io.File;
-import java.util.Set;
->>>>>>> master
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 // Imports for saving audio
 import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
@@ -87,16 +79,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     private FileOutputStream audioOutStream;
     private File audioOutFile;
     private String currentVerse;
-<<<<<<< HEAD
     // Drawer Variables
     private DrawerLayout mainMenuLayout;
     private NavigationView mainNavView;
     private NavigationView drawerNavView;
     private ActionBarDrawerToggle menuToggle;
     // Recycler View Variables
-=======
 
->>>>>>> master
     private RecyclerView horizontal_recycler_view_suggestions;
     private ArrayList<String> Suggestions;
     private HorizontalAdapter horizontalAdapter;
@@ -196,21 +185,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     @Override
     protected void onPause() {
         super.onPause();
-<<<<<<< HEAD
-        EditText title, verse, songTitle;
-        String titleText, verseText;
-        ArrayList<String> verses = new ArrayList<String>();
-        ArrayList<String> titles = new ArrayList<String>();
-        songTitle = findViewById(R.id.song_title);
-        for (int i = 0; i < layout.getChildCount() - 1; i += 2) {
-            title = (EditText) layout.getChildAt(i);
-            verse = (EditText) layout.getChildAt(i + 1);
-            titleText = title.getText().toString();
-            verseText = verse.getText().toString();
-            /* TODO: save strings 'titleText' and 'verseText' while keeping the ordering. */
-            verses.add(verseText);
-            titles.add(titleText);
-=======
 
         // Get text from verses.
         ArrayList<String> verses = new ArrayList<>();
@@ -219,7 +193,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             Verse verse = (Verse) layout.getChildAt(i);
             verses.add(verse.getBody());
             titles.add(verse.getTitle());
->>>>>>> master
         }
         current.setVerses(verses);
         current.setTitles(titles);
@@ -263,25 +236,10 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             }
             Log.d("Songs", songs.toString());
         }
-<<<<<<< HEAD
 
-        int verseCount = getVerseCountFromFile();
-        EditText songTitle = findViewById(R.id.song_title);
-        if (current.getSongname().equals("Default")) {
-            songTitle.setHint(current.getSongname());
-        } else {
-            songTitle.setText(current.getSongname());
-        }
-        while (layout.getChildCount() > 1) {
-            deleteVerse(layout);
-        }
-        for (int i = 0; i < verseCount; i++) {
-            createVerse(getTextFromFile(i), getTitleFromFile(i), i * 2);
-        }
-=======
         switchToSong(null);
         songs.add(current);
->>>>>>> master
+
 
         //Test Lyrics Suggestions
         //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
@@ -740,7 +698,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
 
     /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
-<<<<<<< HEAD
     /* ================ BEGINNING OF DRAWER SECTION OF MAIN ACTIVITY ================ */
 
     @Override
@@ -820,7 +777,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     }
 
     /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
-=======
+
     // Stops MEtron
     @Override
     protected void onStop() {
@@ -828,5 +785,4 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         MetronomeActivity.stopDrums();
         super.onStop();
     }
->>>>>>> master
 }

@@ -32,6 +32,7 @@
         android:layout_alignTop="@+id/toolbar"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu" />
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/rec_nav_header" />
 
 </android.support.v4.widget.DrawerLayout>

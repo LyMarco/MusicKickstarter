@@ -6,19 +6,11 @@
     android:layout_height="match_parent"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:background="#eeeeee"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
-=======
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -26,23 +18,17 @@
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize" />
 
->>>>>>> master
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/toolbar"
-<<<<<<< HEAD
-        android:layout_alignStart="@+id/toolbar" />
-=======
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/toolbar"
         android:background="#ffffff"
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize" />
-
->>>>>>> master
 
     <ImageButton
         android:id="@+id/shareButton"
@@ -108,16 +94,10 @@
         android:layout_marginRight="18dp"
         android:layout_toLeftOf="@+id/notesButton"
         android:layout_toStartOf="@+id/notesButton"
-<<<<<<< HEAD
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"
-        android:onClick="drawerButtonPressed"
-        android:layout_alignBottom="@+id/toolbar2" />
-=======
         android:background="#ffffff"
         android:elevation="3dp"
-        android:src="@drawable/drawer" />
->>>>>>> master
+        android:src="@drawable/drawer"
+        android:onClick="drawerButtonPressed" />
 
     <ImageButton
         android:id="@+id/rewindButton"
@@ -195,21 +175,16 @@
         android:layout_alignEnd="@+id/recordButton"
         android:layout_alignLeft="@+id/toolbar"
         android:layout_alignRight="@+id/recordButton"
-<<<<<<< HEAD
-        android:layout_alignEnd="@+id/recordButton"
-        android:onClick="settingsButtonPressed" />
-=======
+        android:onClick="settingsButtonPressed"
         android:layout_alignStart="@+id/toolbar"
         android:layout_alignTop="@+id/toolbar"
         android:background="#ffffff"
         android:elevation="3dp"
         android:src="@drawable/settings" />
->>>>>>> master
 
     <include
         android:id="@+id/include"
         layout="@layout/content_lyrics"
-        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
