@@ -2,6 +2,7 @@ package team11.csc301.musicjumpstarterapp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Terrence_Z on 2018/3/4.
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 // The class represent a song
 public class Song implements Serializable{
     private String songname;
-    private ArrayList<String> verses;
-    private ArrayList<String> titles;
-    private ArrayList<String> notes;
+    private List<String> verses;
+    private List<String> titles;
+    private List<String> notes;
     // Variable of Audio
 
     // Init Constructor
@@ -32,7 +33,7 @@ public class Song implements Serializable{
         this.songname = songname;
     }
 
-    public ArrayList<String> getVerses() {
+    public List<String> getVerses() {
         return verses;
     }
 
@@ -40,7 +41,7 @@ public class Song implements Serializable{
         this.verses = verses;
     }
 
-    public ArrayList<String> getTitles() {
+    public List<String> getTitles() {
         return titles;
     }
 
@@ -48,7 +49,7 @@ public class Song implements Serializable{
         this.titles = titles;
     }
 
-    public ArrayList<String> getNotes() {
+    public List<String> getNotes() {
         return notes;
     }
 

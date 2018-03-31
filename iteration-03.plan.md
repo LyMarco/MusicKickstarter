@@ -67,6 +67,35 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
  * Order the items from most to least important.
  * Feel free (but not obligated) to specify some/all tasks as user stories.
 
+ * (Goal) We should have the ability to get lyrics suggestion based on a selected word 
+	* (Tasks)
+   	* User highlights a word to have it selected
+   	* User clicks on the question mark button to get suggestions for word from server
+   	* Suggested words are displayed on the bar at the bottom of the screen
+
+		
+ * (Goal) Saving text and audio
+	* (Tasks)
+	* Save and View multiple sets of lyrics
+	* Save and Play multiple recordings
+
+##### Overflow from previous iteration
+		
+* Audio Playback
+	* Play back audio for multiple tracks
+	* Allow the user to dictate the name of the tracks recorded
+
+ * User can go to notes screen, create notes, and view contents of each note
+	* Allow a 2-dimensional notes interface
+		* That is, one page will contain Note Titles, while the second "layer" consists of pages with note contents
+	
+* Metronome
+	* Set and be able to change speed of beat at fixed speeds.
+	* UI
+* Serialization
+	* Saving multiple recordings and lyrics
+
+
 #### Artifacts
 
 List/describe the artifacts you will produce in order to present your project idea.
