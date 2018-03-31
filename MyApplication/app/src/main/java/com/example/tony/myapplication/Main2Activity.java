@@ -15,6 +15,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         int size = Infor.map.size();
         if(index < size && index > -1) {
+            System.out.println("value of index is: " + index);
             String s = Infor.map.get(index);
             EditText editText1 = (EditText) findViewById(R.id.editText);
             editText1.setText(s);
@@ -25,6 +26,13 @@ public class Main2Activity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         String s = editText.getText().toString();
         Infor.map.put(index, s);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void delete(View view) {
+        Infor.map.remove(index);
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

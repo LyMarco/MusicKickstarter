@@ -54,7 +54,7 @@ public class LyricsSuggestion {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         // 10.0.2.2 is the computer's localhost from emulator, cannot just put "localhost"
-        String url ="http://10.0.2.2:3000/suggestions/" + word;
+        String url ="http://csc301-team-11-lyrics.azurewebsites.net/suggestions/" + word.toLowerCase();
 
         // Request a string response from the provided URL.
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null,
