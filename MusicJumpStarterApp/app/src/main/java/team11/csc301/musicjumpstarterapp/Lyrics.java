@@ -63,7 +63,7 @@ import java.util.regex.Pattern;
 import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
 public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, MenuItem.OnMenuItemClickListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
@@ -774,18 +774,20 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             case R.id.exit_app:
                 Toast.makeText(Lyrics.this, "Exit App", Toast.LENGTH_SHORT).show();
                 break;
-            default:
-                // This means that the button press came from the Recordings Drawer
-                String recording_name = (String) item.getTitle();
-                setAudioPath(recording_name);
-                audioOutFile = new File(audioPath);
         }
 
         mainMenuLayout.closeDrawers();
+        return true;
+    }
 
-        // Add code here to update the UI based on the item selected
-        // For example, swap UI fragments here
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // This means that the button press came from the Recordings Drawer
+        String recording_name = (String) item.getTitle();
+        setAudioPath(recording_name);
+        audioOutFile = new File(audioPath);
 
+        mainMenuLayout.closeDrawers();
         return true;
     }
 
@@ -816,7 +818,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 System.out.println("WE HAVE AN OLD DRAWER");
                 sub = drawerMenu.findItem(uid/100).getSubMenu();
             }
-            sub.add(Menu.NONE, uid, uid, saveString);
+            sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
         } else {
             drawerMenu.add(Menu.NONE, uid, uid, saveString);
         }
