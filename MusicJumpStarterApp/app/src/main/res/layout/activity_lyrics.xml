@@ -161,7 +161,8 @@
         android:layout_alignStart="@+id/toolbar"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignRight="@+id/recordButton"
-        android:layout_alignEnd="@+id/recordButton" />
+        android:layout_alignEnd="@+id/recordButton"
+        android:onClick="settingsButtonPressed" />
 
     <include
         android:id="@+id/include"

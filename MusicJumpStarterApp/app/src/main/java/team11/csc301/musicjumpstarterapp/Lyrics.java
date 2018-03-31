@@ -583,14 +583,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     }
 
     public void onDialogClickSaveRec(String saveString) {
-        currentVerse = saveString;
-        saveString = (saveString + ".3gp");
+        String newSaveString = (saveString + ".3gp");
         boolean success = true;
         String saveStringPath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath()+"/" + saveString;
+                .getAbsolutePath()+"/" + newSaveString;
         File newFile = new File(saveStringPath);
 
-        if ((!saveString.equals(audioOutFile.getName())) && newFile.exists()) {
+        if ((!newSaveString.equals(audioOutFile.getName())) && newFile.exists()) {
             DialogFragment dialog = new FileExistsDialogFragment();
             dialog.show(fragManager, "fileExists");
             success = false;
@@ -612,6 +611,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                     stopRecording();
                 }
             }, "Recording Saved");
+            // Add item to drawer
+            addMenuItem(parseDrawerItemToUID(saveString), saveString);
         }
     }
 
@@ -678,8 +679,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     private void stopRecording() {
         recorder.stop();
         recorder.reset();
-        addMenuItem(parseDrawerItemToUID(currentVerse), currentVerse);
-
     }
 
     /**
@@ -794,7 +793,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         Pattern p = Pattern.compile("Verse [0-9]* Take [0-9]*");
         Matcher m = p.matcher(itemName);
         if (m.find()) {
-            String[] splits = itemName.split("");
+            String[] splits = itemName.split(" ");
             int verseNumber = Integer.parseInt(splits[1]);
             int takeNumber = Integer.parseInt(splits[3]);
             return verseNumber*100 + takeNumber;
@@ -804,14 +803,18 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
 
     private void addMenuItem(int uid, String saveString) {
         Menu drawerMenu = drawerNavView.getMenu();
+        System.out.println(uid);
+        System.out.println(uid/100);
         if (uid != Menu.NONE) {
             SubMenu sub;
-            if (drawerMenu.findItem(uid%100) != null) {
+            if (drawerMenu.findItem(uid/100) == null) {
                 int k = saveString.indexOf(" ", saveString.indexOf(" ") + 1);
                 String res = saveString.substring(0, k);
-                sub = drawerMenu.addSubMenu(Menu.NONE, uid % 100, uid % 100, res);
+                sub = drawerMenu.addSubMenu(Menu.NONE, uid / 100, uid / 100, res);
+                System.out.println(sub.getItem().getItemId());
             } else {
-                sub = drawerMenu.findItem(uid%100).getSubMenu();
+                System.out.println("WE HAVE AN OLD DRAWER");
+                sub = drawerMenu.findItem(uid/100).getSubMenu();
             }
             sub.add(Menu.NONE, uid, uid, saveString);
         } else {
@@ -820,8 +823,12 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     }
 
     /** Called when the user taps the lower right drawer button */
-    private void drawerButtonPressed(View view) {
+    public void drawerButtonPressed(View view) {
         mainMenuLayout.openDrawer(Gravity.END);
+    }
+
+    public void settingsButtonPressed(View view) {
+        mainMenuLayout.openDrawer(Gravity.START);
     }
 
     /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
