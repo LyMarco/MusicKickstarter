@@ -23,7 +23,7 @@ public class NoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-        layout = findViewById(R.id.linearLayout);
+        layout = (LinearLayout) findViewById(R.id.linearLayout);
 
         HashMap<Integer, String> map = (HashMap<Integer, String>)Infor.map.clone();
 
@@ -35,7 +35,6 @@ public class NoteActivity extends AppCompatActivity {
             for(int a = 0; a < map.size(); a++) {
             String s = map.get(i.next());
             Infor.map.put(a, s);
-            System.out.println(map.get(a)+"from Infor.map");
             createNote(a);
         }
     }
@@ -43,6 +42,7 @@ public class NoteActivity extends AppCompatActivity {
     public void add(View view) {
         NoteActivity2.index = Infor.map.size();
         Intent intent = new Intent(this, NoteActivity2.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
