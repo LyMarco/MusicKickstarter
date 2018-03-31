@@ -30,6 +30,19 @@
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize" />
 
+
+    <ImageButton
+        android:id="@+id/chordsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="113dp"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:onClick="toggleChords"
+        android:src="@drawable/write_lyrics" />
+
     <ImageButton
         android:id="@+id/shareButton"
         android:layout_width="wrap_content"
@@ -75,11 +88,10 @@
     <ImageButton
         android:id="@+id/forwardButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/metronomeButton"
-        android:layout_toStartOf="@+id/metronomeButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="164dp"
         android:background="#ffffff"
         android:elevation="3dp"
         android:src="@drawable/forward" />
@@ -101,24 +113,22 @@
 
     <ImageButton
         android:id="@+id/rewindButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="44dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/playButton"
-        android:layout_toStartOf="@+id/playButton"
+        android:layout_marginStart="101dp"
         android:background="#ffffff"
-        android:elevation="3dp"
+        android:elevation="3.1dp"
         android:src="@drawable/rewind" />
 
 
     <ImageButton
         android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar2"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/forwardButton"
+        android:layout_width="45dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/forwardButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -229,18 +239,6 @@
         android:minHeight="?attr/actionBarSize"
         android:visibility="invisible" />
 
-
-
-    <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/toolbar"
-        android:onClick="toggleChords"
-        android:textOff="Lyrics"
-        android:textOn="Chords" />
 
 </RelativeLayout>
 
