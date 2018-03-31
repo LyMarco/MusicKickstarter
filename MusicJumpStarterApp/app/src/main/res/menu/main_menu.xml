@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<group android:checkableBehavior="single">-->
+    <item
+        android:id="@+id/new_song"
+        android:title="@string/new_song" />
+    <item
+        android:id="@+id/switch_song"
+        android:title="@string/change_song" />
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:icon="@drawable/settings" />
+    <item
+        android:id="@+id/exit_app"
+        android:title="@string/exit" />
+    <!--</group>-->
+</menu>

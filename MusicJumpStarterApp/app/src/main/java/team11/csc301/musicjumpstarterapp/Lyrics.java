@@ -4,10 +4,13 @@ package team11.csc301.musicjumpstarterapp;
 import android.Manifest;
 // Support Imports
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,8 @@ import android.os.Bundle;
 // Content and Widget Imports
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.EditText;
 import android.text.Editable;
@@ -49,12 +54,12 @@ import java.util.HashSet;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 // IO Imports
-import android.text.InputType;
 import java.io.File;
 // Imports for saving audio
 import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
-public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
+public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
+        NavigationView.OnNavigationItemSelectedListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
@@ -74,17 +79,20 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     private MediaPlayer player;
     private String audioPath;
     private int verseNumber;
-    private int takeNumber;
     // General Activity Variables
     private FragmentManager fragManager;
     private FileOutputStream audioOutStream;
     private File audioOutFile;
     private String currentVerse;
-//    private String songPath;
-
+    // Drawer Variables
+    private DrawerLayout mainMenuLayout;
+    private ActionBarDrawerToggle menuToggle;
+    private DrawerLayout drawerLayout;
+    // Recycler View Variables
     private RecyclerView horizontal_recycler_view_suggestions;
     private ArrayList<String> Suggestions;
     private HorizontalAdapter horizontalAdapter;
+    private boolean drawer = false;
 
     public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
 
@@ -95,8 +103,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
             public MyViewHolder(View view) {
                 super(view);
-                txtView = (TextView) view.findViewById(R.id.txtView);
-
+                txtView = view.findViewById(R.id.txtView);
             }
         }
 
@@ -131,8 +138,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         }
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +147,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
         audioPath = "";
         verseNumber = 1;
-//        takeNumber = 0;
       
         horizontal_recycler_view_suggestions = findViewById(R.id.horizontal_recycler_view_suggestions);
         Suggestions=new ArrayList<>();
@@ -154,6 +158,18 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         horizontal_recycler_view_suggestions.setLayoutManager(horizontalLayoutManager);
 
         horizontal_recycler_view_suggestions.setAdapter(horizontalAdapter);
+
+        // Initialize Main Drawer
+//        mainMenuLayout = findViewById(R.id.main_menu_layout);
+//        NavigationView mainNavView = findViewById(R.id.main_nav_view);
+//        mainNavView.setNavigationItemSelectedListener(this);
+        //initializeMainMenuList();
+        // TODO: Add toolbar button?
+
+//        // Initialize Drawer
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        NavigationView drawerNavView = findViewById(R.id.drawer_nav_view);
+//        drawerNavView.setNavigationItemSelectedListener(this);
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -178,7 +194,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         String titleText, verseText;
         ArrayList<String> verses = new ArrayList<String>();
         ArrayList<String> titles = new ArrayList<String>();
-        songTitle = (EditText) findViewById(R.id.editText7);
+        songTitle = findViewById(R.id.song_title);
         for (int i = 0; i < layout.getChildCount() - 1; i += 2) {
             title = (EditText) layout.getChildAt(i);
             verse = (EditText) layout.getChildAt(i + 1);
@@ -239,9 +255,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
                 current = new Song("Default");
             }
         }
-        //
+
         int verseCount = getVerseCountFromFile();
-        EditText songTitle = findViewById(R.id.editText7);
+        EditText songTitle = findViewById(R.id.song_title);
         if (current.getSongname().equals("Default")) {
             songTitle.setHint(current.getSongname());
         } else {
@@ -733,4 +749,56 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
+
+    /* ================ BEGINNING OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.new_song:
+                Toast.makeText(Lyrics.this, "New Song", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.switch_song:
+                Toast.makeText(Lyrics.this, "Switch Song", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settings:
+                Toast.makeText(Lyrics.this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.exit_app:
+                Toast.makeText(Lyrics.this, "Exit App", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                // This means that the button press came from the Recordings Drawer
+                String recording_name = (String) item.getTitle();
+                setAudioPath(recording_name);
+                audioOutFile = new File(audioPath);
+        }
+
+        drawerLayout.closeDrawers();
+
+        // Add code here to update the UI based on the item selected
+        // For example, swap UI fragments here
+
+        return true;
+    }
+
+    /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
+
+
+    /* ================ BEGINNING OF DRAWER MENU SECTION OF MAIN ACTIVITY ================ */
+
+    /** Called when the user taps the drawer button */
+    public void drawerButtonPressed(View view) {
+        drawer = !drawer;
+        if (!drawer) {
+            drawerLayout.openDrawer(Gravity.END);
+        } else {
+            drawerLayout.closeDrawer(Gravity.END);
+        }
+    }
+
+
+    /* ================ END OF DRAWER MENU SECTION OF MAIN ACTIVITY ================ */
 }

@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="team11.csc301.musicjumpstarterapp.Lyrics">
 
-
-
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,6 +86,7 @@
         android:layout_toStartOf="@+id/notesButton"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
+        android:onClick="drawerButtonPressed"
         android:layout_alignBottom="@+id/toolbar2" />
 
     <ImageButton
@@ -141,7 +140,7 @@
         android:src="@drawable/help" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/song_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
@@ -172,25 +171,33 @@
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
-    <fragment
-        android:id="@+id/drawer_frag"
-        android:name="team11.csc301.musicjumpstarterapp.DrawerFragment"
-        android:layout_width="0px"
-        android:layout_height="match_parent"
-        />
 
-    <Button
-        android:id="@+id/addVerse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/horizontal_recycler_view_suggestions"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="createNewVerse"
-        android:text="@string/add_verse"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar2"
-        app:layout_constraintLeft_toLeftOf="parent" />
+    <!--<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/drawer_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignTop="@+id/toolbar"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--tools:visibility="invisible">-->
 
+        <!--&lt;!&ndash; Layout to contain contents of main body of screen (drawer will slide over this) &ndash;&gt;-->
+        <!--<FrameLayout-->
+            <!--android:id="@+id/drawer_content_frame"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:visibility="invisible" />-->
+
+        <!--&lt;!&ndash; Container for contents of drawer - use NavigationView to make configuration easier &ndash;&gt;-->
+        <!--<android.support.design.widget.NavigationView-->
+            <!--android:id="@+id/drawer_nav_view"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="start"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--app:menu="@menu/drawer_menu" />-->
+
+    <!--</android.support.v4.widget.DrawerLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizontal_recycler_view_suggestions"
