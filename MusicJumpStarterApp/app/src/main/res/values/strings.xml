@@ -1,11 +1,21 @@
 <resources>
+    <!--Strings for the main layour-->
     <string name="app_name">Music JumpStarter App</string>
     <string name="add_verse">Add Verse</string>
+    <string name="delete_verse">Delete Verse</string>
+    <!--Strings for alert dialogue during recording-->
     <string name="dialog_save_rec">Keep Recording?</string>
     <string name="dialog_file_exists">This File Already Exists!</string>
     <string name="save_suggestion">Verse # Take #</string>
-    <string name="save">Save</string>
     <string name="save_as">Save As:</string>
+    <string name="save">Save</string>
     <string name="cancel">Discard</string>
     <string name="okay">OK</string>
+    <!--Strings for main menu drawer-->
+    <string name="new_song">New Song</string>
+    <string name="change_song">Songs</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+    <string name="recordings">Recordings</string>
+    <!--<string name=""></string>-->
 </resources>

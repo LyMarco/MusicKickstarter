@@ -13,7 +13,7 @@ public class MetronomeActivity extends AppCompatActivity {
     private TextView text2;
     private SeekBar seekBar;
     private SeekBar upBeatBar;
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
     private int upBeat = 4;
     private int bpm = 60;
@@ -27,7 +27,7 @@ public class MetronomeActivity extends AppCompatActivity {
 
 		/* UI functionality */
         text = (TextView) findViewById(R.id.textViewMetronome2);
-        text2 = (TextView) findViewById(R.id.textViewMetronome2);
+        text2 = (TextView) findViewById(R.id.textViewMetronome3);
         seekBar = (SeekBar) findViewById(R.id.seekBarMetronome);
         upBeatBar = (SeekBar) findViewById(R.id.upBeatBar);
 
@@ -45,6 +45,7 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 if (d != null) {
+                    stopDrums();
                     MetronomeSingleton.getInstance().stopMetronome();
                 }
             }
@@ -64,6 +65,7 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 if (d != null) {
+                    stopDrums();
                     MetronomeSingleton.getInstance().stopMetronome();
                 }
             }
@@ -88,7 +90,11 @@ public class MetronomeActivity extends AppCompatActivity {
     public void startDrums(View view) {
         MetronomeSingleton.getInstance().stopMetronome();
         stopDrums();
+
         String filename = "bpm" + Integer.toString(bpm);
+        upBeatBar.setProgress(4);
+        text2.setText("Upbeat: 4");
+
         int id = getResources().getIdentifier(filename, "raw", getPackageName());
         mediaPlayer = MediaPlayer.create(this, id);
         this.d = new Thread(new Runnable() {
@@ -99,7 +105,7 @@ public class MetronomeActivity extends AppCompatActivity {
         this.d.start();
     }
 
-    private void stopDrums(){
+    public static void stopDrums(){
         if(mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -124,6 +130,7 @@ public class MetronomeActivity extends AppCompatActivity {
     protected void onUserLeaveHint()
     {
         MetronomeSingleton.getInstance().stopMetronome();
+        stopDrums();
         super.onUserLeaveHint();
     }
 }

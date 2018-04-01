@@ -4,10 +4,13 @@ package team11.csc301.musicjumpstarterapp;
 import android.Manifest;
 // Support Imports
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +21,10 @@ import android.os.Bundle;
 // Content and Widget Imports
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.ImageButton;
 import android.widget.EditText;
 import android.util.Log;
@@ -35,21 +42,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 // Data Structures Imports
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 // Media Imports
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-// I/O Imports
+// Regex imports
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+// IO Imports
 import java.io.File;
-import java.util.Set;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 // Imports for saving audio
 import team11.csc301.musicjumpstarterapp.SaveRecDialogFragment.SaveRecDialogListener;
 
-public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
+public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
+        NavigationView.OnNavigationItemSelectedListener, MenuItem.OnMenuItemClickListener {
     // Finals for requesting Recording Permissions
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     // Finals needed for Verses
@@ -71,6 +81,12 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     private FileOutputStream audioOutStream;
     private File audioOutFile;
     private String currentVerse;
+    // Drawer Variables
+    private DrawerLayout mainMenuLayout;
+    private NavigationView mainNavView;
+    private NavigationView drawerNavView;
+    private ActionBarDrawerToggle menuToggle;
+    // Recycler View Variables
 
     private RecyclerView horizontal_recycler_view_suggestions;
     private ArrayList<String> Suggestions;
@@ -85,8 +101,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
             public MyViewHolder(View view) {
                 super(view);
-                txtView = (TextView) view.findViewById(R.id.txtView);
-
+                txtView = view.findViewById(R.id.txtView);
             }
         }
 
@@ -124,7 +139,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lyrics);
+        setContentView(R.layout.drawer_fragment);
         layout = findViewById(R.id.lyricLayout);
         fragManager =  getSupportFragmentManager();
 
@@ -141,6 +156,13 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         horizontal_recycler_view_suggestions.setLayoutManager(horizontalLayoutManager);
 
         horizontal_recycler_view_suggestions.setAdapter(horizontalAdapter);
+
+        // Initialize Main Drawer
+        mainMenuLayout = findViewById(R.id.main_menu_layout);
+        mainNavView = findViewById(R.id.main_nav_left);
+        mainNavView.setNavigationItemSelectedListener(this);
+        drawerNavView = findViewById(R.id.main_nav_right);
+        // TODO: Add toolbar button?
 
         // Check that you have the proper recording and saving permissions
         if (!checkPermissionFromDevice()) {
@@ -160,7 +182,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     @Override
     protected void onPause() {
         super.onPause();
-
         saveToSong();
         // Save current songs to file
         try {
@@ -192,12 +213,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         switchToSong(null);
         songs.add(current);
 
+        switchToSong(null);
+        songs.add(current);
+
         //Test Lyrics Suggestions
         //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
     }
 
     public void goToNotes(View view) {
-        Intent intent = new Intent(Lyrics.this, Notes.class);
+        Intent intent = new Intent(Lyrics.this, NoteActivity.class);
         if (intent.resolveActivity(getPackageManager()) != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -207,8 +231,11 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     public void getLyricSuggestion(View view) {
         RecyclerView suggestionBar = findViewById(R.id.horizontal_recycler_view_suggestions);
         suggestionBar.setVisibility(View.VISIBLE);
-        Verse verse = (Verse) getCurrentFocus();
-        String word = verse.getSelection();
+        String word = "";
+        EditText verse = (EditText) getCurrentFocus();
+        if (verse.getSelectionStart() != -1 && verse.getSelectionEnd() != -1) {
+            word = verse.getText().toString().substring(verse.getSelectionStart(), verse.getSelectionEnd());
+        }
         //String suggestion = LyricsSuggestion.GetSuggestions(this, word);
         LyricsSuggestion.GetSuggestions(this, word);
         //text.append(suggestion);
@@ -318,7 +345,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         current.setTitles(titles);
 
         // Set song title.
-        String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
+        String songname = ((EditText) findViewById(R.id.song_title)).getText().toString();
         Log.d("Current song", songname);
         String currentName = current.getSongname();
         current.setSongname(songname);
@@ -404,7 +431,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             current = new Song("Default");
             isNew = true;
         }
-        EditText songTitle = findViewById(R.id.editText7);
+        EditText songTitle = findViewById(R.id.song_title);
         if (current.getSongname().equals("Default")) {
             songTitle.setHint(current.getSongname());
         } else {
@@ -414,9 +441,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
             deleteVerse(layout);
         }
         // Create verses.
+        String title;
         if (isNew) {
             for (int i = 0; i < 3; i++) {
-                layout.addView(new Verse(this, "", "", ""), i);
+                if (i == 1) {
+                    title = "Ch.";
+                } else {
+                    title = i + ".";
+                }
+                layout.addView(new Verse(this, title, "", ""), i);
             }
         } else {
             for (int i = 0; i < current.getVerses().size(); i++) {
@@ -534,17 +567,18 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     }
 
     public void onDialogClickSaveRec(String saveString) {
-        saveString = (saveString + ".3gp");
+        String newSaveString = (saveString + ".3gp");
         boolean success = true;
         String saveStringPath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath()+"/" + saveString;
+                .getAbsolutePath()+"/" + newSaveString;
         File newFile = new File(saveStringPath);
 
-        if ((!saveString.equals(audioOutFile.getName())) && newFile.exists()) {
+        if ((!newSaveString.equals(audioOutFile.getName())) && newFile.exists()) {
             DialogFragment dialog = new FileExistsDialogFragment();
             dialog.show(fragManager, "fileExists");
             success = false;
         } else if (!audioOutFile.renameTo(newFile)) {
+            //TODO: Allow them to change the name multiple times??
 //                System.out.println("RENAMING FAILED");
             success = false;
         }
@@ -554,14 +588,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
                     dumpRecording();
                 }
             }, "Save Canceled");
-
-//            takeNumber--;
         } else {
+            // Saving is successful
             runOnThread(new Runnable() {
                 public void run() {
                     stopRecording();
                 }
             }, "Recording Saved");
+            // Add item to drawer
+            addMenuItem(parseDrawerItemToUID(saveString), saveString);
         }
     }
 
@@ -581,7 +616,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      * Sets the audio pathway for recording/playing
      */
     private void setAudioPath(String saveString) {
-        //  sPath +
         audioPath = Environment.getExternalStorageDirectory()
                 .getAbsolutePath()+"/" + saveString + ".3gp";
     }
@@ -631,6 +665,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         recorder.reset();
     }
 
+    /**
+     * Stops and deletes audio recording
+     */
     private void dumpRecording() {
         recorder.reset();
         if (!audioOutFile.delete()) {
@@ -702,10 +739,91 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
 
     /* ================ END OF AUDIO RECORDING SECTION OF MAIN ACTIVITY ================ */
 
+    /* ================ BEGINNING OF DRAWER SECTION OF MAIN ACTIVITY ================ */
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.new_song:
+                Toast.makeText(Lyrics.this, "New Song", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.switch_song:
+                Toast.makeText(Lyrics.this, "Switch Song", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settings:
+                Toast.makeText(Lyrics.this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.exit_app:
+                Toast.makeText(Lyrics.this, "Exit App", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        mainMenuLayout.closeDrawers();
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // This means that the button press came from the Recordings Drawer
+        String recording_name = (String) item.getTitle();
+        setAudioPath(recording_name);
+        audioOutFile = new File(audioPath);
+
+        mainMenuLayout.closeDrawers();
+        return true;
+    }
+
+    private int parseDrawerItemToUID(String itemName) {
+        Pattern p = Pattern.compile("Verse [0-9]* Take [0-9]*");
+        Matcher m = p.matcher(itemName);
+        if (m.find()) {
+            String[] splits = itemName.split(" ");
+            int verseNumber = Integer.parseInt(splits[1]);
+            int takeNumber = Integer.parseInt(splits[3]);
+            return verseNumber*100 + takeNumber;
+        }
+        else return Menu.NONE;
+    }
+
+    private void addMenuItem(int uid, String saveString) {
+        Menu drawerMenu = drawerNavView.getMenu();
+        System.out.println(uid);
+        System.out.println(uid/100);
+        if (uid != Menu.NONE) {
+            SubMenu sub;
+            if (drawerMenu.findItem(uid/100) == null) {
+                int k = saveString.indexOf(" ", saveString.indexOf(" ") + 1);
+                String res = saveString.substring(0, k);
+                sub = drawerMenu.addSubMenu(Menu.NONE, uid / 100, uid / 100, res);
+                System.out.println(sub.getItem().getItemId());
+            } else {
+                System.out.println("WE HAVE AN OLD DRAWER");
+                sub = drawerMenu.findItem(uid/100).getSubMenu();
+            }
+            sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
+        } else {
+            drawerMenu.add(Menu.NONE, uid, uid, saveString);
+        }
+    }
+
+    /** Called when the user taps the lower right drawer button */
+    public void drawerButtonPressed(View view) {
+        mainMenuLayout.openDrawer(Gravity.END);
+    }
+
+    public void settingsButtonPressed(View view) {
+        mainMenuLayout.openDrawer(Gravity.START);
+    }
+
+    /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
+
     // Stops MEtron
     @Override
     protected void onStop() {
         MetronomeSingleton.getInstance().stopMetronome();
+        MetronomeActivity.stopDrums();
         super.onStop();
     }
 }
