@@ -10,10 +10,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/recordButton"
-        android:layout_alignStart="@+id/recordButton"
-        android:layout_below="@+id/upBeatBar"
-        android:layout_marginTop="34dp"
+        android:layout_alignEnd="@+id/rewindButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="108dp"
         android:onClick="startMetronome"
         android:text="Metronome"
         app:layout_constraintBaseline_toBaselineOf="@+id/button2"
@@ -23,10 +22,9 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_toEndOf="@+id/rewindButton"
-        android:layout_toRightOf="@+id/rewindButton"
+        android:layout_above="@+id/button"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="90dp"
         android:onClick="startDrums"
         android:text="Drums"
         app:layout_constraintBaseline_toBaselineOf="@+id/button2"
@@ -36,12 +34,8 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_toEndOf="@+id/textViewMetronome2"
-        android:layout_toRightOf="@+id/textViewMetronome2"
+        android:layout_above="@+id/button"
+        android:layout_alignStart="@+id/forwardButton"
         android:onClick="stopMetronome"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +133,7 @@
     android:src="@drawable/share" />
 
 <ImageButton
-    android:id="@+id/metronomeButton"
+    android:id="@+id/drumsButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignBottom="@+id/toolbar"
@@ -150,7 +144,7 @@
     android:layout_toStartOf="@+id/lyricsButton"
     android:background="#ffffff"
     android:elevation="3dp"
-    android:src="@drawable/metronome" />
+    android:src="@drawable/drums" />
 
 <ImageButton
     android:id="@+id/backtoLyricsButton"

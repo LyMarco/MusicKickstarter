@@ -22,6 +22,19 @@ public class NoteActivity2 extends AppCompatActivity {
         }
     }
 
+    public void goBackFromNotes(View view) {
+        Intent intent = new Intent(this, Lyrics.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the Metronome button */
+    public void sendMetronome(View view) {
+        Intent intent = new Intent(this, MetronomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     public void back(View view) {
         EditText editText = (EditText) findViewById(R.id.editText);
         String s = editText.getText().toString();

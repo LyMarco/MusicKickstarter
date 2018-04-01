@@ -98,6 +98,7 @@
     android:layout_toStartOf="@+id/lyricsButton"
     android:background="#ffffff"
     android:elevation="3dp"
+    android:onClick="sendMetronome"
     android:src="@drawable/metronome" />
 
 <ImageButton
@@ -109,7 +110,7 @@
     android:layout_marginEnd="14dp"
     android:background="#ffffff"
     android:elevation="3dp"
-    android:onClick="goBackFromMetronome"
+    android:onClick="goBackFromNotes"
     android:src="@drawable/lyrics" />
 
 <ImageButton
