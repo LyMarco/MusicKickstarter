@@ -11,7 +11,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="#ffffff"
@@ -23,7 +22,6 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/toolbar"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/toolbar"
         android:background="#ffffff"
@@ -37,7 +35,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toEndOf="@+id/drawerButton"
-        android:layout_toRightOf="@+id/drawerButton"
         android:background="#ffffff"
         android:elevation="3dp"
         android:src="@drawable/share" />
@@ -49,8 +46,6 @@
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:layout_marginRight="11dp"
-        android:layout_toLeftOf="@+id/lyricsButton"
         android:layout_toStartOf="@+id/lyricsButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -63,10 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="11dp"
-        android:layout_marginRight="11dp"
         android:background="#ffffff"
         android:elevation="3dp"
         android:onClick="goToNotes"
@@ -78,7 +71,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/metronomeButton"
         android:layout_toStartOf="@+id/metronomeButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -91,8 +83,6 @@
         android:layout_alignBottom="@+id/toolbar2"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_toLeftOf="@+id/notesButton"
         android:layout_toStartOf="@+id/notesButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -105,7 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/playButton"
         android:layout_toStartOf="@+id/playButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -118,7 +107,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar2"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_toLeftOf="@+id/forwardButton"
         android:layout_toStartOf="@+id/forwardButton"
         android:background="#ffffff"
         android:elevation="3dp"
@@ -130,10 +118,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/toolbar2"
-        android:layout_marginLeft="28dp"
         android:layout_marginStart="28dp"
         android:background="#ffffff"
         android:cropToPadding="false"
@@ -146,7 +132,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignLeft="@+id/drawerButton"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/drawerButton"
         android:background="#ffffff"
@@ -160,9 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignEnd="@+id/forwardButton"
-        android:layout_alignRight="@+id/forwardButton"
         android:layout_toEndOf="@+id/settingsButton"
-        android:layout_toRightOf="@+id/settingsButton"
         android:backgroundTint="#2980b9"
         android:elevation="3dp"
         android:singleLine="true" />
@@ -173,8 +156,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignEnd="@+id/recordButton"
-        android:layout_alignLeft="@+id/toolbar"
-        android:layout_alignRight="@+id/recordButton"
         android:onClick="settingsButtonPressed"
         android:layout_alignStart="@+id/toolbar"
         android:layout_alignTop="@+id/toolbar"
@@ -191,56 +172,25 @@
         app:layout_constraintRight_toRightOf="@id/toolbar" />
 
 
-    <!--<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/drawer_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignTop="@+id/toolbar"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--tools:visibility="invisible">-->
-
-        <!--&lt;!&ndash; Layout to contain contents of main body of screen (drawer will slide over this) &ndash;&gt;-->
-        <!--<FrameLayout-->
-            <!--android:id="@+id/drawer_content_frame"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--tools:visibility="invisible" />-->
-
-        <!--&lt;!&ndash; Container for contents of drawer - use NavigationView to make configuration easier &ndash;&gt;-->
-        <!--<android.support.design.widget.NavigationView-->
-            <!--android:id="@+id/drawer_nav_view"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="start"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--app:menu="@menu/drawer_menu" />-->
-
-    <!--</android.support.v4.widget.DrawerLayout>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizontal_recycler_view_suggestions"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_above="@+id/toolbar2"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#eeeeee"
         android:minHeight="?attr/actionBarSize"
         android:visibility="invisible" />
-
-
 
     <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/toolbar"
         android:onClick="toggleChords"
-        android:textOff="Lyrics"
-        android:textOn="Chords" />
+        android:textOff="@string/lyrics"
+        android:textOn="@string/chords" />
 
 </RelativeLayout>
 
