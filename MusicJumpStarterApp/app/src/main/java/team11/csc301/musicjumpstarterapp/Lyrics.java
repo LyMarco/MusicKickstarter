@@ -91,6 +91,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     private RecyclerView horizontal_recycler_view_suggestions;
     private ArrayList<String> Suggestions;
     private HorizontalAdapter horizontalAdapter;
+    public static int songsMenuId = 30;
 
     public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
 
@@ -180,8 +181,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         saveToSong();
         // Save current songs to file
         try {
@@ -190,6 +191,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             Log.v("Save_Stop Error : ",e.getMessage());
             e.printStackTrace();
         }
+        MetronomeSingleton.getInstance().stopMetronome();
+        MetronomeActivity.stopDrums();
     }
 
     /**
@@ -210,9 +213,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             }
             Log.d("Songs", songs.toString());
         }
-        switchToSong(null);
-        songs.add(current);
-
         switchToSong(null);
         songs.add(current);
 
@@ -360,20 +360,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             Log.d("Song change name", current.getSongname());
             songList = getSongList();
         }
-//        int i = 0;
-//        for (Song s : songs) {
-//            Log.d("Song a", s.getSongname());
-//            if (s.getSongname().equals(songname)) {
-//                Log.d("Same Song Name", s.getSongname());
-//                i++;
-//                Log.d("Same Song Name", Integer.toString(i));
-//            }
-//        }
-//        if (i > 1) {
-//            songname = songname + "_" + Integer.toString(i);
-//            current.setSongname(songname);
-//            Log.d("Song change name", current.getSongname());
-//        }
         for (Song s : songs) {
             Log.d("Debug", s.getSongname());
         }
@@ -433,6 +419,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         }
         EditText songTitle = findViewById(R.id.song_title);
         if (current.getSongname().equals("Default")) {
+            songTitle.getText().clear();
             songTitle.setHint(current.getSongname());
         } else {
             songTitle.setText(current.getSongname());
@@ -748,9 +735,21 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         switch (id) {
             case R.id.new_song:
                 Toast.makeText(Lyrics.this, "New Song", Toast.LENGTH_SHORT).show();
+                createNewSong();
                 break;
             case R.id.switch_song:
                 Toast.makeText(Lyrics.this, "Switch Song", Toast.LENGTH_SHORT).show();
+                switchToSong(current);
+                if (mainNavView.getMenu().findItem(songsMenuId) != null) {
+                    SubMenu sub = mainNavView.getMenu().findItem(songsMenuId).getSubMenu();
+                    sub.clear();
+                }
+                List<String> songList = getSongList();
+                System.out.println(Integer.toString(songList.size()));
+                for (int i = 0; i < songList.size(); i++) {
+                    System.out.println(songList.get(i));
+                    addMenuSongs(i, songList.get(i));
+                }
                 break;
             case R.id.settings:
                 Toast.makeText(Lyrics.this, "Settings", Toast.LENGTH_SHORT).show();
@@ -760,16 +759,30 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 break;
         }
 
-        mainMenuLayout.closeDrawers();
+        if (id == R.id.new_song || id == R.id.settings || id == R.id.exit_app) {
+            mainMenuLayout.closeDrawers();
+            return true;
+        }
         return true;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         // This means that the button press came from the Recordings Drawer
-        String recording_name = (String) item.getTitle();
-        setAudioPath(recording_name);
-        audioOutFile = new File(audioPath);
+        Pattern p = Pattern.compile("Verse [0-9]* Take [0-9]*");
+        Matcher m = p.matcher(item.getTitle());
+        if (m.find()) {
+            String recording_name = (String) item.getTitle();
+            setAudioPath(recording_name);
+            audioOutFile = new File(audioPath);
+        }
+        else {
+            System.out.println("Swithing");
+            String song = (String) item.getTitle();
+            System.out.println(song);
+            Song s = getSongbyName(song);
+            switchToSong(s);
+        }
 
         mainMenuLayout.closeDrawers();
         return true;
@@ -808,22 +821,31 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         }
     }
 
+    private void addMenuSongs(int uid, String saveString) {
+        Menu mainMenu = mainNavView.getMenu();
+        SubMenu sub;
+        if (mainMenu.findItem(songsMenuId) == null) {
+            sub = mainMenu.addSubMenu(Menu.NONE, songsMenuId, songsMenuId, "Songs:");
+            System.out.println(sub.getItem().getItemId());
+        } else {
+            sub = mainMenu.findItem(songsMenuId).getSubMenu();
+        }
+        sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
+    }
+
     /** Called when the user taps the lower right drawer button */
     public void drawerButtonPressed(View view) {
         mainMenuLayout.openDrawer(Gravity.END);
     }
 
     public void settingsButtonPressed(View view) {
+        if (mainNavView.getMenu().findItem(songsMenuId) != null) {
+            SubMenu sub = mainNavView.getMenu().findItem(songsMenuId).getSubMenu();
+            sub.clear();
+        }
         mainMenuLayout.openDrawer(Gravity.START);
     }
 
     /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
 
-    // Stops MEtron
-    @Override
-    protected void onStop() {
-        MetronomeSingleton.getInstance().stopMetronome();
-        MetronomeActivity.stopDrums();
-        super.onStop();
-    }
 }
