@@ -40,6 +40,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 // List Imports
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 // Data Structures Imports
 import java.util.HashSet;
@@ -91,6 +93,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     private RecyclerView horizontal_recycler_view_suggestions;
     private ArrayList<String> Suggestions;
     private HorizontalAdapter horizontalAdapter;
+    public static int songsMenuId = 30;
 
     public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
 
@@ -180,39 +183,18 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Get text from verses.
-        ArrayList<String> verses = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
-        for (int i = 0; i < layout.getChildCount() - 1; i++) {
-            Verse verse = (Verse) layout.getChildAt(i);
-            verses.add(verse.getBody());
-            titles.add(verse.getTitle());
-        }
-        current.setVerses(verses);
-        current.setTitles(titles);
-
-        // Set song title.
-        String songname = ((EditText) findViewById(R.id.song_title)).getText().toString();
-        if (songname.equals("")) {
-            current.setSongname("Default");
-        }
-        if (!songname.equals(current.getSongname())) {
-            File oldFolder = new File(SerializationBase.pathGenerator(current));
-            File newFolder = new File(sPath + songname + '/');
-            boolean success = oldFolder.renameTo(newFolder);
-            current.setSongname(songname);
-        }
-
-        // Save current song.
+    protected void onStop() {
+        super.onStop();
+        saveToSong();
+        // Save current songs to file
         try {
             SerializationBase.saveStop(songs);
         } catch (Exception e){
             Log.v("Save_Stop Error : ",e.getMessage());
             e.printStackTrace();
         }
+        MetronomeSingleton.getInstance().stopMetronome();
+        MetronomeActivity.stopDrums();
     }
 
     /**
@@ -233,10 +215,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             }
             Log.d("Songs", songs.toString());
         }
-
         switchToSong(null);
         songs.add(current);
-
 
         //Test Lyrics Suggestions
         //String suggestions = LyricsSuggestion.GetSuggestions(this,"tomato");
@@ -350,6 +330,50 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         startActivity(intent);
     }
 
+    /**
+     *  Save data to Song class
+     */
+    private void saveToSong() {
+        Log.d("Save to song", "Start");
+        // Get text from verses.
+        ArrayList<String> verses = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
+        for (int i = 0; i < layout.getChildCount() - 1; i++) {
+            Verse verse = (Verse) layout.getChildAt(i);
+            verses.add(verse.getBody());
+            titles.add(verse.getTitle());
+        }
+        current.setVerses(verses);
+        current.setTitles(titles);
+
+        // Set song title.
+        String songname = ((EditText) findViewById(R.id.song_title)).getText().toString();
+        Log.d("Current song", songname);
+        String currentName = current.getSongname();
+        current.setSongname(songname);
+        if (songname.equals("")) {
+            songname = "Default";
+            current.setSongname(songname);
+        }
+        List<String> songList = getSongList();
+        while (Collections.frequency(songList, songname) > 1) {
+            songname = songname + "_2";
+            current.setSongname(songname);
+            Log.d("Song change name", current.getSongname());
+            songList = getSongList();
+        }
+        for (Song s : songs) {
+            Log.d("Debug", s.getSongname());
+        }
+        if (!songname.equals(currentName)) {
+            File oldFolder = new File(SerializationBase.pathGenerator(current));
+            File newFolder = new File(sPath + songname + '/');
+            boolean success = oldFolder.renameTo(newFolder);
+            current.setSongname(songname);
+        }
+    }
+
+
     /* ================ SWITCH TO OTHER SONG IN MAIN ACTIVITY ================ */
 
     /**
@@ -386,6 +410,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
      *  @param s the song to switch to
      */
     public void switchToSong (Song s) {
+        if (current != null) {
+            saveToSong();
+        }
         boolean isNew = false;
         current = s;
         if (current  == null) {
@@ -394,6 +421,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         }
         EditText songTitle = findViewById(R.id.song_title);
         if (current.getSongname().equals("Default")) {
+            songTitle.getText().clear();
             songTitle.setHint(current.getSongname());
         } else {
             songTitle.setText(current.getSongname());
@@ -402,9 +430,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             deleteVerse(layout);
         }
         // Create verses.
+        String title;
         if (isNew) {
             for (int i = 0; i < 3; i++) {
-                layout.addView(new Verse(this, "", "", ""), i);
+                if (i == 1) {
+                    title = "Ch.";
+                } else {
+                    title = i + ".";
+                }
+                layout.addView(new Verse(this, title, "", ""), i);
             }
         } else {
             for (int i = 0; i < current.getVerses().size(); i++) {
@@ -417,9 +451,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
      *  Create a new song and switch to it
      */
     public void createNewSong () {
-        current = new Song("Default");
+        switchToSong(null);
         songs.add(current);
-        switchToSong(current);
     }
 
     /**
@@ -716,9 +749,21 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         switch (id) {
             case R.id.new_song:
                 Toast.makeText(Lyrics.this, "New Song", Toast.LENGTH_SHORT).show();
+                createNewSong();
                 break;
             case R.id.switch_song:
                 Toast.makeText(Lyrics.this, "Switch Song", Toast.LENGTH_SHORT).show();
+                switchToSong(current);
+                if (mainNavView.getMenu().findItem(songsMenuId) != null) {
+                    SubMenu sub = mainNavView.getMenu().findItem(songsMenuId).getSubMenu();
+                    sub.clear();
+                }
+                List<String> songList = getSongList();
+                System.out.println(Integer.toString(songList.size()));
+                for (int i = 0; i < songList.size(); i++) {
+                    System.out.println(songList.get(i));
+                    addMenuSongs(i, songList.get(i));
+                }
                 break;
             case R.id.settings:
                 Toast.makeText(Lyrics.this, "Settings", Toast.LENGTH_SHORT).show();
@@ -728,16 +773,30 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 break;
         }
 
-        mainMenuLayout.closeDrawers();
+        if (id == R.id.new_song || id == R.id.settings || id == R.id.exit_app) {
+            mainMenuLayout.closeDrawers();
+            return true;
+        }
         return true;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         // This means that the button press came from the Recordings Drawer
-        String recording_name = (String) item.getTitle();
-        setAudioPath(recording_name);
-        audioOutFile = new File(audioPath);
+        Pattern p = Pattern.compile("Verse [0-9]* Take [0-9]*");
+        Matcher m = p.matcher(item.getTitle());
+        if (m.find()) {
+            String recording_name = (String) item.getTitle();
+            setAudioPath(recording_name);
+            audioOutFile = new File(audioPath);
+        }
+        else {
+            System.out.println("Swithing");
+            String song = (String) item.getTitle();
+            System.out.println(song);
+            Song s = getSongbyName(song);
+            switchToSong(s);
+        }
 
         mainMenuLayout.closeDrawers();
         return true;
@@ -796,22 +855,31 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         }
     }
 
+    private void addMenuSongs(int uid, String saveString) {
+        Menu mainMenu = mainNavView.getMenu();
+        SubMenu sub;
+        if (mainMenu.findItem(songsMenuId) == null) {
+            sub = mainMenu.addSubMenu(Menu.NONE, songsMenuId, songsMenuId, "Songs:");
+            System.out.println(sub.getItem().getItemId());
+        } else {
+            sub = mainMenu.findItem(songsMenuId).getSubMenu();
+        }
+        sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
+    }
+
     /** Called when the user taps the lower right drawer button */
     public void drawerButtonPressed(View view) {
         mainMenuLayout.openDrawer(Gravity.END);
     }
 
     public void settingsButtonPressed(View view) {
+        if (mainNavView.getMenu().findItem(songsMenuId) != null) {
+            SubMenu sub = mainNavView.getMenu().findItem(songsMenuId).getSubMenu();
+            sub.clear();
+        }
         mainMenuLayout.openDrawer(Gravity.START);
     }
 
     /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
 
-    // Stops MEtron
-    @Override
-    protected void onStop() {
-        MetronomeSingleton.getInstance().stopMetronome();
-        MetronomeActivity.stopDrums();
-        super.onStop();
-    }
 }
