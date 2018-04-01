@@ -21,5 +21,7 @@
     <string name="exit">Exit</string>
     <string name="recordings">Recordings</string>
     <string name="add_new_note">Add New Note</string>
-    <!--<string name=""></string>-->
+    <!--Strings for Metronome-->
+    <string name="default_metro_bpm">60 Beats Per Minute</string>
+    <string name="default_metro_upbeats">Upbeat: 4</string>
 </resources>
