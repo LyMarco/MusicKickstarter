@@ -3,6 +3,7 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -436,25 +437,38 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
      * @param  view the button
      */
     public void playButtonPressed(View view) {
-        ImageButton button = (ImageButton) view;
-        ImageButton record = findViewById(R.id.recordButton);
-        int icon, icon_2, icon_3;
+        final ImageButton button = (ImageButton) view;
+        final ImageButton record = findViewById(R.id.recordButton);
+        int icon;
+        final int icon_2, icon_3;
+
+        icon_2 = R.drawable.record_grey;
+        icon_3 = R.drawable.record;
 
         playing = !playing;
         if (playing) {
             record.setEnabled(false);
             icon = R.drawable.pause;
-            icon_2 = R.drawable.record_grey;
             record.setImageDrawable(
                     ContextCompat.getDrawable(getApplicationContext(), icon_2));
             player = new MediaPlayer();
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    record.setImageDrawable(
+                            ContextCompat.getDrawable(getApplicationContext(), icon_3));
+                    record.setEnabled(true);
+                    int playIcon = R.drawable.play;
+                    button.setImageDrawable(
+                            ContextCompat.getDrawable(getApplicationContext(), playIcon));
+                }
+            });
             runOnThread(new Runnable() {
                 public void run() {
                     startPlayback();
                 }
             }, "Playing...");
         } else {
-            icon_3 = R.drawable.record;
             record.setImageDrawable(
                     ContextCompat.getDrawable(getApplicationContext(), icon_3));
             record.setEnabled(true);
@@ -533,7 +547,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             success = false;
         } else if (!audioOutFile.renameTo(newFile)) {
             //TODO: Allow them to change the name multiple times??
-//                System.out.println("RENAMING FAILED");
             success = false;
         }
         if (!success) {
@@ -747,16 +760,28 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         System.out.println(uid/100);
         if (uid != Menu.NONE) {
             SubMenu sub;
+            // New submenu needed
             if (drawerMenu.findItem(uid/100) == null) {
                 int k = saveString.indexOf(" ", saveString.indexOf(" ") + 1);
                 String res = saveString.substring(0, k);
                 sub = drawerMenu.addSubMenu(Menu.NONE, uid / 100, uid / 100, res);
                 System.out.println(sub.getItem().getItemId());
+            // We use an existing submenu
             } else {
-                System.out.println("WE HAVE AN OLD DRAWER");
                 sub = drawerMenu.findItem(uid/100).getSubMenu();
             }
-            sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
+            MenuItem item = sub.add(Menu.NONE, uid, uid, saveString);
+
+            item.setOnMenuItemClickListener(this);
+            item.setActionView(new ImageButton(this));
+            item.getActionView().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(Lyrics.this, "LONG CLICK",Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+            item.getActionView().setBackgroundColor(0xFF00FF00);
         } else {
             drawerMenu.add(Menu.NONE, uid, uid, saveString);
         }
