@@ -3,6 +3,7 @@ package team11.csc301.musicjumpstarterapp;
 // Manifest Import
 import android.Manifest;
 // Support Imports
+import android.graphics.Color;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -771,17 +772,25 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 sub = drawerMenu.findItem(uid/100).getSubMenu();
             }
             MenuItem item = sub.add(Menu.NONE, uid, uid, saveString);
-
-            item.setOnMenuItemClickListener(this);
-            item.setActionView(new ImageButton(this));
-            item.getActionView().setOnLongClickListener(new View.OnLongClickListener() {
+            View v = (View) item;
+            v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Toast.makeText(Lyrics.this, "LONG CLICK",Toast.LENGTH_SHORT).show();
                     return false;
                 }
             });
-            item.getActionView().setBackgroundColor(0xFF00FF00);
+            // Listens for new menu item click
+            item.setOnMenuItemClickListener(this);
+            // Listens for new menu item long click
+//            item.setActionView(new ImageButton(this));
+//            item.getActionView().setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    Toast.makeText(Lyrics.this, "LONG CLICK",Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//            });
         } else {
             drawerMenu.add(Menu.NONE, uid, uid, saveString);
         }
