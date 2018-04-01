@@ -38,7 +38,7 @@ public class SerializationBase extends Activity {
             File d = new File(path + '/');
             d.mkdirs();
             if (s.getVerses() != null) {
-                saveLyricsToText(s.getVerses(), s.getTitles(), path + "/Lyrics.txt");
+                saveLyricsToText(s.getVerses(), s.getTitles(), path + "Lyrics.txt");
             }
         }
     }
@@ -111,15 +111,11 @@ public class SerializationBase extends Activity {
     }
 
     // Helper function to create path
-    public static String pathGenerator(Song song,
-                                       String... more) {
-        String s = "";
-        if (more != null) {
-            for (String m : more) {
-                s += m + '/';
-            }
+    public static String pathGenerator(Song song) {
+        if (song.getSongname().equals("")) {
+            song.setSongname("Default");
         }
-        return Lyrics.sPath + song.getSongname() + '/' + s;
+        return Lyrics.sPath + song.getSongname() + '/';
     }
 
 }
