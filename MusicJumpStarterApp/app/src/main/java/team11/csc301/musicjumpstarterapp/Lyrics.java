@@ -87,7 +87,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     private DrawerLayout mainMenuLayout;
     private NavigationView mainNavView;
     private NavigationView drawerNavView;
-    private ActionBarDrawerToggle menuToggle;
+    private boolean songsToggle;
     // Recycler View Variables
 
     private RecyclerView horizontal_recycler_view_suggestions;
@@ -148,6 +148,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
 
         audioPath = "";
         verseNumber = 1;
+
+        songsToggle = false;
       
         horizontal_recycler_view_suggestions = findViewById(R.id.horizontal_recycler_view_suggestions);
         Suggestions=new ArrayList<>();
@@ -359,11 +361,10 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         String songname = ((EditText) findViewById(R.id.song_title)).getText().toString();
         Log.d("Current song", songname);
         String currentName = current.getSongname();
-        current.setSongname(songname);
         if (songname.equals("")) {
             songname = "Default";
-            current.setSongname(songname);
         }
+        current.setSongname(songname);
         List<String> songList = getSongList();
         while (Collections.frequency(songList, songname) > 1) {
             songname = songname + "_2";
@@ -454,6 +455,10 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 layout.addView(new Verse(this, current.getTitles().get(i), current.getVerses().get(i), ""), i);
             }
         }
+
+        // Populate the recordings drawer
+        drawerNavView.getMenu().clear();
+        populateRecordingsDrawer();
     }
 
     /**
@@ -566,6 +571,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            File newFolder = new File(sPath + current.getSongname() + '/');
             setupMediaRecorder();
             runOnThread(new Runnable() {
                 public void run() {
@@ -580,8 +586,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
     public void onDialogClickSaveRec(String saveString) {
         String newSaveString = (saveString + ".3gp");
         boolean success = true;
-        String saveStringPath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath()+"/" + newSaveString;
+        String saveStringPath = sPath + current.getSongname() + "/" + newSaveString;
         File newFile = new File(saveStringPath);
 
         if ((!newSaveString.equals(audioOutFile.getName())) && newFile.exists()) {
@@ -589,7 +594,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             dialog.show(fragManager, "fileExists");
             success = false;
         } else if (!audioOutFile.renameTo(newFile)) {
-            //TODO: Allow them to change the name multiple times??
+            //TODO: Allow them to change the name multiple times
             success = false;
         }
         if (!success) {
@@ -606,6 +611,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 }
             }, "Recording Saved");
             // Add item to drawer
+            System.out.println(audioPath);
             addMenuItem(parseDrawerItemToUID(saveString), saveString);
         }
     }
@@ -626,8 +632,9 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
      * Sets the audio pathway for recording/playing
      */
     private void setAudioPath(String saveString) {
-        audioPath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath()+"/" + saveString + ".3gp";
+        // Environment.getExternalStorageDirectory()
+        //        .getAbsolutePath()
+        audioPath = sPath + current.getSongname() + "/" + saveString + ".3gp";
     }
 
     /**
@@ -759,55 +766,54 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             case R.id.new_song:
                 Toast.makeText(Lyrics.this, "New Song", Toast.LENGTH_SHORT).show();
                 createNewSong();
+                mainMenuLayout.closeDrawers();
                 break;
             case R.id.switch_song:
-                Toast.makeText(Lyrics.this, "Switch Song", Toast.LENGTH_SHORT).show();
                 switchToSong(current);
-                if (mainNavView.getMenu().findItem(songsMenuId) != null) {
-                    SubMenu sub = mainNavView.getMenu().findItem(songsMenuId).getSubMenu();
-                    sub.clear();
-                }
+                Menu menu = mainNavView.getMenu();
+                menu.removeGroup(R.id.song_group);
                 List<String> songList = getSongList();
-                System.out.println(Integer.toString(songList.size()));
                 for (int i = 0; i < songList.size(); i++) {
-                    System.out.println(songList.get(i));
-                    addMenuSongs(i, songList.get(i));
+                    menu.add(R.id.song_group, i, 1, songList.get(i)).setOnMenuItemClickListener(this);
                 }
+
+                // Toggle visibility
+                songsToggle = !songsToggle;
+                menu.setGroupVisible(R.id.song_group, songsToggle);
                 break;
             case R.id.settings:
                 Toast.makeText(Lyrics.this, "Settings", Toast.LENGTH_SHORT).show();
+                mainMenuLayout.closeDrawers();
                 break;
             case R.id.exit_app:
                 Toast.makeText(Lyrics.this, "Exit App", Toast.LENGTH_SHORT).show();
+                mainMenuLayout.closeDrawers();
                 break;
         }
 
-        if (id == R.id.new_song || id == R.id.settings || id == R.id.exit_app) {
-            mainMenuLayout.closeDrawers();
-            return true;
-        }
         return true;
     }
 
+    /** Click events for the right-hand Recordings Drawer items that are added dynamically */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // This means that the button press came from the Recordings Drawer
-        Pattern p = Pattern.compile("Verse [0-9]* Take [0-9]*");
-        Matcher m = p.matcher(item.getTitle());
-        if (m.find()) {
-            String recording_name = (String) item.getTitle();
-            setAudioPath(recording_name);
+        // This means that the button press came from the
+        if (item.getGroupId() != R.id.song_group) {
+            String recordingName = (String) item.getTitle();
+            setAudioPath(recordingName);
             audioOutFile = new File(audioPath);
+            Toast.makeText(Lyrics.this, "To Play: " + recordingName,
+                    Toast.LENGTH_SHORT).show();
         }
         else {
-            System.out.println("Swithing");
             String song = (String) item.getTitle();
-            System.out.println(song);
             Song s = getSongbyName(song);
             switchToSong(s);
         }
-
         mainMenuLayout.closeDrawers();
+        String recordingName = (String) item.getTitle();
+        setAudioPath(recordingName);
+        audioOutFile = new File(audioPath);
         return true;
     }
 
@@ -825,8 +831,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
 
     private void addMenuItem(int uid, String saveString) {
         Menu drawerMenu = drawerNavView.getMenu();
-        System.out.println(uid);
-        System.out.println(uid/100);
         if (uid != Menu.NONE) {
             SubMenu sub;
             // New submenu needed
@@ -834,20 +838,11 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
                 int k = saveString.indexOf(" ", saveString.indexOf(" ") + 1);
                 String res = saveString.substring(0, k);
                 sub = drawerMenu.addSubMenu(Menu.NONE, uid / 100, uid / 100, res);
-                System.out.println(sub.getItem().getItemId());
             // We use an existing submenu
             } else {
                 sub = drawerMenu.findItem(uid/100).getSubMenu();
             }
             MenuItem item = sub.add(Menu.NONE, uid, uid, saveString);
-            View v = (View) item;
-            v.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(Lyrics.this, "LONG CLICK",Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
             // Listens for new menu item click
             item.setOnMenuItemClickListener(this);
             // Listens for new menu item long click
@@ -864,18 +859,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
         }
     }
 
-    private void addMenuSongs(int uid, String saveString) {
-        Menu mainMenu = mainNavView.getMenu();
-        SubMenu sub;
-        if (mainMenu.findItem(songsMenuId) == null) {
-            sub = mainMenu.addSubMenu(Menu.NONE, songsMenuId, songsMenuId, "Songs:");
-            System.out.println(sub.getItem().getItemId());
-        } else {
-            sub = mainMenu.findItem(songsMenuId).getSubMenu();
-        }
-        sub.add(Menu.NONE, uid, uid, saveString).setOnMenuItemClickListener(this);
-    }
-
     /** Called when the user taps the lower right drawer button */
     public void drawerButtonPressed(View view) {
         mainMenuLayout.openDrawer(Gravity.END);
@@ -887,6 +870,27 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             sub.clear();
         }
         mainMenuLayout.openDrawer(Gravity.START);
+    }
+
+    private void populateRecordingsDrawer() {
+        File dir = new File(audioPath = sPath + current.getSongname());
+        File[] listOfFiles = dir.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                String fileName = file.getName();
+                System.out.println(fileName);
+                System.out.println(fileName.substring(fileName.length() - 4,
+                        fileName.length()));
+                if (file.isFile() && fileName.substring(fileName.length() - 4,
+                        fileName.length()).equals(".3gp")) {
+                    String[] split = file.getName().split("/");
+                    String name = split[split.length - 1];
+                    name = name.substring(0, name.length() - 4);
+                    System.out.println(name);
+                    addMenuItem(parseDrawerItemToUID(name), name);
+                }
+            }
+        }
     }
 
     /* ================ END OF MAIN DRAWER SECTION OF MAIN ACTIVITY ================ */
