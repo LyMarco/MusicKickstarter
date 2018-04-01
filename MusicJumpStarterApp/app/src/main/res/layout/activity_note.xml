@@ -141,7 +141,6 @@
     android:layout_toEndOf="@+id/rewindButton"
     android:background="#ffffff"
     android:elevation="3dp"
-    android:onClick="buttonPressed"
     android:src="@drawable/play" />
 
 <ImageButton
@@ -156,7 +155,6 @@
     android:layout_marginStart="28dp"
     android:background="#ffffff"
     android:elevation="3dp"
-    android:onClick="buttonPressed2"
     android:src="@drawable/record" />
 
 <ImageButton

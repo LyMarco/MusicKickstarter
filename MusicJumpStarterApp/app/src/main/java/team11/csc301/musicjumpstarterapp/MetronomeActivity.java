@@ -2,9 +2,11 @@ package team11.csc301.musicjumpstarterapp;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -14,6 +16,8 @@ public class MetronomeActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private SeekBar upBeatBar;
     private static MediaPlayer mediaPlayer;
+    private boolean metronome = false;
+    private boolean flag = false;
 
     private int upBeat = 4;
     private int bpm = 60;
@@ -72,6 +76,36 @@ public class MetronomeActivity extends AppCompatActivity {
         });
 
         MetronomeSingleton metronome = MetronomeSingleton.getInstance();
+    }
+
+    public void drumsButtonPressed (View view) {
+        ImageButton button = (ImageButton) view;
+        int icon, icon2;
+        icon = R.drawable.drums;
+        icon2 = R.drawable.metronome;
+        metronome = !metronome;
+        if (!metronome)
+        {
+            flag = false;
+            button.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon));
+        }
+        else
+        {
+            flag = true;
+            button.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), icon2));
+        }
+    }
+
+    public void startBeat(View view) {
+        if (!flag)
+        {
+            startDrums(view);
+        }
+        else {
+            startMetronome(view);
+        }
     }
 
     public void startMetronome(View view) {
