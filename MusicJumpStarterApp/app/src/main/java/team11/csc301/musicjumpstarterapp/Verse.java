@@ -80,6 +80,7 @@ public class Verse extends RelativeLayout {
 
         checkChords();
         setEditingMode(BODY);
+        ((Lyrics) getContext()).updateVerseTitles();
     }
 
     /**

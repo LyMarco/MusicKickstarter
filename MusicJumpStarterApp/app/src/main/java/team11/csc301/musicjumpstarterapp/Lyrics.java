@@ -400,9 +400,15 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             deleteVerse(layout);
         }
         // Create verses.
+        String title;
         if (isNew) {
             for (int i = 0; i < 3; i++) {
-                layout.addView(new Verse(this, "", "", ""), i);
+                if (i == 1) {
+                    title = "Ch.";
+                } else {
+                    title = i + ".";
+                }
+                layout.addView(new Verse(this, title, "", ""), i);
             }
         } else {
             for (int i = 0; i < current.getVerses().size(); i++) {
