@@ -265,9 +265,18 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
      */
     public void toggleChords(View view) {
         Verse verse;
+        ImageButton chords = findViewById(R.id.chordsButton);
+        int icon = R.drawable.write_chords;
+        int icon_2 = R.drawable.write_lyrics;
         switch(editingMode) {
-            case Verse.BODY: editingMode = Verse.CHORDS; break;
-            case Verse.CHORDS: editingMode = Verse.BODY; break;
+            case Verse.BODY: editingMode = Verse.CHORDS;
+                chords.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(), icon));
+            break;
+            case Verse.CHORDS: editingMode = Verse.BODY;
+                chords.setImageDrawable(
+                        ContextCompat.getDrawable(getApplicationContext(), icon_2));
+            break;
         }
         for (int i = 0; i < layout.getChildCount() - 1; i++) {
             verse = (Verse) layout.getChildAt(i);

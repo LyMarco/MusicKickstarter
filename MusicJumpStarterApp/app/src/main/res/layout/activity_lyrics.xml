@@ -23,10 +23,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/toolbar"
+        android:layout_alignParentStart="true"
         android:background="#ffffff"
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize" />
+
+
+    <ImageButton
+        android:id="@+id/chordsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="118dp"
+        android:background="#ffffff"
+        android:elevation="3dp"
+        android:onClick="toggleChords"
+        android:src="@drawable/write_lyrics" />
 
     <ImageButton
         android:id="@+id/shareButton"
@@ -68,10 +81,9 @@
     <ImageButton
         android:id="@+id/forwardButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toStartOf="@+id/metronomeButton"
+        android:layout_toEndOf="@+id/playButton"
         android:background="#ffffff"
         android:elevation="3dp"
         android:src="@drawable/forward" />
@@ -92,8 +104,9 @@
     <ImageButton
         android:id="@+id/rewindButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="89dp"
         android:layout_alignTop="@+id/toolbar2"
         android:layout_toStartOf="@+id/playButton"
         android:background="#ffffff"
@@ -104,10 +117,9 @@
     <ImageButton
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar2"
-        android:layout_alignTop="@+id/toolbar2"
-        android:layout_toStartOf="@+id/forwardButton"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/rewindButton"
         android:background="#ffffff"
         android:elevation="3dp"
         android:onClick="playButtonPressed"
@@ -141,10 +153,12 @@
 
     <EditText
         android:id="@+id/song_title"
-        android:layout_width="wrap_content"
+        android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_alignEnd="@+id/forwardButton"
+        android:layout_marginEnd="-28dp"
+        android:layout_marginRight="-28dp"
         android:layout_toEndOf="@+id/settingsButton"
         android:backgroundTint="#2980b9"
         android:elevation="3dp"
@@ -181,16 +195,6 @@
         android:background="#eeeeee"
         android:minHeight="?attr/actionBarSize"
         android:visibility="invisible" />
-
-    <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/toolbar"
-        android:onClick="toggleChords"
-        android:textOff="@string/lyrics"
-        android:textOn="@string/chords" />
 
 </RelativeLayout>
 

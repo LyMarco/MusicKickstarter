@@ -58,7 +58,6 @@
     android:elevation="3dp"
     android:minHeight="?attr/actionBarSize" />
 
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
@@ -68,7 +67,6 @@
         android:background="#ffffff"
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize" />
-
 
     <ImageButton
         android:id="@+id/shareButton"
@@ -137,7 +135,6 @@
         android:background="#ffffff"
         android:elevation="3dp"
         android:src="@drawable/rewind" />
-
 
     <ImageButton
         android:id="@+id/playButton"
