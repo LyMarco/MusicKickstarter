@@ -40,6 +40,19 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+    /** Called when the user taps the Metronome button */
+    public void sendMetronome(View view) {
+        Intent intent = new Intent(this, MetronomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void goBackFromNotes(View view) {
+        Intent intent = new Intent(this, Lyrics.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     public void add(View view) {
         NoteActivity2.index = Infor.map.size();
         Intent intent = new Intent(this, NoteActivity2.class);
