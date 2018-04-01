@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -344,6 +345,7 @@ public class Verse extends RelativeLayout {
         LineIterator chordsLines = getChordsIterator();
         String bodyLine = "", chordsLine = "";
 
+        Log.d("Verse", "starting update, i is: " + i);
         // Find the line where the change occurred.
         while (bodyLines.hasNext()) {
             bodyLine = bodyLines.next();
@@ -356,19 +358,27 @@ public class Verse extends RelativeLayout {
                 }
             }
             chordsLine = chordsLines.next();
+            Log.d("Verse", "bodyLine start is: " + bodyLines.start);
+            Log.d("Verse", "bodyLine end is: " + bodyLines.end);
+            Log.d("Verse", "chordsLine start is: " + chordsLines.start);
+            Log.d("Verse", "chordsLine end is: " + chordsLines.end);
+
             if (i <= bodyLines.end) {
                 i -= bodyLines.start;
                 break;
             }
         }
-        if (i > bodyLine.length()) {
-            throw new IndexOutOfBoundsException();
+        Log.d("Verse", "in update, found line and i is now: " + i);
+        if (i < 0 || i >= bodyLine.length()) {
+            // We don't deal with updates when we can't find them.
+            // (must implement some boundary checking to update on newline deletes)
+            return;
         }
 
         // Perform the actual update.
+        StringBuilder newChords = new StringBuilder(getChords());
         float bodyWidth = bodyPaint.measureText(bodyLine.substring(0, i));
         int j = getIndexOfWidth(bodyWidth, chordsLine, chordsPaint);
-        StringBuilder newChords = new StringBuilder(getChords());
         if (prev.matches("")) {
             // Then this was an insert.
             int extraSpace = Math.round(bodyPaint.measureText(now) / chordsPaint.measureText(" "));
