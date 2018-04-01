@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 // List Imports
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 // Data Structures Imports
 import java.io.FileNotFoundException;
@@ -159,30 +161,8 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
     protected void onPause() {
         super.onPause();
 
-        // Get text from verses.
-        ArrayList<String> verses = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
-        for (int i = 0; i < layout.getChildCount() - 1; i++) {
-            Verse verse = (Verse) layout.getChildAt(i);
-            verses.add(verse.getBody());
-            titles.add(verse.getTitle());
-        }
-        current.setVerses(verses);
-        current.setTitles(titles);
-
-        // Set song title.
-        String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
-        if (songname.equals("")) {
-            current.setSongname("Default");
-        }
-        if (!songname.equals(current.getSongname())) {
-            File oldFolder = new File(SerializationBase.pathGenerator(current));
-            File newFolder = new File(sPath + songname + '/');
-            boolean success = oldFolder.renameTo(newFolder);
-            current.setSongname(songname);
-        }
-
-        // Save current song.
+        saveToSong();
+        // Save current songs to file
         try {
             SerializationBase.saveStop(songs);
         } catch (Exception e){
@@ -321,6 +301,64 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
         startActivity(intent);
     }
 
+    /**
+     *  Save data to Song class
+     */
+    private void saveToSong() {
+        Log.d("Save to song", "Start");
+        // Get text from verses.
+        ArrayList<String> verses = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
+        for (int i = 0; i < layout.getChildCount() - 1; i++) {
+            Verse verse = (Verse) layout.getChildAt(i);
+            verses.add(verse.getBody());
+            titles.add(verse.getTitle());
+        }
+        current.setVerses(verses);
+        current.setTitles(titles);
+
+        // Set song title.
+        String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
+        Log.d("Current song", songname);
+        String currentName = current.getSongname();
+        current.setSongname(songname);
+        if (songname.equals("")) {
+            songname = "Default";
+            current.setSongname(songname);
+        }
+        List<String> songList = getSongList();
+        while (Collections.frequency(songList, songname) > 1) {
+            songname = songname + "_2";
+            current.setSongname(songname);
+            Log.d("Song change name", current.getSongname());
+            songList = getSongList();
+        }
+//        int i = 0;
+//        for (Song s : songs) {
+//            Log.d("Song a", s.getSongname());
+//            if (s.getSongname().equals(songname)) {
+//                Log.d("Same Song Name", s.getSongname());
+//                i++;
+//                Log.d("Same Song Name", Integer.toString(i));
+//            }
+//        }
+//        if (i > 1) {
+//            songname = songname + "_" + Integer.toString(i);
+//            current.setSongname(songname);
+//            Log.d("Song change name", current.getSongname());
+//        }
+        for (Song s : songs) {
+            Log.d("Debug", s.getSongname());
+        }
+        if (!songname.equals(currentName)) {
+            File oldFolder = new File(SerializationBase.pathGenerator(current));
+            File newFolder = new File(sPath + songname + '/');
+            boolean success = oldFolder.renameTo(newFolder);
+            current.setSongname(songname);
+        }
+    }
+
+
     /* ================ SWITCH TO OTHER SONG IN MAIN ACTIVITY ================ */
 
     /**
@@ -358,28 +396,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener {
      */
     public void switchToSong (Song s) {
         if (current != null) {
-            // Get text from verses.
-            ArrayList<String> verses = new ArrayList<>();
-            ArrayList<String> titles = new ArrayList<>();
-            for (int i = 0; i < layout.getChildCount() - 1; i++) {
-                Verse verse = (Verse) layout.getChildAt(i);
-                verses.add(verse.getBody());
-                titles.add(verse.getTitle());
-            }
-            current.setVerses(verses);
-            current.setTitles(titles);
-
-            // Set song title.
-            String songname = ((EditText) findViewById(R.id.editText7)).getText().toString();
-            if (songname.equals("")) {
-                current.setSongname("Default");
-            }
-            if (!songname.equals(current.getSongname())) {
-                File oldFolder = new File(SerializationBase.pathGenerator(current));
-                File newFolder = new File(sPath + songname + '/');
-                boolean success = oldFolder.renameTo(newFolder);
-                current.setSongname(songname);
-            }
+            saveToSong();
         }
         boolean isNew = false;
         current = s;
