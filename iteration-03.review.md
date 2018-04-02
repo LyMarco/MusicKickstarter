@@ -62,7 +62,7 @@ List any process-related changes you are planning to make (if there are any)
  * For each goal/task, explain why it was not met/completed.      
    e.g. Did you change your mind, or did you just not get to it yet?
    
- * (Goal) Clicking on a suggestion places it into the verse at currently pointer position
+ * (Goal) Clicking on a suggestion places it into the verse at current pointer position
 
 ## Meeting Highlights
 
