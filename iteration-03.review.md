@@ -1,4 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
+# Team 11
 
  > _Note:_ This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.      
  >      
@@ -87,10 +87,6 @@ List any process-related changes you are planning to make (if there are any)
   	* Implemented dynamic chords so that as lyrics were edited, the chords stayed in their relative position above specific words in the lyrics
 
 #### Goals and/or tasks that were planned but not met/completed:
-
- * From most to least important.
- * For each goal/task, explain why it was not met/completed.      
-   e.g. Did you change your mind, or did you just not get to it yet?
 
 
  * (Goal) Clicking on suggestion places it in lyrics
