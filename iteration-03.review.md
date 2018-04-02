@@ -101,3 +101,5 @@ Going into the next iteration, our main insights are:
  * High-level concepts that should guide your work for the next iteration.
  * These concepts should help you decide on where to focus your efforts.
  * Can be related to product and/or process.
+ * 1. Communicate Better and Plan ahead of time. We at times had times where people were not sure what was going on, and also meetings that were scheduled and reschedules last minute. We need to coordinate better, perhaps even use a joint calendar app to better organize meetings
+
