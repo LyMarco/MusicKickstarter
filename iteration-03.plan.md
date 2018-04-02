@@ -25,8 +25,11 @@ List the most significant changes you made to your process (if any).
  > *Note:* If you are not making any changes to your process, it means that you are happy with all of the decisions you made in the previous iterations.
  > In this case, list what you consider to be the most significant process decisions your team made. For each decision, explain why you consider it successful, and what success metric you are using (or could use) to assert that the decision is successful.
  
- * 1. More rebasing and no committing to master directly and instead always use pull requests from separate branches
- 	* We ran into some problems last iteration where some members of the group had their work removed from the master branch, causing unnecessary steps to be taken to reapply their changes. We wish to keep this from happening again and if we can rebase our branches before making a pull request, this should allow those wanting to make changes to master to see what it is they will be merging into and allw for them to figure out how to deal with these changes before actually merging to master. If we can keep from having to go back in commit history to reapply certain changes due to one member overwriting work of another, we will count this as a success.
+ * More rebasing and no committing to master directly and instead always use pull requests from separate branches
+ 	* We ran into some problems last iteration where some members of the group had their work removed from the master branch, causing unnecessary steps to be taken to reapply their changes. We wish to keep this from happening again and if we can rebase our branches before making a pull request, this should allow those wanting to make changes to master to see what it is they will be merging into and allow for them to figure out how to deal with these changes before actually merging to master. If we can keep from having to go back in commit history to reapply certain changes due to one member overwriting work of another, we will count this as a success.
+
+ * Post bugs on a separate Git Project
+	* Bug reports used to be informally posted on the group Messenger chat and oftentimes would be difficult to drag back up from the history to examine, and may go missed. Using the Project boards to post bugs will hopefully streamline the process and allow more bugs to be fixed. We will use the metric of number of bugs reported and solved to measure how well this method works.
 	
 
 #### Roles & responsibilities
@@ -35,13 +38,14 @@ Describe the different roles on the team and the responsibilities associated wit
 
 (Mostly the same as iteration 2)
  *  General Software Developer: Everyone will be playing the same roles in terms of managing the project (no specified Scrum Master). However, we will be separating the project into different areas of development, where the roles are as follows,
-	* Serialization: Terrence will be responsible for determining how text will be saved in the application. This includes researching how Android's file system can be used as well as creating classes/methods which can be used by other members of the group to save data easily.
-	* UI: Neil will develop an interface to be used for the app. All interface questions and/or ideas will go through him.
-	* Recording and Audio: Marco will be at the forefront of designing and researching audio playback and recording for the app. This includes making sure audio files are saved and accessed properly. This is a central point of focus in the app. Marco will also collaborate with Terrence to create a menu for switching between/creating new songs.
-	* Lyric Suggestions: Nikita will be in charge of developing a lyric suggesting functionality which gives the user ideas for the lyrics of the song they will be writing by suggesting words which rhyme with a certain chosen word. This includes creating a server from which to fetch the suggestions as well as designing algorithms which find useful suggestions. This is also a highlighted functionality for our application.
+	* Serialization: Terrence will further his work on Serialization by providing methods to save multiple songs, change songs, save chords, and any other information that requires serialization using his current framework for song saving and loading. 
+	* UI: Neil will develop an interface to be used for the app. All interface questions and/or ideas will go through him. He will be responsible for the finished look of the app, creating more icons, and helping out in areas that require more help.
+	* Recording and Audio: Marco will be at the forefront of improving any audio playback and recording for the app. The primary focus for this iteration is to make a selectable interface for playing back specifically chosen recordings properly. This is a central point of focus in the app. Marco will also collaborate with Terrence to create a menu for switching between/creating new songs.
+	* Lyric Suggestions: Nikita will be in charge of developing a lyric suggesting. This iteration should see the inclusion of a functioning server from which to fetch the suggestions as well as designing algorithms which find useful suggestions. This is also a highlighted functionality for our application.
 	* Other areas: 
-		* The metronome and all of its features will be designed by Patrick.
+		* The metronome and all of its features will be designed by Patrick. We will be looking to improve the metronome's features by adding downbeats, and potential instrumentation effects for the metronome. 
 		* Tony and Joshua will develop the notes and lyrics sections of the application, respectively, along with any algorithms needed to make these more user friendly.
+		* The Main Menu Drawer as well as Recordings drawer responsibilities will be given to Marco, as he is most closely tied to working with the Recordings. He will collaborate with Terrence in working on the Main Menu to allow saving and changing songs.
 
 
 #### Events
@@ -55,11 +59,11 @@ Describe meetings (and other events) you are planning to have:
 
 List/describe the artifacts you will produce in order to organize your team.       
    
- * Main to-do list/workflow overview - (Github Projects board)
+ * Main to-do list/workflow overview - (Github Projects board https://github.com/csc301-winter-2018/project-team-11/projects/1)
    * We use Github's Projects board to display all the different tasks that need to be done and that have been done. The different columns in the board show whether a task is done, currently in progress, still yet to be started, etc. From here we can see also who has been assigned to each task. Also, we will be using the tags that Github offers for issues to categorize the different tasks (see below) according to epics which we defined in iteration 1.
- * Assigning jobs - (Github issues/Discord meetings)
+ * Assigning jobs - (Github issues/Discord meetings https://discordapp.com/invite/qfjQrWg)
    * Because issues in Github can be assigned to different users, we set each task in the project board to an issue and assign members to these tasks through these issues. The actual deciding of who gets assigned to each task is done via interacting on Messenger or during one of our Discord meetings
- * Prioritizing tasks - (Github Projects board/Discord meetings)
+ * Prioritizing tasks - (Github Projects board/Discord meetings https://github.com/csc301-winter-2018/project-team-11/projects/2)
    * We will create a separate project board on Github (from the tasks board described above) for bugs, questions, etc. There will be different columns in this board for app-crashing bugs, feature bugs, and general 'feature or bug' disputes. We will also be reasigning people (as we have in the past) to more important tasks as the iteration comes to a close in order to get the more necessary jobs done.
  * Main chat/event and feature planning - (Messenger)
    * We will use Messenger, as we have been so far, as our main method for communicating. This has worked well so far as it is really convenient for setting up/rescheduling meetings without much delay. It also makes for an easy way to get opinions on features quickly, or let each others know if their work has a bug that needs fixing immediately.
