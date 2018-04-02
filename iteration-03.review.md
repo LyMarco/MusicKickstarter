@@ -18,10 +18,6 @@ List process-related (i.e. team organization) decisions that, in retrospect, tur
 #### Decisions that did not turn out as well as we hoped
 
 List process-related (i.e. team organization) decisions that, in retrospect, were not as successful as you thought they would be.
-
- * 2 - 4 decisions.
- * Ordered from most to least important.
- * Feel free to refer/link to process artifact(s).
  
  * Using the project board for bugs didn't help as much as we first thought it would. We usually ended up still telling each other over Messenger when we had bugs that needed to be dealt with rather than creating an issue and placing it in the project board. 
  * Not prescheduling meetings also proved to be something we could have worked on. We had different times where we usually met up online (using Discord) but we never set an exact time to be used every week which resulted in a much less organized meeting.
