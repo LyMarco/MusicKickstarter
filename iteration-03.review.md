@@ -102,4 +102,4 @@ Going into the next iteration, our main insights are:
  * These concepts should help you decide on where to focus your efforts.
  * Can be related to product and/or process.
  * 1. Communicate Better and Plan ahead of time. We at times had times where people were not sure what was going on, and also meetings that were scheduled and reschedules last minute. We need to coordinate better, perhaps even use a joint calendar app to better organize meetings
-
+ * 2. Continue working together and sharing knowledge. We got alot more done when people were helping each other out, and the team work has really improved since the beggining of the project.
