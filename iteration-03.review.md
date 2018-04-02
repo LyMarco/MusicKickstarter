@@ -25,6 +25,8 @@ List process-related (i.e. team organization) decisions that, in retrospect, tur
  * Feel free to refer/link to process artifact(s).
 
  * Placing more focus on the core features has really helped us bring forward the MVP. By more clearly defining which features we need, and which are optional we were able to spend more time on the tasks that really mattered.
+ * Having predefined roles for each member of the group turned out to be quite useful. Assigning different areas of development to different people allowed us to really master or at least almost fully develop each piece of the project. Subdividing the project in this way really made it feal less daunting and allowed for quicker deployment (i.e. merges to master).
+ 
 
 #### Decisions that did not turn out as well as we hoped
 
@@ -33,6 +35,9 @@ List process-related (i.e. team organization) decisions that, in retrospect, wer
  * 2 - 4 decisions.
  * Ordered from most to least important.
  * Feel free to refer/link to process artifact(s).
+ 
+ * Using the project board for bugs didn't help as much as we first thought it would. We usually ended up still telling each other over Messenger when we had bugs that needed to be dealt with rather than creating an issue and placing it in the project board. 
+ * Not prescheduling meetings also proved to be something we could have worked on. We had different times where we usually met up online (using Discord) but we never set an exact time to be used every week which resulted in a much less organized meeting.
 
 
 #### Planned changes
@@ -52,44 +57,20 @@ List any process-related changes you are planning to make (if there are any)
  * If a goal/task was not part of the original iteration plan, please mention it.
 
  * (Goal) Setup Suggestions Server and deploy to Azure Cloud
-   * (Tasks)
    * server is now operational with /suggestions/word and /rhymes/word endpoints
    * http://csc301-team-11-lyrics.azurewebsites.net/rhymes/swim
    * http://csc301-team-11-lyrics.azurewebsites.net/suggestions/swim
-
- * (Goal) Saving multiple songs each with multiple takes
-	* (Tasks)
-	* Group lyrics, recordings by songs
-	* Save each of these as a separate song and allow these songs to be retreived again
-	* Save multiple recordings for a single song
-	* Allow renaming of songs/takes
-
-* (Goal) Make metronome more dynamic
-	* (Tasks)
-	* Make upbeat modifiable (2/4ths time, 3/4ths time, etc.)
-	* Add more speed options
-	* Add in drums as an extra feature
-
-* (Goal) Enhance UI and overall flow of application, especially in the notes-taking part of the app
-	* (Tasks)
-	* Add more image buttons to create more intuitive and friendly feel to the app
-	* Make navigation of the app more intuitive
-	* Create separate page for actually writing notes
-
-* (Goal) Allow for chords (e.g. 'A', 'C#', etc.) to be placed above lyrics
-	* (Tasks)
-	* Create separate text fields for chords
-	* Group text fields by verses
-	* Think of way to allow editing of both lyrics and chords without while keeping everything simple and intuitive
-	* Make chords stay on top of the lyrics they were placed above even while editing
+ * (Goal) Allow for chords (e.g. 'A', 'C#', etc.) to be placed above lyrics
+	  * EditTexts were used to create editable chords
+	  * A Verse class was created making the moving around of verses and the processes related to verses much simpler (e.g. numbering verses, changing the layout of the verses, etc.)
+	  * Allowed for toggling between editing verse lyrics and chords so that the two don't get in each others way
+  	* Implemented dynamic chords so that as lyrics were edited, the chords stayed in their relative position above specific words in the lyrics
 
 #### Goals and/or tasks that were planned but not met/completed:
 
  * From most to least important.
  * For each goal/task, explain why it was not met/completed.      
    e.g. Did you change your mind, or did you just not get to it yet?
-   
- * (Goal) Clicking on a suggestion places it into the verse at current pointer position
 
 ## Meeting Highlights
 
