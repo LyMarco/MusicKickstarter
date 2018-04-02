@@ -30,6 +30,10 @@ List any process-related changes you are planning to make (if there are any)
  * Ordered from most to least important.
  * Explain why you are making a change.
 
+ * Plan meetings ahead of time and use a group calendar
+    * We had an issue with scheduling outline above. Planning more ahead of time will make sure we can accomodate everyone, and using a group calendar will make sure everyone remembers about it and is notified.
+
+
 
 ## Product - Review
 
