@@ -161,3 +161,8 @@ List/describe the artifacts you will produce in order to present your project id
  * Make sure to explain the purpose of each artifact (i.e. Why is it on your to-do list? Why is it useful for your team?)
  * Be concise, yet precise.         
    For example: "Build the website" is not precise at all, but "Build a static home page and upload it somewhere, so that it is publicly accessible" is much clearer.
+
+* Lyrics Suggestion API
+	* Should be available online and not require a local server
+	* Endpoint `/suggestions/word` should return rhymes and extra details about the word
+	* Endpoint `/rhymes/word` should return just the rhymes at a faster speed
