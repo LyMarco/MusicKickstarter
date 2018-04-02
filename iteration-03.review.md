@@ -60,6 +60,26 @@ List any process-related changes you are planning to make (if there are any)
    * server is now operational with /suggestions/word and /rhymes/word endpoints
    * http://csc301-team-11-lyrics.azurewebsites.net/rhymes/swim
    * http://csc301-team-11-lyrics.azurewebsites.net/suggestions/swim
+
+ * (Goal) Saving multiple songs each with multiple takes
+	* (Tasks)
+	* Group lyrics, recordings by songs
+	* Save each of these as a separate song and allow these songs to be retreived again
+	* Save multiple recordings for a single song
+	* Allow renaming of songs/takes
+	
+* (Goal) Make metronome more dynamic
+	* (Tasks)
+	* Make upbeat modifiable (2/4ths time, 3/4ths time, etc.)
+	* Add more speed options
+	* Add in drums as an extra feature
+	
+* (Goal) Enhance UI and overall flow of application, especially in the notes-taking part of the app
+	* (Tasks)
+	* Add more image buttons to create more intuitive and friendly feel to the app
+	* Make navigation of the app more intuitive
+	* Create separate page for actually writing notes
+
  * (Goal) Allow for chords (e.g. 'A', 'C#', etc.) to be placed above lyrics
 	  * EditTexts were used to create editable chords
 	  * A Verse class was created making the moving around of verses and the processes related to verses much simpler (e.g. numbering verses, changing the layout of the verses, etc.)
