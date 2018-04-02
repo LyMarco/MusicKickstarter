@@ -105,7 +105,8 @@ For example, "we use pull-requests" is not a precise statement since it leaves t
 
  * (Goal) Setup server in the cloud (as opposed to on ones PC/MAC) for lyric suggestions and have suggestion placed in text when tapped
 	* (Tasks)
-   	* Create server using Azure (???)
+   	* Create Web App Service on Azure
+	* Deploy Suggestions Server to Azure
 	* Make suggestions clickable
 	* Create methods for inserting text into a desired position in the textbox
 		
