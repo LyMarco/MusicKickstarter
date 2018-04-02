@@ -36,10 +36,6 @@ List any process-related changes you are planning to make (if there are any)
 
 #### Goals and/or tasks that were met/completed:
 
- * From most to least important.
- * Refer/link to artifact(s) that show that a goal/task was met/completed.
- * If a goal/task was not part of the original iteration plan, please mention it.
-
  * (Goal) Setup Suggestions Server and deploy to Azure Cloud
    * server is now operational with /suggestions/word and /rhymes/word endpoints
    * http://csc301-team-11-lyrics.azurewebsites.net/rhymes/swim
