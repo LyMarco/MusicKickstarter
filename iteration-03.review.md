@@ -7,8 +7,6 @@
 
 ## Process - Reflection
 
-(Optional) Short introduction
-
 #### Decisions that turned out well
 
 List process-related (i.e. team organization) decisions that, in retrospect, turned out to be successful.
