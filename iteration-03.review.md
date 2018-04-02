@@ -92,6 +92,10 @@ List any process-related changes you are planning to make (if there are any)
  * For each goal/task, explain why it was not met/completed.      
    e.g. Did you change your mind, or did you just not get to it yet?
 
+
+ * (Goal) Clicking on suggestion places it in lyrics
+	  * Time constraint, was unable to complete it.
+
 ## Meeting Highlights
 
 Going into the next iteration, our main insights are:
