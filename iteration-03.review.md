@@ -11,12 +11,6 @@
 
 List process-related (i.e. team organization) decisions that, in retrospect, turned out to be successful.
 
-
- * 2 - 4 decisions.
- * Ordered from most to least important.
- * Explain why (i.e. give a supporting argument) you consider a decision to be successful.
- * Feel free to refer/link to process artifact(s).
-
  * Placing more focus on the core features has really helped us bring forward the MVP. By more clearly defining which features we need, and which are optional we were able to spend more time on the tasks that really mattered.
  * Having predefined roles for each member of the group turned out to be quite useful. Assigning different areas of development to different people allowed us to really master or at least almost fully develop each piece of the project. Subdividing the project in this way really made it feal less daunting and allowed for quicker deployment (i.e. merges to master).
  
