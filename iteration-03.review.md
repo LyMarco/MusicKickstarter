@@ -24,6 +24,8 @@ List process-related (i.e. team organization) decisions that, in retrospect, tur
  * Explain why (i.e. give a supporting argument) you consider a decision to be successful.
  * Feel free to refer/link to process artifact(s).
 
+ * Placing more focus on the core features has really helped us bring forward the MVP. By more clearly defining which features we need, and which are optional we were able to spend more time on the tasks that really mattered.
+
 #### Decisions that did not turn out as well as we hoped
 
 List process-related (i.e. team organization) decisions that, in retrospect, were not as successful as you thought they would be.
