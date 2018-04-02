@@ -558,6 +558,7 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             int takeNumber = 1;
             currentVerse =  "Verse " + verseNumber + " Take " + takeNumber;
             setAudioPath(currentVerse);
+            File newFolder = new File(sPath + current.getSongname() + '/');
             audioOutFile = new File(audioPath);
             while (audioOutFile.exists()) {
                 takeNumber++;
@@ -571,7 +572,6 @@ public class Lyrics extends AppCompatActivity implements SaveRecDialogListener,
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            File newFolder = new File(sPath + current.getSongname() + '/');
             setupMediaRecorder();
             runOnThread(new Runnable() {
                 public void run() {

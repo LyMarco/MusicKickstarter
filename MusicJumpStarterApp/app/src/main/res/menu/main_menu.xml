@@ -3,10 +3,12 @@
     <item
         android:id="@+id/new_song"
         android:title="@string/new_song"
+        android:icon="@drawable/notes"
         android:orderInCategory="0" />
     <item
         android:id="@+id/switch_song"
         android:title="@string/change_song"
+        android:icon="@drawable/lyrics"
         android:orderInCategory="1" />
 
     <group
@@ -24,5 +26,6 @@
     <item
         android:id="@+id/exit_app"
         android:title="@string/exit"
+        android:icon="@drawable/back"
         android:orderInCategory="4" />
 </menu>
